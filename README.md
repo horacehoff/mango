@@ -3,7 +3,7 @@
   <img alt="Version" src="https://img.shields.io/badge/version-Alpha-blue.svg?cacheSeconds=2592000" />
 </p>
 
-> A programming language made in python with the purpose of being easy to understand and fast
+### A programming language made in python with the purpose of being easy to understand and fast
 
 ### 🏠 [Homepage](https://github.com/Just-A-Mango/pygen)
 
