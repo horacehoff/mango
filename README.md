@@ -16,7 +16,7 @@ pygen.py -i <yourfile>.pygen
 ## Run tests
 
 ```sh
-pygen.py --checkinstall
+pygen.py -c
 ```
 
 ## Author
