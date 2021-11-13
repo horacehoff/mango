@@ -1,42 +1,32 @@
-import sys, getopt
+import sys, getopt, pathlib
 declared_variables = []
 declared_variables_values = []
-
-def main(argv):
-   inputfile = ''
-   try:
-      opts, args = getopt.getopt(argv,"hi:o:",["ifile="])
-   except getopt.GetoptError:
-      print('pygen.py -i <inputfile>')
-      sys.exit(2)
-   for opt, arg in opts:
-      if opt == '-h':
-         print('pygen.py -i <inputfile>')
-         sys.exit()
-      elif opt in ("-i", "--ifile"):
-         inputfile = arg
-         
-   return inputfile
+pygen_version = 'AlphaDev'
 
 def askfor(arg):
     return input(arg)
 
 def error(error,count):
-    print(" /!\ PyGen Error /!\ \rAt line "+str(count)+" ↓\r"+str(error))
+    print(" /!\ PyGen Error /!\ ")
+    print("At line "+str(count)+" ↓")
+    print(str(error))
+    exit()
     
-
 def process(input,count):
     if "print" in input:
         try:
+            #Remove print("") to only get what the user typed as the input
             input = input.replace("print","")
             input = input.replace("(","")
             input = input.replace(")","")
             input = input.replace("'","")
             input = input.replace('"','')
+            #If what the user typed is a variable name, search it, get its value, and then print it
             if input in declared_variables:
                 print(declared_variables_values[declared_variables.index(input)])
             else:
                 try:
+                    
                     print(eval(input))
                 except:
                     if "+" in input:
@@ -52,6 +42,20 @@ def process(input,count):
                                 except: 
                                     final_print = final_print+arg
                         print(final_print)
+                    elif ',' in input:
+                        args = input.lstrip()
+                        args = args.split(',')
+                        final_print = ""
+                        for arg in args:
+                            if arg in declared_variables:
+                                final_print = final_print+declared_variables_values[declared_variables.index(arg)]
+                            else:
+                                try:
+                                    final_print = final_print+eval(arg)
+                                except: 
+                                    final_print = final_print+arg
+                        print(final_print)
+                        
                     else:
                         print(input.strip())
                 
@@ -70,7 +74,7 @@ def process(input,count):
                     declared_variables_values[declared_variables.index(var_name)] = var_value
                     
             elif 'ask(' in var_value:
-                print("Duh")
+
                 declared_variables.append(var_name)
                 declared_variables_values.append(askfor(var_value.replace("(","").replace(")","").replace("ask","").replace("'","").replace('"','')))
             
@@ -101,6 +105,25 @@ def process(input,count):
         
             
     
+
+def dataread(file):
+    try:
+        assert file.split('.')[1] == 'pygen'
+    except:
+        error(file+' is not a .pygen file',0)
+    file1 = open(str(file), 'r')
+    linecount = 0
+    lines = []
+    with open(str(file1).replace("<_io.TextIOWrapper name='","").replace("' mode='r' encoding='cp1252'>","")) as file:
+        for line in file:
+            if not line == "":
+                if not line == " ":
+                    line = line.replace('\n','')
+                    lines.append(line)
+
+        for line in lines:
+            process(line,linecount)
+            linecount = linecount + 1
         
     
 
@@ -117,28 +140,35 @@ def process(input,count):
 
 
 
+ 
+ 
 
+ 
 
+argumentList = sys.argv[1:]
+ 
+options = "i:c"
+ 
+long_options = ["CheckInstall", "InputFile ="]
+ 
+try:
 
-
-
-
-
-
-
-
-file1 = open(main(sys.argv[1:]), 'r')
-linecount = 0
-lines = []
-with open('mycooltext.txt') as file:
-    for line in file:
-        if not line == "":
-            if not line == " ":
-                line = line.replace('\n','')
-                lines.append(line)
-            
-    print(lines)
-    for line in lines:
-        process(line,linecount)
-        linecount = linecount + 1
+    arguments, values = getopt.getopt(argumentList, options, long_options)
+     
+    for currentArgument, currentValue in arguments:
         
+        if currentArgument in ("-i", "--InputFile"):
+            dataread(str(currentValue))
+ 
+        if currentArgument in ("-c", "--CheckInstall"):
+            print("PyGen - "+pygen_version)
+            print(currentValue)
+             
+except getopt.error as err:
+    print (str(err))
+    
+    
+
+
+
+
