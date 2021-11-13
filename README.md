@@ -5,7 +5,7 @@
 
 ### A programming language made in python with the purpose of being easy to understand and fast
 
-### 🏠 [Homepage](https://github.com/Just-A-Mango/pygen)
+### 🏠 [Homepage](https://github.com/Just-A-Mango/pygen)                📄 [Documentation](https://github.com/Just-A-Mango/pygen)
 
 ## Usage
 
