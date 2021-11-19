@@ -1,6 +1,6 @@
 <h1 align="center">Welcome to PyGen 👋</h1>
 <p>
-  <img alt="Version" src="https://img.shields.io/badge/version-Alpha-blue.svg?cacheSeconds=2592000" />
+  <img alt="Version" src="https://img.shields.io/badge/version-ALPHA-informational.svg?style=flat-square" />
 </p>
 
 ### A programming language made in python with the purpose of being easy to understand and fast
@@ -35,4 +35,4 @@ Contributions, issues and feature requests are welcome!<br />Feel free to check 
 Give a ⭐️ if this project helped you!
 
 ***
-_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
+_Thank you [readme-md-generator](https://github.com/kefranabg/readme-md-generator) for generating this README with ❤️_
