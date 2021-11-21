@@ -1,22 +1,22 @@
-<h1 align="center">Welcome to PyGen 👋</h1>
+<h1 align="center">Welcome to Fox 👋</h1>
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-ALPHA-informational.svg?style=flat-square" />
 </p>
 
 ### A programming language made in python with the purpose of being easy to understand and fast
 
-### 🏠 [Homepage](https://github.com/Just-A-Mango/pygen#readme)                📄 [Documentation](https://github.com/Just-A-Mango/pygen)
+### 🏠 [Homepage](https://github.com/Just-A-Mango/fox#readme)                📄 [Documentation](https://github.com/Just-A-Mango/fox)
 
 ## Usage
 
 ```sh
-pygen.py -i <yourfile>.pygen
+fox.py -i <yourfile>.fox
 ```
 
 ## Run tests
 
 ```sh
-pygen.py -c
+fox.py -c
 ```
 
 ## Author
@@ -28,7 +28,7 @@ pygen.py -c
 
 ## 🤝 Contributing
 
-Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/Just-A-Mango/pygen/issues). 
+Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/Just-A-Mango/fox/issues). 
 
 ## Show your support
 
