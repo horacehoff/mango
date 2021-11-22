@@ -4,18 +4,46 @@
                         |-----------------------------------|        @Just-A-Mango on GitHub
 """
 #Import the necessary modules
-import sys, getopt, pathlib
-#
+import sys, getopt, subprocess, os
+
+#Decalare the lists where the variables and their values are stored
 declared_variables = []
 declared_variables_values = []
-#Declare this language's current version
+
+#Declare this language's current version and remove the update script
 fox_version = 'AlphaDev'
+try:
+    os.remove("updatefox.py")
+except:
+    pass
+
+#Print the language's version and name
+def print_version(version):
+    print("|-----------------------------------|\r\n|     F O X  -  version "+version+"    |        by Just_a_Mango\r\n|-----------------------------------|        @Just-A-Mango on GitHub\r\n")
+
+#Function used to update the language
+def update():
+    try:
+        subprocess.call(["pip", "install", "gitpython"], stdout = open(os.devnull, "w"), stderr = subprocess.STDOUT)
+        try:
+            if os.path.exists("updatefox.py"):
+                os.remove("updatefox.py")
+            else:
+                pass
+            with open('updatefox.py', 'x') as f:
+                f.write('from git import Repo\r\nimport os\r\nos.remove("fox.py")\r\npath=os.getcwd()\r\nRepo.clone_from("https://github.com/Just-A-Mango/fox", path)\r\nos.remove("README.md")\r\nimport shutil\r\nshutil.rmtree(".github")')
+            os.system("python updatefox.py")
+            exit()
+        except:
+            print("Failed to repair. Please try re-installing Fox.")
+    except:
+        print("Failed to repair Fox. Please try deleting and re-downloading it.")
 
 #Function used to ask, if the user asks!
 def askfor(arg):
     return input(arg)
 
-#Function used to print a nice
+#Function used to print a nice and clean error
 def error(error,count):
     print("       /!\ Fox Error /!\ ")
     print("At line "+str(count)+" ↓")
@@ -159,14 +187,17 @@ def dataread(file):
 
 #Detect and process the given arguments
 argumentList = sys.argv[1:]
-options = "i:c"
-long_options = ["CheckInstall", "InputFile ="]
+options = "i:cu"
+long_options = ["CheckInstall", "InputFile =", "Update"]
 try:
     arguments, values = getopt.getopt(argumentList, options, long_options)
     for currentArgument, currentValue in arguments:
         if currentArgument in ("-i", "--InputFile"):
             dataread(str(currentValue))
         if currentArgument in ("-c", "--CheckInstall"):
-            print("fox - "+fox_version)     
+            print_version(fox_version)   
+        elif currentArgument in ("-u", "--Update"):
+            update()
 except getopt.error as err:
     print (str(err))
+    
