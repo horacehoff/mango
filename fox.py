@@ -1,6 +1,14 @@
+"""
+                        |-----------------------------------|
+                        |              F O X                |        by Just_a_Mango
+                        |-----------------------------------|        @Just-A-Mango on GitHub
+"""
+#Import the necessary modules
 import sys, getopt, pathlib
+#
 declared_variables = []
 declared_variables_values = []
+#Declare this language's current version
 fox_version = 'AlphaDev'
 
 #Function used to ask, if the user asks!
