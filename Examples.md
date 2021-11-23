@@ -15,3 +15,19 @@ print(user_asked)
 ```python
 print(5+7/5*98)
 ```
+And the list goes on...
+
+## Arguments
+Fox supports arguments when executing it, among them are:\
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ***This executes the given .fox file(basically the same thing in Python as doing python <myfile.py>)***
+```sh
+fox.py -i <yourfile.fox>
+fox.py --InputFile <yourfile.fox>
+```
+---
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ***This retrieves the current repository and then updates the language***
+```sh
+fox.py -u
+fox.py --Update
+```
+
