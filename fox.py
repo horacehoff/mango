@@ -21,23 +21,27 @@ except:
 def print_version(version):
     print("|-----------------------------------|\r\n|     F O X  -  version "+version+"    |        by Just_a_Mango\r\n|-----------------------------------|        @Just-A-Mango on GitHub\r\n")
 
+def install_module(module):
+    subprocess.call(["pip", "install", module], stdout = open(os.devnull, "w"), stderr = subprocess.STDOUT)
+    
+
 #Function used to update the language
 def update():
     try:
-        subprocess.call(["pip", "install", "gitpython"], stdout = open(os.devnull, "w"), stderr = subprocess.STDOUT)
-        try:
-            if os.path.exists("updatefox.py"):
-                os.remove("updatefox.py")
-            else:
-                pass
-            with open('updatefox.py', 'x') as f:
-                f.write('from git import Repo\r\nimport os\r\nos.remove("fox.py")\r\npath=os.getcwd()\r\nRepo.clone_from("https://github.com/Just-A-Mango/fox", path)\r\nos.remove("README.md")\r\nimport shutil\r\nshutil.rmtree(".github")')
-            os.system("python updatefox.py")
-            exit()
-        except:
-            print("Failed to repair. Please try re-installing Fox.")
+        from git import Repo
     except:
-        print("Failed to repair Fox. Please try deleting and re-downloading it.")
+        install_module('gitpython')
+    try:
+        if os.path.exists("updatefox.py"):
+            os.remove("updatefox.py")
+        else:
+            pass
+        with open('updatefox.py', 'x') as f:
+            f.write('from git import Repo\nimport os, shutil, filecmp\npath = os.getcwd()\ntry:\n    Repo.clone_from("https://github.com/Just-A-Mango/fox", path+"//updatedfox")\n    if filecmp.cmp("fox.py", "//updatedfox//fox.py") == True:\n        print("Hooray! Your Fox installation is up-to-date!")\n    else:\n        os.remove("fox.py")\n        shutil.move(path+"//updatedfox//fox.py", path+"//fox.py")\n        shutil.rmtree(path+"//updatedfox")\nexcept:\n    print("Failed to download the new(?) Fox version")')
+        os.system("python updatefox.py")
+        exit()
+    except:
+        print("Failed to repair. Please try re-installing Fox.")
 
 #Function used to ask, if the user asks!
 def askfor(arg):
