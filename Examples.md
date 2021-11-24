@@ -24,10 +24,14 @@ Fox supports arguments when executing it, among them are:\
 fox.py -i <yourfile.fox>
 fox.py --InputFile <yourfile.fox>
 ```
----
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ***This retrieves the current repository and then updates the language***
 ```sh
 fox.py -u
 fox.py --Update
+```
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ***This checks the current Fox installation and prints the version***
+```sh
+fox.py -c
+fox.py --CheckInstall
 ```
 
