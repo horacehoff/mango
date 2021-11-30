@@ -10,6 +10,10 @@ import sys, getopt, subprocess, os
 declared_variables = []
 declared_variables_values = []
 
+#Declare the lists where the lists (inception!) and their values are stored
+declared_lists = []
+declared_lists_values = []
+
 #Declare this language's current version and remove the update script
 fox_version = 'AlphaDev'
 try:
@@ -39,9 +43,14 @@ def update():
         with open('updatefox.py', 'x') as f:
             f.write('from git import Repo\nimport os, shutil, filecmp\npath = os.getcwd()\ntry:\n    Repo.clone_from("https://github.com/Just-A-Mango/fox", path+"//updatedfox")\n    if filecmp.cmp("fox.py", "//updatedfox//fox.py") == True:\n        print("Hooray! Your Fox installation is up-to-date!")\n    else:\n        os.remove("fox.py")\n        shutil.move(path+"//updatedfox//fox.py", path+"//fox.py")\n        shutil.rmtree(path+"//updatedfox")\nexcept:\n    print("Failed to download the new(?) Fox version")')
         os.system("python updatefox.py")
+        
         exit()
     except:
         print("Failed to repair. Please try re-installing Fox.")
+        
+def get_dir():
+    print("Fox installation directory: "+os.getcwd())
+    
 
 #Function used to ask, if the user asks!
 def askfor(arg):
@@ -68,6 +77,11 @@ def process(input,count):
             #If what the user typed is a variable name, search it, get its value, and then print it
             if input in declared_variables:
                 print(declared_variables_values[declared_variables.index(input)])
+            elif input in declared_lists:
+                list_toprint = declared_lists_values[declared_lists.index(input)]
+                list_toprint = list_toprint.replace("+",",")
+                list_toprint = "["+list_toprint+"]"
+                print(list_toprint)
             #Else, if it's an equation(or simple math), just calculate and print it
             else:
                 try:
@@ -112,30 +126,68 @@ def process(input,count):
             error("Failed to print('<whatever you typed>')",count)
     # DECLARE
     elif "declare" in input:
-        #Try to add declared variable and its value to declared_variables and declared_variables_values
-        try:
-            #Get the "raw" variable name
-            input = input.strip()
-            input = input.split('=')
-            var_name = input[0].replace("declare","").lstrip().replace(" ","")
-            var_value = input[1].lstrip()
-            #If the declared variable already exists, then overwrite its value
-            if var_name in declared_variables:
-                if 'ask(' in var_value:
-                    declared_variables_values[declared_variables.index(var_name)] = askfor(var_value.replace("(","").replace(")","").replace("ask","").replace("'","").replace('"',''))
+        if not 'list' in input:
+            #Try to add declared variable and its value to declared_variables and declared_variables_values
+            try:
+                #Get the "raw" variable name
+                input = input.strip()
+                input = input.split('=')
+                var_name = input[0].replace("declare","").lstrip().replace(" ","")
+                var_value = input[1].lstrip()
+                #If the declared variable already exists, then overwrite its value
+                if var_name in declared_variables:
+                    if 'ask(' in var_value:
+                        declared_variables_values[declared_variables.index(var_name)] = askfor(var_value.replace("(","").replace(")","").replace("ask","").replace("'","").replace('"',''))
+                    else:
+                        try:
+                            eval_ed = eval(var_value)
+                            declared_variables_values[declared_variables.index(var_name)] = eval_ed
+                        except:
+                            declared_variables_values[declared_variables.index(var_name)] = var_value
+                #If the value is 'ask'(at least contains it), then ask!
+                elif 'ask(' in var_value:
+                    declared_variables.append(var_name)
+                    declared_variables_values.append(askfor(var_value.replace("(","").replace(")","").replace("ask","").replace("'","").replace('"','')))
+                #Else, just declare and add it
                 else:
-                    declared_variables_values[declared_variables.index(var_name)] = var_value
-            #If the value is 'ask'(at least contains it), then ask!
-            elif 'ask(' in var_value:
-                declared_variables.append(var_name)
-                declared_variables_values.append(askfor(var_value.replace("(","").replace(")","").replace("ask","").replace("'","").replace('"','')))
-            #Else, just declare and add it
-            else:
-                declared_variables.append(var_name)
-                declared_variables_values.append(var_value)
-        #If it fails, notify the user
-        except:
-            error("Failed to declare variable "+(input.strip.split('=')[0].replace("declare","")),count)
+                    try:
+                        to_add = eval(var_value)
+                        declared_variables.append(var_name)
+                        declared_variables_values.append(to_add)
+                    except:
+                        declared_variables.append(var_name)
+                        declared_variables_values.append(var_value)
+            #If it fails, notify the user
+            except:
+                error("Failed to declare variable "+(input.strip.split('=')[0].replace("declare","")),count)
+        else:
+            try:
+                #Split the given line into two distinct strings : the first one is the list's name, and the second one is the list's value
+                input = input.split('=')
+                list_name = input[0]
+                list_name = list_name.replace("declare","")
+                list_name = list_name.replace("list","")
+                list_name = list_name.replace(" ","")
+                input = input[1]
+                input = input.replace(" ","")
+                input = input.split(',')
+                list_toadd = ""
+                #Store the content of the list into a single string and separate them using +
+                for word in input:
+                    word = word.replace("[","")
+                    word = word.replace("]","")
+                    list_toadd = list_toadd+word+"+"
+                if list_toadd[-1] == "+":
+                    list_toadd = list_toadd.removesuffix("+")
+                #If the list's name already exists, overwrite its value, otherwise simply add it to the declared lists and declared lists' values
+                if not list_name in declared_lists:
+                    declared_lists.append(list_name)
+                    declared_lists_values.append(list_toadd) 
+                else:
+                    declared_lists_values[declared_lists.index[list_name]] = list_toadd
+            #The 
+            except:
+                error("Failed to declare list <unknown name>", count)
     # ASK
     elif "ask" in input:
         try:
@@ -148,11 +200,12 @@ def process(input,count):
             #If what the user wants to ask is a known variable, ask the content/value of the variable
             if input in declared_variables:
                 askfor(declared_variables_values[declared_variables.index(input)])
+            elif input in declared_lists:
+                askfor(declared_lists_values[declared_lists.index(input)])
             else:
                 askfor(input.strip())
         except:
-            error("Failed to print('<whatever you asked>')",count)    
-
+            error("Failed to print('<whatever you asked>')",count)
 
 
 
