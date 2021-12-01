@@ -4,6 +4,7 @@
                         |-----------------------------------|        @Just-A-Mango on GitHub
 """
 #Import the necessary modules
+import shutil
 import sys, getopt, subprocess, os
 
 #Decalare the lists where the variables and their values are stored
@@ -26,31 +27,13 @@ def print_version(version):
     print("|-----------------------------------|\r\n|     F O X  -  version "+version+"    |        by Just_a_Mango\r\n|-----------------------------------|        @Just-A-Mango on GitHub\r\n")
 
 def install_module(module):
-    subprocess.call(["pip", "install", module], stdout = open(os.devnull, "w"), stderr = subprocess.STDOUT)
-    
-
-#Function used to update the language
-def update():
     try:
-        from git import Repo
+        subprocess.call(["pip", "install", module], stdout = open(os.devnull, "w"), stderr = subprocess.STDOUT)
     except:
-        install_module('gitpython')
-    try:
-        if os.path.exists("updatefox.py"):
-            os.remove("updatefox.py")
-        else:
-            pass
-        with open('updatefox.py', 'x') as f:
-            f.write('from git import Repo\nimport os, shutil, filecmp\npath = os.getcwd()\ntry:\n    Repo.clone_from("https://github.com/Just-A-Mango/fox", path+"//updatedfox")\n    if filecmp.cmp("fox.py", "//updatedfox//fox.py") == True:\n        print("Hooray! Your Fox installation is up-to-date!")\n    else:\n        os.remove("fox.py")\n        shutil.move(path+"//updatedfox//fox.py", path+"//fox.py")\n        shutil.rmtree(path+"//updatedfox")\nexcept:\n    print("Failed to download the new(?) Fox version")')
-        os.system("python updatefox.py")
-        
-        exit()
-    except:
-        print("Failed to repair. Please try re-installing Fox.")
+        pass
         
 def get_dir():
     print("Fox installation directory: "+os.getcwd())
-    
 
 #Function used to ask, if the user asks!
 def askfor(arg):
@@ -217,6 +200,7 @@ def process(input,count):
 def dataread(file):
     #Check if the specified file is a .fox file, else, notify the user that it is not
     try:
+        file = file.removeprefix(".\\")
         assert file.split('.')[1] == 'fox'
     except:
         error(file+' is not a .fox file',0)
@@ -224,7 +208,7 @@ def dataread(file):
     file1 = open(str(file), 'r')
     linecount = 0
     lines = []
-    with open(str(file1).replace("<_io.TextIOWrapper name='","").replace("' mode='r' encoding='cp1252'>","")) as file:
+    with open(str(file1).replace("<_io.TextIOWrapper name='","").replace("' mode='r' encoding='cp1252'>","").removeprefix(".\\")) as file:
         for line in file:
             if not line == "":
                 if not line == " ":
@@ -244,17 +228,15 @@ def dataread(file):
 
 #Detect and process the given arguments
 argumentList = sys.argv[1:]
-options = "i:cu"
-long_options = ["CheckInstall", "InputFile =", "Update"]
+options = "i:c"
+long_options = ["CheckInstall", "InputFile ="]
 try:
     arguments, values = getopt.getopt(argumentList, options, long_options)
     for currentArgument, currentValue in arguments:
         if currentArgument in ("-i", "--InputFile"):
             dataread(str(currentValue))
         if currentArgument in ("-c", "--CheckInstall"):
-            print_version(fox_version)   
-        elif currentArgument in ("-u", "--Update"):
-            update()
+            print_version(fox_version)
 except getopt.error as err:
     print (str(err))
     
