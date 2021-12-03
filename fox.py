@@ -3,41 +3,54 @@
                         |              F O X                |        by Just_a_Mango
                         |-----------------------------------|        @Just-A-Mango on GitHub
 """
+
+
 #Import the necessary modules
-import shutil
-import sys, getopt, subprocess, os
+import sys, getopt, os
+
 
 #Decalare the lists where the variables and their values are stored
 declared_variables = []
 declared_variables_values = []
 
+
 #Declare the lists where the lists (inception!) and their values are stored
 declared_lists = []
 declared_lists_values = []
 
+
 #Declare this language's current version and remove the update script
 fox_version = 'AlphaDev'
-try:
-    os.remove("updatefox.py")
-except:
-    pass
+
+def check_modules_folder():
+    from pathlib import Path
+    Path(os.getcwd() + "\\Modules\\").mkdir(parents=True, exist_ok=True)
+        
+
 
 #Print the language's version and name
 def print_version(version):
     print("|-----------------------------------|\r\n|     F O X  -  version "+version+"    |        by Just_a_Mango\r\n|-----------------------------------|        @Just-A-Mango on GitHub\r\n")
 
+
+#Installs any given module at runtime in the background
 def install_module(module):
     try:
+        import subprocess
         subprocess.call(["pip", "install", module], stdout = open(os.devnull, "w"), stderr = subprocess.STDOUT)
     except:
         pass
-        
+
+
+#Prints the current Fox installation directory
 def get_dir():
     print("Fox installation directory: "+os.getcwd())
+
 
 #Function used to ask, if the user asks!
 def askfor(arg):
     return input(arg)
+
 
 #Function used to print a nice and clean error
 def error(error,count):
@@ -45,6 +58,22 @@ def error(error,count):
     print("At line "+str(count)+" ↓")
     print(str(error))
     exit()
+    
+
+
+#Detect the installed modules/functions
+def detect_modules():
+    import os
+    from fnmatch import fnmatch
+    folder = os.getcwd()+'\\Modules\\'
+    pattern = "*.foxmodule"
+    functions = []
+    for files in os.walk(folder):
+        for name in files:
+            if fnmatch(name, pattern):
+                functions.append(name)
+    return functions
+
 
 #Basically the function that IS the language
 def process(input,count):
@@ -191,11 +220,6 @@ def process(input,count):
             error("Failed to print('<whatever you asked>')",count)
 
 
-
-
-
-
-
 #This function reads the specified file and separates it into lines, which are then read and processed by the process() function
 def dataread(file):
     #Check if the specified file is a .fox file, else, notify the user that it is not
@@ -208,6 +232,7 @@ def dataread(file):
     file1 = open(str(file), 'r')
     linecount = 0
     lines = []
+    functions = detect_modules()
     with open(str(file1).replace("<_io.TextIOWrapper name='","").replace("' mode='r' encoding='cp1252'>","").removeprefix(".\\")) as file:
         for line in file:
             if not line == "":
@@ -218,12 +243,6 @@ def dataread(file):
         for line in lines:
             process(line,linecount)
             linecount = linecount + 1
- 
- 
-
-
-
-
 
 
 #Detect and process the given arguments
@@ -234,9 +253,9 @@ try:
     arguments, values = getopt.getopt(argumentList, options, long_options)
     for currentArgument, currentValue in arguments:
         if currentArgument in ("-i", "--InputFile"):
+            check_modules_folder()
             dataread(str(currentValue))
         if currentArgument in ("-c", "--CheckInstall"):
             print_version(fox_version)
 except getopt.error as err:
     print (str(err))
-    
