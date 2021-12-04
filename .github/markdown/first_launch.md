@@ -2,6 +2,6 @@
 
 ### It looks like this is your first time here!
 
-#### You can check the documentation [here](sample.com) or check the homepage [here](sample.com)
+#### You can check the documentation [here](https://github.com/Just-A-Mango/fox/blob/main/.github/markdown/documentation.md) or check the homepage [here](https://github.com/Just-A-Mango/fox#Readme)
 ![Alt Text](https://media.giphy.com/media/5L57f5fI3f2716NaJ3/giphy.gif)
 
