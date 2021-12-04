@@ -22,6 +22,8 @@ declared_lists_values = []
 #Declare this language's current version and remove the update script
 fox_version = 'AlphaDev'
 
+
+#Check if the modules' folder exists, and create it if it doesn't
 def check_modules_folder():
     from pathlib import Path
     Path(os.getcwd() + "\\Modules\\").mkdir(parents=True, exist_ok=True)
@@ -223,7 +225,9 @@ def process(input,count):
                 askfor(input.strip())
         except:
             error("Failed to print('<whatever you asked>')",count)
+    # MODULES
     for module in detect_modules():
+        #If the given line contains any module's name, communicate with that module and process the desired function/action
         if module in input:
             with open(os.getcwd() + '\\Modules\\input.txt', 'x') as f:
                 f.write(input)
