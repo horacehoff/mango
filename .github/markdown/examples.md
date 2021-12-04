@@ -35,3 +35,6 @@ fox.py -c
 fox.py --CheckInstall
 ```
 
+## Making modules
+You can make modules for Fox using python
+
