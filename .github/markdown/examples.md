@@ -36,5 +36,7 @@ fox.py --CheckInstall
 ```
 
 ## Making modules
-You can make modules for Fox using python
+You can make modules for Fox using python. 
+The name of the module's python file defines the name of the function you want to add (for example, if you want to add a 'create' function, then create a python file named 'create.py' in the Modules folder)
+You can find a sample/example module here[https://github.com/Just-A-Mango/fox/edit/main/.github/markdown/examples.md]
 
