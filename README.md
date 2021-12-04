@@ -20,7 +20,7 @@ fox.py -c
 
 👤 **Just_a_Mango**
 
-* Website: https://just-a-mango.github.io/me/
+* Website: https://just-a-mango.github.io/
 * Github: [@Just-A-Mango](https://github.com/Just-A-Mango)  
 ## 🤝 Contributing
 
