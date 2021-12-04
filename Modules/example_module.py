@@ -2,7 +2,7 @@
 import os
 
 
-#Main function
+#Main function, input represents the given line where the function is called
 def main(input):
     #Put all your code/actions here
     print("Hello World")
