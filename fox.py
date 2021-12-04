@@ -27,14 +27,6 @@ fox_version = 'AlphaDev'
 def check_modules_folder():
     from pathlib import Path
     Path(os.getcwd() + "\\Modules\\").mkdir(parents=True, exist_ok=True)
-        
-
-
-#Function ran when the user launches Fox for the first time
-def first_launch():
-    import webbrowser
-    webbrowser.open_new_tab('https://github.com/Just-A-Mango/fox/blob/main/README.md')
-first_launch()
 
 
 #Print the language's version and name
