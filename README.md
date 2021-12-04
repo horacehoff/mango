@@ -5,7 +5,7 @@
 
 ### A programming language made in python with the purpose of being easy to understand and fast
 
-### 🏠 [Homepage](https://github.com/Just-A-Mango/fox#readme)&nbsp; &nbsp; &nbsp; &nbsp; 📄 [Documentation](https://github.com/Just-A-Mango/fox/blob/main/Examples.md)
+### 🏠 [Homepage](https://github.com/Just-A-Mango/fox#readme)&nbsp; &nbsp; &nbsp; &nbsp; 📄 [Documentation](https://github.com/Just-A-Mango/fox/blob/main/.github/markdown/examples.md)
 
 ## Usage
 
