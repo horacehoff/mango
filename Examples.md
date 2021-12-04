@@ -8,7 +8,7 @@ print(Hello World)
 ```
 - Print what the user asked:
 ```python
-user_asked = input(What do you want to print ?)
+user_asked = ask(What do you want to print ?)
 print(user_asked)
 ```
 - Do some basic math and then print it:
