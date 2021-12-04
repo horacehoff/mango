@@ -63,16 +63,21 @@ def error(error,count):
 
 #Detect the installed modules/functions
 def detect_modules():
-    import os
+    modules = []
     from fnmatch import fnmatch
-    folder = os.getcwd()+'\\Modules\\'
-    pattern = "*.foxmodule"
-    functions = []
-    for files in os.walk(folder):
+    root = os.getcwd() + '\\Modules\\'
+    pattern = "*.py"
+    for path, subdirs, files in os.walk(root):
         for name in files:
             if fnmatch(name, pattern):
-                functions.append(name)
-    return functions
+                modules.append(name.replace(".py",""))
+    try:
+        os.remove(os.getcwd()+'\\Modules\\input.txt')
+        os.remove(os.getcwd()+'\\Modules\\output.txt')
+    except:
+        pass
+    return modules
+        
 
 
 #Basically the function that IS the language
@@ -218,6 +223,26 @@ def process(input,count):
                 askfor(input.strip())
         except:
             error("Failed to print('<whatever you asked>')",count)
+    for module in detect_modules():
+        if module in input:
+            with open(os.getcwd() + '\\Modules\\input.txt', 'x') as f:
+                f.write(input)
+            import subprocess
+            subprocess.call(["python", os.getcwd()+'\\Modules\\'+module+'.py'], stdout = open(os.devnull, "w"), stderr = subprocess.STDOUT)
+            os.system('python '+os.getcwd()+'\\Modules\\'+module+'.py')
+            os.remove(os.getcwd()+'\\Modules\\input.txt')
+            with open(os.getcwd() + '\\Modules\\output.txt', 'r') as f:
+                print(f.readlines())
+            os.remove(os.getcwd()+'\\Modules\\output.txt')
+            break
+                    
+            
+            
+        
+        
+
+
+
 
 #This function reads the specified file and separates it into lines, which are then read and processed by the process() function
 def dataread(file):
