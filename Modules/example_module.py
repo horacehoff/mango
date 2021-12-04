@@ -10,6 +10,7 @@ def main(input):
 
 
 #Code used to communicate with the main file
+# ⚠️ YOU MUST NOT DELETE THE FOLLOWING CODE ⚠️ 
 output = ""
 with open(os.getcwd() + '\\Modules\\input.txt', 'r') as f:
     output = f.readlines()[0]
