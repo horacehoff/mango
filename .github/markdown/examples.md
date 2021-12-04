@@ -36,7 +36,24 @@ fox.py --CheckInstall
 ```
 
 ## Making modules
-You can make modules for Fox using python. 
-The name of the module's python file defines the name of the function you want to add (for example, if you want to add a 'create' function, then create a python file named 'create.py' in the Modules folder)
-You can find a sample/example module here[https://github.com/Just-A-Mango/fox/edit/main/.github/markdown/examples.md]
+What I call modules are python files that are used to add functions. You can add one function per python file, and the name of the file defines the name of the function you want to add (for example, if you want to add a 'create' function, then create a python file named 'create.py' in the Modules folder, or, to give another example, if you want to add a function say(what_i_need_to_say), then create a python file in the Modules folder called 'say.py' and Fox will automatically recognise and call the file once the function is called)
+You can find a sample/example module [here](https://github.com/Just-A-Mango/fox/blob/main/Modules/example_module.py) or below: 
+```python
+#Put all your needed imports here ('os' is required)
+import os
+
+
+#Main function, input represents the given line where the function is called
+def main(input):
+    #Put all your code/actions here
+    print("Hello World")
+    print("This is an example module")
+
+
+#Code used to communicate with the main file
+output = ""
+with open(os.getcwd() + '\\Modules\\input.txt', 'r') as f:
+    output = f.readlines()[0]
+    main(output)
+```
 
