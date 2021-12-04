@@ -20,7 +20,7 @@ declared_lists_values = []
 
 
 #Declare this language's current version and remove the update script
-fox_version = 'AlphaDev'
+fox_version = 'InDev'
 
 
 #Check if the modules' folder exists, and create it if it doesn't
@@ -31,7 +31,7 @@ def check_modules_folder():
 
 #Print the language's version and name
 def print_version(version):
-    print("|-----------------------------------|\r\n|     F O X  -  version "+version+"    |        by Just_a_Mango\r\n|-----------------------------------|        @Just-A-Mango on GitHub\r\n")
+    print("|-----------------------------------|\r\n|          F O X  -  "+version+"          |        by Just_a_Mango\r\n|-----------------------------------|        @Just-A-Mango on GitHub\r\n")
 
 
 #Installs any given module at runtime in the background
