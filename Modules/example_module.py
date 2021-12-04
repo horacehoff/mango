@@ -5,9 +5,8 @@ import os
 #Main function
 def main(input):
     #Put all your code/actions here
-    input = input.replace("x","")
-    print("hello")
-    #If input (when returning it) is null, then nothing will be printed
+    print("Hello World")
+    print("This is an example module")
 
 
 #Code used to communicate with the main file
