@@ -3,6 +3,9 @@
 [![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/it-works-why.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/you-didnt-ask-for-this.svg)](https://forthebadge.com)
+<p>
+  <img alt="Version" src="https://img.shields.io/badge/version-InDev-informational.svg?style=flat-square" />
+</p>
 
 ### A programming language with the purpose of being easy to understand and fast 
 
