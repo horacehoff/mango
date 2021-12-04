@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Create a report to help me improve PyGen
+about: Create this to repport an issue/bug with Fox
 title: BUG
 labels: bug
 assignees: ''
