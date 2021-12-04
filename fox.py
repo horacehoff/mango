@@ -75,7 +75,6 @@ def detect_modules():
                 modules.append(name.replace(".py",""))
     try:
         os.remove(os.getcwd()+'\\Modules\\input.txt')
-        os.remove(os.getcwd()+'\\Modules\\output.txt')
     except:
         pass
     return modules
@@ -235,9 +234,6 @@ def process(input,count):
             subprocess.call(["python", os.getcwd()+'\\Modules\\'+module+'.py'], stdout = open(os.devnull, "w"), stderr = subprocess.STDOUT)
             os.system('python '+os.getcwd()+'\\Modules\\'+module+'.py')
             os.remove(os.getcwd()+'\\Modules\\input.txt')
-            with open(os.getcwd() + '\\Modules\\output.txt', 'r') as f:
-                print(f.readlines())
-            os.remove(os.getcwd()+'\\Modules\\output.txt')
             break
                     
             
