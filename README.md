@@ -1,6 +1,6 @@
 <h1 align="center">Welcome to Fox 👋</h1>
 <p>
-  <img alt="Version" src="https://img.shields.io/badge/version-ALPHA-informational.svg?style=flat-square" />
+  <img alt="Version" src="https://img.shields.io/badge/version-InDev-informational.svg?style=flat-square" />
 </p>
 
 ### A programming language with the purpose of being easy to understand and fast 
