@@ -1,0 +1,2 @@
+declare var1 = My first var!
+print(var1)
