@@ -218,7 +218,8 @@ def process(input,count):
                 askfor(input.strip())
         except:
             error("Failed to print('<whatever you asked>')",count)
-
+    for function in detect_modules():
+        print(function)
 
 #This function reads the specified file and separates it into lines, which are then read and processed by the process() function
 def dataread(file):
