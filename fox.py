@@ -19,7 +19,7 @@ declared_lists = []
 declared_lists_values = []
 
 
-#Declare this language's current version and remove the update script
+#Declare this language's current version
 fox_version = 'InDev'
 
 
