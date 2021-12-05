@@ -255,7 +255,6 @@ def dataread(file):
     file1 = open(str(file), 'r')
     linecount = 0
     lines = []
-    functions = detect_modules()
     with open(str(file1).replace("<_io.TextIOWrapper name='","").replace("' mode='r' encoding='cp1252'>","").removeprefix(".\\")) as file:
         for line in file:
             if not line == "":
