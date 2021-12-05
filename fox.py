@@ -61,7 +61,6 @@ def error(error,count):
     exit()
     
 
-
 #Detect the installed modules/functions
 def detect_modules():
     modules = []
