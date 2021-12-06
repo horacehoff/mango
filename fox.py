@@ -23,6 +23,10 @@ declared_lists_values = []
 fox_version = 'InDev'
 
 
+#Variable used to identify if there is an ongoing condition in the current processed line
+approved_if = False
+
+
 #Check if the modules' folder exists, and create it if it doesn't
 def check_modules_folder():
     from pathlib import Path
@@ -59,7 +63,7 @@ def error(error,count):
     print("At line "+str(count)+" ↓")
     print(str(error))
     exit()
-    
+
 
 #Detect the installed modules/functions
 def detect_modules():
@@ -78,11 +82,11 @@ def detect_modules():
     return modules
         
 
-
 #Basically the function that IS the language
 def process(input,count):
     # PRINT
     if "print" in input:
+        # print(something)
         try:
             #Remove print("") to only get what the user typed as the input
             input = input.replace("print","")
@@ -142,6 +146,9 @@ def process(input,count):
             error("Failed to print('<whatever you typed>')",count)
     # DECLARE
     elif "declare" in input:
+        # declare var_name = var_value
+        # OR
+        # declare list list_name = list_value
         if not 'list' in input:
             #Try to add declared variable and its value to declared_variables and declared_variables_values
             try:
@@ -206,6 +213,7 @@ def process(input,count):
                 error("Failed to declare list <unknown name>", count)
     # ASK
     elif "ask" in input:
+        # ask(something)
         try:
             #Get the "raw" version of what the user wants to ask
             input = input.replace("ask","")
@@ -222,6 +230,48 @@ def process(input,count):
                 askfor(input.strip())
         except:
             error("Failed to print('<whatever you asked>')",count)
+    # IF
+    elif "if" in input:
+        # if (something) {
+        # }
+        #Make sure the given syntax is correct, else, *error*
+        try:
+            assert "(" in input
+            assert ")" in input
+            assert "{" in input
+        except:
+            error("Please check the condition syntax",count)
+        #Replace all the unused words to only get the condition (for example, 'if (something = 10) {' => 'something=10'))
+        input = input.replace("if","")
+        input = input.replace("(","")
+        input = input.replace(")","")
+        input = input.replace("{","")
+        #Make sure the wanted condition is an '=', else, more coming soon...
+        if "=" in input:
+            #Replace the blank spaces and split the given expression into two to only get the variable's name and its (tested) value
+            input = input.replace(" ","")
+            input = input.split("=")
+            print("Condition detected at line "+str(count))
+            #If the given condition is true, then execute the code (only print it for now), else, *error*
+            if input[0] in declared_variables:
+                var_name = input[0]
+                var_value = input[1]
+                if str(var_value) == str(declared_variables_values[declared_variables.index(var_name)]):
+                    print("Condition true at line "+str(count))
+                else:
+                    pass
+            elif input[1] in declared_variables:
+                var_name = input[1]
+                var_value = input[0]
+                if str(var_value) == str(declared_variables_values[declared_variables.index(var_name)]):
+                    print("Condition true at line "+str(count))
+                else:
+                    pass
+            else:
+                error("Unknown variable referenced in condition", count)
+    #Detect the end of a condition
+    elif "}" in input:
+        print("Ending of condition detected at line "+str(count))
     # MODULES
     for module in detect_modules():
         #If the given line contains any module's name, communicate with that module and process the desired function/action
@@ -233,14 +283,9 @@ def process(input,count):
             os.system('python '+os.getcwd()+'\\Modules\\'+module+'.py')
             os.remove(os.getcwd()+'\\Modules\\input.txt')
             break
+    else:
+        error("Unknown function or variable",count)
                     
-            
-            
-        
-        
-
-
-
 
 #This function reads the specified file and separates it into lines, which are then read and processed by the process() function
 def dataread(file):
@@ -260,7 +305,7 @@ def dataread(file):
                 if not line == " ":
                     line = line.replace('\n','')
                     lines.append(line)
-
+        linecount = 1
         for line in lines:
             process(line,linecount)
             linecount = linecount + 1
