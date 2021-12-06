@@ -49,6 +49,10 @@ def download_and_install():
         import ctypes  # An included library with Python install.
         ctypes.windll.user32.MessageBoxW(0, "Fox was successfully installed 😀!", "SUCCESS!", 0)
         window.quit()
+        shutil.rmtree(os.getcwd()+'\\theme\\')
+        os.remove(os.getcwd()+'\\sun-valley.tcl')
+        os.remove(os.getcwd()+'\\theme.zip')
+        shutil.rmtree(os.getcwd()+'\\Sun-Valley-ttk-theme-1.0\\')
     except:
         import ctypes
         ctypes.windll.user32.MessageBoxW(0, "Fox installation failed.", "F A I L", 1)
