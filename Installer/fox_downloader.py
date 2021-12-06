@@ -21,7 +21,6 @@ def download_and_install():
     try:
         import requests
         url = "https://raw.githubusercontent.com/Just-A-Mango/fox/main/fox.py"
-        gif_url = 'https://media.giphy.com/media/3ornk57KwDXf81rjWM/giphy.gif'
         folder = ask_forfolder()
         r = requests.get(url, allow_redirects=True)
         open(folder+'\\fox.py', 'wb').write(r.content)
