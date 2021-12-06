@@ -17,6 +17,26 @@ def ask_forfolder():
     open_file = filedialog.askdirectory()
     return open_file
 
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        import sys
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
+def fixBadZipfile(zipFile):  
+ f = open(zipFile, 'r+b')  
+ data = f.read()  
+ pos = data.find('\x50\x4b\x05\x06') # End of central directory signature  
+ if (pos > 0):  
+     f.seek(pos + 22)   # size of 'ZIP end of central directory record' 
+     f.truncate()  
+     f.close()  
+
 def download_and_install():
     try:
         import requests
@@ -37,7 +57,21 @@ def download_and_install():
 window = tk.Tk()
 window.title("Fox Installer")
 window.geometry("250x200")
-window.tk.call("source", "sun-valley.tcl")
+url = "https://raw.githubusercontent.com/rdbende/Sun-Valley-ttk-theme/master/sun-valley.tcl"
+import requests, os
+r = requests.get(url, allow_redirects=True)
+# open(os.getcwd()+'\\sun-valley.tcl', 'wb').write(r.content)
+url = "https://github.com/rdbende/Sun-Valley-ttk-theme/archive/refs/tags/v1.0.zip"
+import requests, os
+r = requests.get(url, allow_redirects=True)
+with open(os.getcwd()+'\\theme.zip', 'wb') as f:
+    f.write(r.content)
+    f.close()
+import shutil
+shutil.unpack_archive('theme.zip', os.getcwd())
+shutil.move(os.getcwd()+'\\Sun-Valley-ttk-theme-1.0\\sun-valley.tcl', os.getcwd()+'\\sun-valley.tcl')
+shutil.move(os.getcwd()+'\\Sun-Valley-ttk-theme-1.0\\theme\\', os.getcwd()+'\\theme\\')
+window.tk.call("source", os.getcwd()+"\\sun-valley.tcl")
 window.tk.call("set_theme", "dark")
 window.style = ttk.Style()
 MyLab = Label(window, text="FOX", font=("Poppins",50))
