@@ -14,21 +14,28 @@
             border: none;
             background: #0e1119;
         }
-
+        
         .container {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
         }
-
+        
         .text-animation {
             color: #fff;
             font-size: 50px;
             letter-spacing: .5rem;
             text-transform: uppercase;
             font-family: 'poppins', sans-serif;
+            transition: 0.25s
         }
+        
+        .text-animation:hover {
+            animation: texthover 0.25s;
+            font-size: 54px;
+        }
+        
         .button-84 {
             animation: fadebuttonin 1.25s;
             animation-play-state: running;
@@ -37,13 +44,13 @@
             background-image: linear-gradient(#464d55, #25292e);
             border-radius: 8px;
             border-width: 0;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, .1),0 3px 6px rgba(0, 0, 0, .05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, .1), 0 3px 6px rgba(0, 0, 0, .05);
             box-sizing: border-box;
             color: #fff;
             cursor: pointer;
             display: inline-flex;
             flex-direction: column;
-            font-family: expo-brand-demi,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+            font-family: expo-brand-demi, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
             font-size: 18px;
             height: 52px;
             justify-content: center;
@@ -59,28 +66,48 @@
             vertical-align: baseline;
             white-space: nowrap;
         }
-
+        
         @keyframes fadebuttonin {
-            from {opacity: 0;}
-            to {opacity: 1;}
-            
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
-
+        
+        @keyframes texthover {
+            from {
+                font-size: 50px;
+            }
+            to {
+                font-size: 54px;
+            }
+        }
+        
+        @keyframes textunhover {
+            from {
+                font-size: 54px;
+            }
+            to {
+                font-size: 50px;
+            }
+        }
+        
         .button-84:hover {
             box-shadow: rgba(0, 1, 0, .2) 0 2px 8px;
-            opacity: .85;
+            opacity: .75;
         }
-
+        
         .button-84:active {
             box-shadow: #D6D6E7 0 3px 7px inset;
             transform: translateY(2px);
-            
         }
-
+        
         .button-84:focus {
             box-shadow: #D6D6E7 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
         }
-
+        
         .center {
             margin: 0;
             position: absolute;
@@ -89,11 +116,11 @@
             -ms-transform: translate(-50%, -50%);
             transform: translate(-50%, -50%);
         }
-
+        
         @media (max-width: 420px) {
-        .button-84 {
-            height: 200px;
-        }
+            .button-84 {
+                height: 200px;
+            }
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/baffle.js/0.3.6/baffle.min.js"></script>
@@ -102,7 +129,7 @@
 <body>
     <div class="container">
         <div class="text-animation">
-            F   O   X
+            F O X
         </div>
     </div>
     <script>
@@ -114,12 +141,12 @@
 
         text.start();
         text.reveal(1000);
-
     </script>
     <div class="center">
         <button class="button-84">
             Learn More
-        </button> 
+        </button>
     </div>
 </body>
+
 </html>
