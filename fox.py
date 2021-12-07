@@ -18,6 +18,9 @@ declared_variables_values = []
 declared_lists = []
 declared_lists_values = []
 
+#Declare the imported modules
+modules = []
+
 
 #Declare this language's current version
 fox_version = 'InDev'
@@ -273,9 +276,13 @@ def process(input,count):
     elif "}" in input:
         print("Ending of condition detected at line "+str(count))
     # MODULES
-    for module in detect_modules():
+    elif "import" in input:
+        # import <module_name>
+        #If a module is imported, add it to the imported modules' list
+        modules.append(input.replace("import","").replace(" ",""))
+    for module in modules:
         #If the given line contains any module's name, communicate with that module and process the desired function/action
-        if module in input:
+        if module in input and "import" not in input:
             with open(os.getcwd() + '\\Modules\\input.txt', 'x') as f:
                 f.write(input)
             import subprocess
@@ -283,9 +290,8 @@ def process(input,count):
             os.system('python '+os.getcwd()+'\\Modules\\'+module+'.py')
             os.remove(os.getcwd()+'\\Modules\\input.txt')
             break
-    else:
-        error("Unknown function or variable",count)
-                    
+    if not 
+    
 
 #This function reads the specified file and separates it into lines, which are then read and processed by the process() function
 def dataread(file):
