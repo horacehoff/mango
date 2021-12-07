@@ -280,17 +280,21 @@ def process(input,count):
         # import <module_name>
         #If a module is imported, add it to the imported modules' list
         modules.append(input.replace("import","").replace(" ",""))
-    for module in modules:
-        #If the given line contains any module's name, communicate with that module and process the desired function/action
-        if module in input and "import" not in input:
-            with open(os.getcwd() + '\\Modules\\input.txt', 'x') as f:
-                f.write(input)
-            import subprocess
-            subprocess.call(["python", os.getcwd()+'\\Modules\\'+module+'.py'], stdout = open(os.devnull, "w"), stderr = subprocess.STDOUT)
-            os.system('python '+os.getcwd()+'\\Modules\\'+module+'.py')
-            os.remove(os.getcwd()+'\\Modules\\input.txt')
-            break
-    if not 
+        
+    
+    #If the given line contains any module's name, communicate with that module and process the desired function/action
+    else:
+        for module in modules:
+            if module in input and "import" not in input:
+                with open(os.getcwd() + '\\Modules\\input.txt', 'x') as f:
+                    f.write(input)
+                import subprocess
+                subprocess.call(["python", os.getcwd()+'\\Modules\\'+module+'.py'], stdout = open(os.devnull, "w"), stderr = subprocess.STDOUT)
+                os.system('python '+os.getcwd()+'\\Modules\\'+module+'.py')
+                os.remove(os.getcwd()+'\\Modules\\input.txt')
+                break
+            else:
+                error("Unknown function referenced: "+str(input), count)
     
 
 #This function reads the specified file and separates it into lines, which are then read and processed by the process() function
