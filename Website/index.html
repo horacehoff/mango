@@ -28,18 +28,20 @@
             letter-spacing: .5rem;
             text-transform: uppercase;
             font-family: 'poppins', sans-serif;
-            transition: 0.25s
+            transition: 0.3s
         }
         .text-animation:hover {
-            animation: texthover 0.25s;
-            font-size: 54px;
+            color: #ffffff;
+            -webkit-mask-image: linear-gradient(-75deg, rgba(0,0,0,.6) 30%, #000 50%, rgba(0,0,0,.6) 70%);
+            -webkit-mask-size: 200%;
+            animation: shine 2s infinite;
         }
         .button-84 {
             animation: fadebuttonin 1.25s;
             animation-play-state: running;
             align-items: center;
             background-color: initial;
-            background-image: linear-gradient(#464d55, #25292e);
+            background-image: linear-gradient(#67707a, #25292e);
             border-radius: 8px;
             border-width: 0;
             box-shadow: 0 10px 20px rgba(0, 0, 0, .1), 0 3px 6px rgba(0, 0, 0, .05);
@@ -73,27 +75,9 @@
                 opacity: 1;
             }
         }
-    
-        @keyframes texthover {
-            from {
-                font-size: 50px;
-            }
-            to {
-                font-size: 54px;
-            }
-        }
-        
-        @keyframes textunhover {
-            from {
-                font-size: 54px;
-            }
-            to {
-                font-size: 50px;
-            }
-        }
         .button-84:hover {
             box-shadow: rgba(0, 1, 0, .2) 0 2px 8px;
-            opacity: .75;
+            opacity: 0.75;
         }
         
         .button-84:active {
@@ -102,7 +86,7 @@
         }
         
         .button-84:focus {
-            box-shadow: #D6D6E7 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+            box-shadow: #f0f0ff 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #f0f0ff 0 -3px 0 inset;
         }
         
         .center {
@@ -120,6 +104,22 @@
             }
         }
 
+        a.effect-shine:hover {
+            -webkit-mask-image: linear-gradient(-75deg, rgba(0,0,0,.6) 30%, #000 50%, rgba(0,0,0,.6) 70%);
+            -webkit-mask-size: 200%;
+            animation: shine 2s infinite;
+        }
+
+        @-webkit-keyframes shine {
+            from {
+                -webkit-mask-position: 150%;
+            }
+            
+            to {
+                -webkit-mask-position: -50%;
+            }
+        }
+
         html, body {margin: 0; height: 100%; overflow: hidden}
     </style>
     <script src="baffle.min.js"></script>
@@ -128,7 +128,9 @@
 <body>
     <div class="container">
         <div class="text-animation">
-            F O X
+            <div class="effect-shine">
+                F O X
+            </div>
         </div>
     </div>
     <script>
