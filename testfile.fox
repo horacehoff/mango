@@ -1,11 +1,2 @@
-declare var = 10
-if (var = 10) {
-
-}
-declare list test_list = [this,is,a,test,list]
-print(test_list)
-declare asked_var = ask(>>)
-print(asked_var)
-declare str_var = Hey that's a STR var
-print(str_var)
+import example_module
 example_module

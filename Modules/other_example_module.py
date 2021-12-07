@@ -5,9 +5,9 @@ import os
 #Main function, input represents the given line where the function is called
 def main(input):
     #Put all your code/actions here
-    os.system("color 2")
-    print("Hello World")
-    print("This is an example module")
+    os.system("color 3")
+    print("Hello World 2")
+    print("This is another example module")
 
 
 #Code used to communicate with the main file
