@@ -29,6 +29,9 @@
             text-transform: uppercase;
             font-family: 'poppins', sans-serif;
         }
+        .text-animation:hover {
+            animation: lettersmooth 0.25s;
+        }
         .button-84 {
             animation: fadebuttonin 1.25s;
             animation-play-state: running;
@@ -66,9 +69,14 @@
             
         }
 
+        @keyframes lettersmooth {
+            from {letter-spacing: .5rem;}
+            to {letter-spacing: 1px;}
+        }
+
         .button-84:hover {
             box-shadow: rgba(0, 1, 0, .2) 0 2px 8px;
-            opacity: .85;
+            opacity: .75;
         }
 
         .button-84:active {
@@ -95,6 +103,8 @@
             height: 200px;
         }
         }
+
+        html, body {margin: 0; height: 100%; overflow: hidden}
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/baffle.js/0.3.6/baffle.min.js"></script>
 </head>
@@ -117,7 +127,7 @@
 
     </script>
     <div class="center">
-        <button class="button-84">
+        <button class="button-84" onclick="window.location.href='https://www.google.com';">
             Learn More
         </button> 
     </div>
