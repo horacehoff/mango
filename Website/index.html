@@ -9,10 +9,10 @@
     <style>
         html,
         body {
-            margin: 0; 
+            margin: 0;
             padding: 0;
             border: none;
-            background: #0e1119;
+            overflow-x: hidden;
         }
         
         .container {
@@ -20,6 +20,8 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            background: #0e1119;
+            
         }
         
         .text-animation {
@@ -132,6 +134,11 @@
                 F O X
             </div>
         </div>
+        <div class="center">
+            <button class="button-84" onclick="window.location.href='more.html';">
+                Learn More
+            </button>
+        </div>
     </div>
     <script>
         const text = baffle('.text-animation');
@@ -143,11 +150,6 @@
         text.start();
         text.reveal(1000);
     </script>
-    <div class="center">
-        <button class="button-84" onclick="window.location.href='https://www.google.com';">
-            Learn More
-        </button>
-    </div>
 </body>
 
 </html>
