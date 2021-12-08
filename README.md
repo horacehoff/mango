@@ -1,8 +1,7 @@
 <h1 align="center">Welcome to Fox 👋</h1>
 
 [![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)](https://forthebadge.com)
-[![forthebadge](https://forthebadge.com/images/badges/it-works-why.svg)](https://forthebadge.com)
-[![forthebadge](https://forthebadge.com/images/badges/you-didnt-ask-for-this.svg)](https://forthebadge.com)
+[![forthebadge](https://i.imgur.com/pQNVTVz.png)](https://forthebadge.com)
 <p>
   <img alt="Version" src="https://img.shields.io/badge/version-InDev-informational.svg?style=flat-square" />
 </p>
