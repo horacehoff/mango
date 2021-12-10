@@ -1,16 +1,11 @@
 <h1 align="center">Welcome to Fox 👋</h1>
 
 [![forthebadge](https://forthebadge.com/images/badges/made-with-python.svg)](https://forthebadge.com)
-[![forthebadge](https://forthebadge.com/images/badges/it-works-why.svg)](https://forthebadge.com)
-[![forthebadge](https://forthebadge.com/images/badges/you-didnt-ask-for-this.svg)](https://forthebadge.com)
-<p>
-  <img alt="Version" src="https://img.shields.io/badge/version-InDev-informational.svg?style=flat-square" />
-</p>
+[![forthebadge](https://i.imgur.com/pQNVTVz.png)](https://forthebadge.com)
 
 ### A programming language with the purpose of being easy to understand and fast 
 
-### 🏠 [Homepage](https://github.com/Just-A-Mango/fox#readme)&nbsp; &nbsp; &nbsp; &nbsp; 📄 [Documentation](https://github.com/Just-A-Mango/fox/blob/main/.github/markdown/documentation.md)&nbsp; &nbsp; &nbsp; &nbsp;🤔 [First time ?](https://github.com/Just-A-Mango/fox/blob/main/.github/markdown/first_launch.md)
-&nbsp;
+### 🏠 [Homepage](https://github.com/Just-A-Mango/fox#readme)&nbsp; &nbsp; &nbsp; &nbsp; 📄 [Documentation](https://github.com/Just-A-Mango/fox/blob/main/.github/markdown/documentation.md)&nbsp; &nbsp; &nbsp; &nbsp;🤔 [First time ?](https://github.com/Just-A-Mango/fox/blob/main/.github/markdown/first_launch.md) &nbsp; &nbsp; &nbsp; &nbsp; ⬇️ [Download](https://github.com/Just-A-Mango/fox/blob/main/.github/markdown/first_launch.md)
 ## Usage
 ```sh
 fox.py -i <yourfile>.fox
