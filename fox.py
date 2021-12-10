@@ -27,7 +27,8 @@ fox_version = 'InDev'
 
 
 #Variable used to identify if there is an ongoing condition in the current processed line
-approved_if = False
+undergoing_if = False
+under_condition = False
 
 
 #Check if the modules' folder exists, and create it if it doesn't
@@ -261,20 +262,27 @@ def process(input,count):
                 var_value = input[1]
                 if str(var_value) == str(declared_variables_values[declared_variables.index(var_name)]):
                     print("Condition true at line "+str(count))
+                    undergoing_if = True
+                    under_condition = True
                 else:
+                    under_condition = True
                     pass
             elif input[1] in declared_variables:
                 var_name = input[1]
                 var_value = input[0]
                 if str(var_value) == str(declared_variables_values[declared_variables.index(var_name)]):
                     print("Condition true at line "+str(count))
+                    undergoing_if = True
                 else:
+                    under_condition = True
                     pass
             else:
                 error("Unknown variable referenced in condition", count)
     #Detect the end of a condition
     elif "}" in input:
         print("Ending of condition detected at line "+str(count))
+        undergoing_if = False
+        under_condition = False
     # MODULES
     elif "import" in input:
         # import <module_name>
@@ -309,13 +317,25 @@ def dataread(file):
     file1 = open(str(file), 'r')
     linecount = 0
     lines = []
-    with open(str(file1).replace("<_io.TextIOWrapper name='","").replace("' mode='r' encoding='cp1252'>","").removeprefix(".\\")) as file:
+    with open(str(file1).replace("<_io.TextIOWrapper name='","").replace("' mode='r' encoding='cp1252'>","")) as file:
         for line in file:
             if not line == "":
                 if not line == " ":
-                    line = line.replace('\n','')
-                    lines.append(line)
+                    print(undergoing_if)
+                    print(under_condition)
+                    if under_condition == True and undergoing_if == False:
+                        pass
+                    elif under_condition == True and undergoing_if == True:
+                        line = line.replace('\n','')
+                        lines.append(line)
+                    elif under_condition == False and undergoing_if == False:
+                        line = line.replace('\n','')
+                        lines.append(line)
+                    else:
+                        line = line.replace('\n','')
+                        lines.append(line)
         linecount = 1
+        print(lines[-1])
         for line in lines:
             process(line,linecount)
             linecount = linecount + 1
