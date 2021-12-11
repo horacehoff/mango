@@ -2,7 +2,7 @@ from ctypes import sizeof
 import tkinter as tk
 from tkinter import ttk
 from tkinter.ttk import Label
-auto_delete = True
+auto_delete = False
 def ask_forfolder():
     from tkinter import filedialog
 
