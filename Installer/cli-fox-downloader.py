@@ -12,6 +12,9 @@ def ask_forfolder():
     open_file = filedialog.askdirectory()
     return open_file
 
+auto_delete = False
+
+
 def install_module(module):
     try:
         import subprocess, os
@@ -65,3 +68,6 @@ with Progress() as progress:
         progress.stop()
         import rich
         rich.print("👍 [bold red]Successfully installed Fox![/bold red] 👍")
+        if auto_delete == True:
+            import sys, os
+            os.remove(sys.argv[0])

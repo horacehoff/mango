@@ -2,7 +2,7 @@ from ctypes import sizeof
 import tkinter as tk
 from tkinter import ttk
 from tkinter.ttk import Label
-
+auto_delete = False
 
 def ask_forfolder():
     from tkinter import filedialog
@@ -54,6 +54,9 @@ def download_and_install():
         os.remove(os.getcwd()+'\\theme.zip')
         os.remove(os.getcwd()+'\\icon.ico')
         shutil.rmtree(os.getcwd()+'\\Sun-Valley-ttk-theme-1.0\\')
+        import sys
+        if auto_delete == True:
+            os.remove(sys.argv[0])
     except:
         import ctypes
         ctypes.windll.user32.MessageBoxW(0, "Fox installation failed.", "F A I L", 1)
