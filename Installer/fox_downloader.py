@@ -52,6 +52,7 @@ def download_and_install():
         shutil.rmtree(os.getcwd()+'\\theme\\')
         os.remove(os.getcwd()+'\\sun-valley.tcl')
         os.remove(os.getcwd()+'\\theme.zip')
+        os.remove(os.getcwd()+'\\icon.ico')
         shutil.rmtree(os.getcwd()+'\\Sun-Valley-ttk-theme-1.0\\')
     except:
         import ctypes
@@ -61,16 +62,19 @@ def download_and_install():
 window = tk.Tk()
 window.title("Fox Installer")
 window.geometry("250x200")
-url = "https://raw.githubusercontent.com/rdbende/Sun-Valley-ttk-theme/master/sun-valley.tcl"
-import requests, os
-r = requests.get(url, allow_redirects=True)
-# open(os.getcwd()+'\\sun-valley.tcl', 'wb').write(r.content)
 url = "https://github.com/rdbende/Sun-Valley-ttk-theme/archive/refs/tags/v1.0.zip"
 import requests, os
 r = requests.get(url, allow_redirects=True)
 with open(os.getcwd()+'\\theme.zip', 'wb') as f:
     f.write(r.content)
     f.close()
+url = "https://github.com/Just-A-Mango/just-a-mango.github.io/raw/main/images/output-onlinepngtools.ico"
+import requests, os
+r = requests.get(url, allow_redirects=True)
+with open(os.getcwd()+'\\icon.ico', 'wb') as f:
+    f.write(r.content)
+    f.close()
+window.iconbitmap(os.getcwd()+'\\icon.ico')
 import shutil
 shutil.unpack_archive('theme.zip', os.getcwd())
 shutil.move(os.getcwd()+'\\Sun-Valley-ttk-theme-1.0\\sun-valley.tcl', os.getcwd()+'\\sun-valley.tcl')
@@ -88,13 +92,13 @@ button = ttk.Button(
     command=lambda: download_and_install(),
     style="Accent.TButton"
     )
-button.pack(pady=40)
+button.pack(pady=45)
 window.update()
 import time
-MyLab['text'] = "</*"
+MyLab['text'] = "<\*"
 window.update()
 time.sleep(0.22)
-MyLab['text'] = "<O*"
+MyLab['text'] = "<O^"
 window.update()
 time.sleep(0.22)
 MyLab['text'] = ">OX"
