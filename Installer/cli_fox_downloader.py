@@ -12,7 +12,7 @@ def ask_forfolder():
     open_file = filedialog.askdirectory()
     return open_file
 
-auto_delete = False
+auto_delete = True
 
 
 def install_module(module):
