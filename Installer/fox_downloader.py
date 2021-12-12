@@ -7,17 +7,21 @@ def ask_forfolder():
     root.attributes('-topmost', True)
     open_file = filedialog.askdirectory()
     return open_file
+
 auto_delete = False
+
 def install_module(module):
     try:
         import subprocess, os
         subprocess.call(["pip", "install", module], stdout = open(os.devnull, "w"), stderr = subprocess.STDOUT)
     except:
         pass
+    
 def fail():
     import colored
     print(colored.stylize("Fox installation failed. Please try again", colored.fg("red")))
     exit()
+    
 try:
     from rich.progress import Progress
 except:
@@ -25,6 +29,7 @@ except:
         install_module('rich')
     except:
         fail()
+        
 with Progress() as progress:
     task1 = progress.add_task("[bold red]Installing Fox...", total=1000)
     while not progress.finished:
