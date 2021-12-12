@@ -23,3 +23,10 @@ jobs:
         pip install pyinstaller
         
         pyinstaller fox.py --onefile
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.3.0
+      with:
+        # Artifact name
+        name: Binary build
+        # A file, directory or wildcard pattern that describes what to upload
+        path: D:\a\fox\fox\dist\fox.exe
