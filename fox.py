@@ -260,13 +260,13 @@ def process(input,count):
             #Replace the blank spaces and split the given expression into two to only get the variable's name and its (tested) value
             input = input.replace(" ","")
             input = input.split("=")
-            print("Condition detected at line "+str(count))
             #If the given condition is true, then execute the code (only print it for now), else, *error*
             if input[0] in declared_variables:
                 var_name = input[0]
                 var_value = input[1]
                 if str(var_value) == str(declared_variables_values[declared_variables.index(var_name)]):
-                    print("Condition true at line "+str(count))
+                    global undergoing_if
+                    global under_condition
                     undergoing_if = True
                     under_condition = True
                 else:
@@ -276,7 +276,6 @@ def process(input,count):
                 var_name = input[1]
                 var_value = input[0]
                 if str(var_value) == str(declared_variables_values[declared_variables.index(var_name)]):
-                    print("Condition true at line "+str(count))
                     undergoing_if = True
                 else:
                     under_condition = True
@@ -285,7 +284,6 @@ def process(input,count):
                 error("Unknown variable referenced in condition", count)
     #Detect the end of a condition
     elif "}" in input:
-        print("Ending of condition detected at line "+str(count))
         undergoing_if = False
         under_condition = False
     # MODULES
@@ -328,11 +326,20 @@ def dataread(file):
         for line in file:
             if not line == "":
                 if not line == " ":
+                    line = line.replace('\n','')
                     lines.append(line)
         linecount = 1
         for line in lines:
-            process(line,linecount)
-            linecount = linecount + 1
+            if line[0] == " " and undergoing_if == True and under_condition == True:
+                process(line,linecount)
+                linecount = linecount + 1
+            elif line[0] == " " and undergoing_if == False and under_condition == True:
+                linecount = linecount + 1
+            elif line[0] == " " and undergoing_if == False and under_condition == False:
+                error("Unexpected indent", linecount)
+            else:
+                process(line,linecount)
+                linecount = linecount + 1
 
 
 #Detect and process the given arguments

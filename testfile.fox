@@ -1,4 +1,6 @@
-declare var = 3
-if (var = 2) {
+declare var = ask(What's the value: )
+if (var = 5) {
     print(It's equal!)
+    print(It's trully equal!)
+    print(It fucking works!)
 }
