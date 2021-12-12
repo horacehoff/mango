@@ -15,6 +15,13 @@ print(user_asked)
 ```python
 print(5+7/5*98)
 ```
+- If the number the user entered is 5, then print 'The number is 5!'
+```cs
+declare my_var = ask(Enter a number: )
+if (my_var = 5) {
+ print(5+7/5*98)
+}
+```
 And the list goes on...
 
 ## Arguments
