@@ -1,4 +1,4 @@
-<h1 align="center">📄 Documentation 📄</h1>
+<h1 align="center">📄 "Documentation" 📄</h1>
 
 ## Code examples
 
@@ -8,31 +8,33 @@ print(Hello World)
 ```
 - Print what the user asked:
 ```python
-user_asked = ask(What do you want to print ?)
+declare user_asked = ask(What do you want to print ?)
 print(user_asked)
 ```
 - Do some basic math and then print it:
 ```python
 print(5+7/5*98)
 ```
+- If the number the user entered is 5, then print 'The number is 5!'
+```cs
+declare my_var = ask(Enter a number: )
+if (my_var = 5) {
+ print(5+7/5*98)
+}
+```
 And the list goes on...
 
 ## Arguments
 Fox supports arguments when executing it, among them are:\
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ***This executes the given .fox file(basically the same thing in Python as doing python <myfile.py>)***
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ***This executes the given .fox file(basically the same thing in Python as doing python myfile.py)***
 ```sh
-fox.py -i <yourfile.fox>
-fox.py --InputFile <yourfile.fox>
-```
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ***This retrieves the current repository and then updates the language***
-```sh
-fox.py -u
-fox.py --Update
+python fox.py -i <yourfile.fox>
+python fox.py --InputFile <yourfile.fox>
 ```
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ***This checks the current Fox installation and prints the version***
 ```sh
-fox.py -c
-fox.py --CheckInstall
+python fox.py -c
+python fox.py --CheckInstall
 ```
 
 ## Making modules
