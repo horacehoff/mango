@@ -26,5 +26,5 @@ jobs:
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.3.0
       with:
-        name: Binary build
+        name: Fox Binary build
         path: D:\a\fox\fox\dist\fox.exe
