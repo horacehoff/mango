@@ -1,1 +1,4 @@
-hello_èh
+declare var = 3
+if (var = 2) {
+    print(It's equal!)
+}
