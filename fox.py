@@ -95,6 +95,7 @@ def detect_modules():
 def process(input,count):
     # PRINT
     if "print" in input:
+        input = input.lstrip()
         # print(something)
         try:
             #Remove print("") to only get what the user typed as the input
@@ -162,7 +163,7 @@ def process(input,count):
             #Try to add declared variable and its value to declared_variables and declared_variables_values
             try:
                 #Get the "raw" variable name
-                input = input.strip()
+                input = input.lstrip()
                 input = input.split('=')
                 var_name = input[0].replace("declare","").lstrip().replace(" ","")
                 var_value = input[1].lstrip()

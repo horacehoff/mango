@@ -1,6 +1,6 @@
-declare var = ask(What's the value: )
-if (var = 5) {
-    print(It's equal!)
-    print(It's trully equal!)
-    print(It fucking works!)
+declare var = 8
+if(var = 8) {
+    declare cool = ask(Hello there)
+    print(cool)
+    print(Hello there!)
 }
