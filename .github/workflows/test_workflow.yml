@@ -9,16 +9,12 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: PyInstaller Windows
-      uses: JackMcKew/pyinstaller-action-windows@main
+    - name: PyInstaller Build
+      uses: eric2788/pyinstaller-build@0.1.2
       with:
-        path: /Installer/
-
-    - uses: actions/upload-artifact@v2
-      with:
-        name: my-exe
-        path: src/dist/windows # or path/to/artifact
+        # the main python file (without .py)
+        main: fox
+        python_version: '3.10'
