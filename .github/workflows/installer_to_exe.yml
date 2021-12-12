@@ -18,7 +18,7 @@ jobs:
       uses: actions/setup-python@v2.3.1
       with:
         python-version: '3.10'
-    - name: PyInstaller Build
+    - name: PyInstaller Installer Build
       run:
         pip install pyinstaller
         
@@ -37,3 +37,13 @@ jobs:
         title: "Development Build - Potentially unstable"
         files: |
           dist/fox_downloader.exe 
+    - name: PyInstaller Fox Build
+      run:
+        pip install pyinstaller
+        
+        pyinstaller fox.py --onefile
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.3.0
+      with:
+        name: Fox Binary build
+        path: D:\a\fox\fox\dist\fox.exe
