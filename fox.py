@@ -328,17 +328,7 @@ def dataread(file):
         for line in file:
             if not line == "":
                 if not line == " ":
-                    if under_condition == True and undergoing_if == False:
-                        pass
-                    elif under_condition == True and undergoing_if == True:
-                        line = line.replace('\n','')
-                        lines.append(line)
-                    elif under_condition == False and undergoing_if == False:
-                        line = line.replace('\n','')
-                        lines.append(line)
-                    else:
-                        line = line.replace('\n','')
-                        lines.append(line)
+                    lines.append(line)
         linecount = 1
         for line in lines:
             process(line,linecount)
