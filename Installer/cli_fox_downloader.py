@@ -25,6 +25,7 @@ def install_module(module):
 def fail():
     import colored
     print(colored.stylize("Fox installation failed. Please try again", colored.fg("red")))
+    exit()
 
 try:
     from rich.progress import Progress
