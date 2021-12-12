@@ -21,4 +21,5 @@ jobs:
     - name: PyInstaller Build
       run:
         pip install pyinstaller
+        
         pyinstaller fox.py --onefile
