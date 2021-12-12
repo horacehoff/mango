@@ -1,6 +1,6 @@
 <h1 align="center">Welcome to Fox 👋</h1>
 
-![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2FJust-A-Mango%2Ffox%2Fbadge%3Fref%3Dmain%26token%3D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&style=for-the-badge)
+![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2FJust-A-Mango%2Ffox%2Fbadge%3Fref%3Dmain%26token%3D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&style=for-the-badge)
 ![forthebadge](https://img.shields.io/badge/Version-INDEV-informational?style=for-the-badge)
 
 ### A programming language with the purpose of being easy to understand and fast 
