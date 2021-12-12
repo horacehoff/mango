@@ -88,8 +88,7 @@ def detect_modules():
     except:
         pass
     return modules
-        
-                                                            print("Hello there")
+
 
 #Basically the function that IS the language
 def process(input,count):
