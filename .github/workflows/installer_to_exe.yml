@@ -36,4 +36,4 @@ jobs:
         prerelease: true
         title: "Development Build - Potentially unstable"
         files: |
-          dist/fox_downloader.exe
+          dist/fox_downloader.exe 
