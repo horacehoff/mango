@@ -1,0 +1,30 @@
+name: Installer To Exe
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Setup Python
+      uses: actions/setup-python@v2.3.1
+      with:
+        python-version: '3.10'
+    - name: PyInstaller Build
+      run:
+        pip install pyinstaller
+        
+        pyinstaller Installer/fox_downloader.py --onefile
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.3.0
+      with:
+        name: Fox Installer Binary build
+        path: D:\a\fox\fox\dist\fox_downloader.exe
