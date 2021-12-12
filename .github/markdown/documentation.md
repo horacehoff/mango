@@ -8,7 +8,7 @@ print(Hello World)
 ```
 - Print what the user asked:
 ```python
-user_asked = ask(What do you want to print ?)
+declare user_asked = ask(What do you want to print ?)
 print(user_asked)
 ```
 - Do some basic math and then print it:
@@ -28,18 +28,13 @@ And the list goes on...
 Fox supports arguments when executing it, among them are:\
  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ***This executes the given .fox file(basically the same thing in Python as doing python myfile.py)***
 ```sh
-fox.py -i <yourfile.fox>
-fox.py --InputFile <yourfile.fox>
-```
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ***This retrieves the current repository and then updates the language***
-```sh
-fox.py -u
-fox.py --Update
+python fox.py -i <yourfile.fox>
+python fox.py --InputFile <yourfile.fox>
 ```
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ***This checks the current Fox installation and prints the version***
 ```sh
-fox.py -c
-fox.py --CheckInstall
+python fox.py -c
+python fox.py --CheckInstall
 ```
 
 ## Making modules
