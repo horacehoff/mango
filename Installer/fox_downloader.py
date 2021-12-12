@@ -22,13 +22,8 @@ def fail():
     print(colored.stylize("Fox installation failed. Please try again", colored.fg("red")))
     exit()
     
-try:
-    from rich.progress import Progress
-except:
-    try:
-        install_module('rich')
-    except:
-        fail()
+
+install_module('rich')
 from rich.progress import Progress
 with Progress() as progress:
     task1 = progress.add_task("[bold red]Installing Fox...", total=1000)
