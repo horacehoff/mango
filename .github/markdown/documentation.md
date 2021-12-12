@@ -26,7 +26,7 @@ And the list goes on...
 
 ## Arguments
 Fox supports arguments when executing it, among them are:\
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ***This executes the given .fox file(basically the same thing in Python as doing python <myfile.py>)***
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ***This executes the given .fox file(basically the same thing in Python as doing python myfile.py)***
 ```sh
 fox.py -i <yourfile.fox>
 fox.py --InputFile <yourfile.fox>
