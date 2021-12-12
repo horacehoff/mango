@@ -1,7 +1,7 @@
 <h1 align="center">Welcome to Fox 👋</h1>
 
 ![Build](https://github.com/Just-A-Mango/fox/actions/workflows/python-package.yml/badge.svg)
-![forthebadge](https://img.shields.io/badge/Version-INDEV-informational?style=flat)
+![forthebadge](https://img.shields.io/badge/Version-INDEV-informational?style=for-the-badge)
 
 ### A programming language with the purpose of being easy to understand and fast 
 
