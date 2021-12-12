@@ -1,9 +1,5 @@
-from ctypes import sizeof
-import tkinter as tk
-from tkinter import ttk
-from tkinter.ttk import Label
-auto_delete = False
 def ask_forfolder():
+    import tkinter as tk
     from tkinter import filedialog
 
     from tkinter import Tk, filedialog
@@ -16,96 +12,63 @@ def ask_forfolder():
     open_file = filedialog.askdirectory()
     return open_file
 
-def resource_path(relative_path):
-    """ Get absolute path to resource, works for dev and for PyInstaller """
+auto_delete = False
+
+
+def install_module(module):
     try:
-        # PyInstaller creates a temp folder and stores path in _MEIPASS
-        import sys
-        base_path = sys._MEIPASS
-    except Exception:
-        base_path = os.path.abspath(".")
-
-    return os.path.join(base_path, relative_path)
-
-def fixBadZipfile(zipFile):  
- f = open(zipFile, 'r+b')  
- data = f.read()  
- pos = data.find('\x50\x4b\x05\x06') # End of central directory signature  
- if (pos > 0):  
-     f.seek(pos + 22)   # size of 'ZIP end of central directory record' 
-     f.truncate()  
-     f.close()  
-
-def download_and_install():
-    try:
-        import requests
-        url = "https://raw.githubusercontent.com/Just-A-Mango/fox/main/fox.py"
-        folder = ask_forfolder()
-        r = requests.get(url, allow_redirects=True)
-        open(folder+'\\fox.py', 'wb').write(r.content)
-        label = Label(window, text='Successfully downloaded and installed Fox! 😀')
-        label.pack()
-        import ctypes  # An included library with Python install.
-        ctypes.windll.user32.MessageBoxW(0, "Fox was successfully installed 😀!", "SUCCESS!", 0)
-        window.quit()
-        shutil.rmtree(os.getcwd()+'\\theme\\')
-        os.remove(os.getcwd()+'\\sun-valley.tcl')
-        os.remove(os.getcwd()+'\\theme.zip')
-        os.remove(os.getcwd()+'\\icon.ico')
-        shutil.rmtree(os.getcwd()+'\\Sun-Valley-ttk-theme-1.0\\')
-        import sys
-        if auto_delete == True:
-            os.remove(sys.argv[0])
+        import subprocess, os
+        subprocess.call(["pip", "install", module], stdout = open(os.devnull, "w"), stderr = subprocess.STDOUT)
     except:
-        import ctypes
-        ctypes.windll.user32.MessageBoxW(0, "Fox installation failed.", "F A I L", 1)
-        
+        pass
+    
+def fail():
+    import colored
+    print(colored.stylize("Fox installation failed. Please try again", colored.fg("red")))
+    exit()
 
-window = tk.Tk()
-window.title("Fox Installer")
-window.geometry("250x200")
-url = "https://github.com/rdbende/Sun-Valley-ttk-theme/archive/refs/tags/v1.0.zip"
-import requests, os
-r = requests.get(url, allow_redirects=True)
-with open(os.getcwd()+'\\theme.zip', 'wb') as f:
-    f.write(r.content)
-    f.close()
-url = "https://github.com/Just-A-Mango/just-a-mango.github.io/raw/main/images/output-onlinepngtools.ico"
-import requests, os
-r = requests.get(url, allow_redirects=True)
-with open(os.getcwd()+'\\icon.ico', 'wb') as f:
-    f.write(r.content)
-    f.close()
-window.iconbitmap(os.getcwd()+'\\icon.ico')
-import shutil
-shutil.unpack_archive('theme.zip', os.getcwd())
-shutil.move(os.getcwd()+'\\Sun-Valley-ttk-theme-1.0\\sun-valley.tcl', os.getcwd()+'\\sun-valley.tcl')
-shutil.move(os.getcwd()+'\\Sun-Valley-ttk-theme-1.0\\theme\\', os.getcwd()+'\\theme\\')
-window.tk.call("source", os.getcwd()+"\\sun-valley.tcl")
-window.tk.call("set_theme", "dark")
-window.style = ttk.Style()
-MyLab = Label(window, text="FOX", font=("Poppins",50))
-MyLab.pack()
-import time
-time.sleep(1)
-MyLab['text'] = "FOX"
-button = ttk.Button(
-    text="Download Fox",
-    command=lambda: download_and_install(),
-    style="Accent.TButton"
-    )
-button.pack(pady=45)
-window.update()
-import time
-MyLab['text'] = "<\*"
-window.update()
-time.sleep(0.22)
-MyLab['text'] = "<O^"
-window.update()
-time.sleep(0.22)
-MyLab['text'] = ">OX"
-window.update()
-time.sleep(0.22)
-MyLab['text'] = "FOX"
-window.update()
-window.mainloop()
+try:
+    from rich.progress import Progress
+except:
+    try:
+        install_module('rich')
+    except:
+        fail()
+
+with Progress() as progress:
+
+    task1 = progress.add_task("[bold red]Installing Fox...", total=1000)
+
+    while not progress.finished:
+        try:
+            import colored
+        except:
+            try:
+                install_module('colored')
+            except:
+                fail()
+        try:
+            import requests
+        except:
+            try:
+                install_module('requests')
+            except:
+                fail()
+        progress.update(task1, advance = 333)
+        url = "https://raw.githubusercontent.com/Just-A-Mango/fox/main/fox.py"
+        r = requests.get(url, allow_redirects=True)
+        progress.update(task1, advance = 333)
+        folder = ask_forfolder()
+        try:
+            r = requests.get(url, allow_redirects=True)
+            open(folder+'\\fox.py', 'wb').write(r.content)
+        except:
+            import ctypes
+            ctypes.windll.user32.MessageBoxW(0, "Fox installation failed.", "F A I L", 1)
+        progress.update(task1, advance = 334)
+        progress.stop()
+        import rich
+        rich.print("👍 [bold red]Successfully installed Fox![/bold red] 👍")
+        if auto_delete == True:
+            import sys, os
+            os.remove(sys.argv[0])
