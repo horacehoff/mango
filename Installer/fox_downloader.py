@@ -29,7 +29,7 @@ except:
         install_module('rich')
     except:
         fail()
-        
+from rich.progress import Progress
 with Progress() as progress:
     task1 = progress.add_task("[bold red]Installing Fox...", total=1000)
     while not progress.finished:
