@@ -19,4 +19,4 @@ jobs:
       with:
         # the main python file (without .py)
         main: fox
-        python_version: '3.10'
+        python_version: '3.10.1'
