@@ -1,4 +1,1 @@
-declare ok = 2
-if (ok = 3) {
-    print(Ok)
-}
+hello_èh

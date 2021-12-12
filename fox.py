@@ -63,9 +63,13 @@ def askfor(arg):
 
 #Function used to print a nice and clean error
 def error(error,count):
-    print("       /!\ Fox Error /!\ ")
-    print("At line "+str(count)+" ↓")
-    print(str(error))
+    try:
+        import rich
+    except:
+        install_module('rich')
+    rich.print("       [bold red]😔 /!\ Fox Error /!\ 😔[/bold red] ")
+    rich.print("At [bold green]line "+str(count)+"[/bold green] ↓")
+    rich.print('[bold]'+str(error)+'[/bold]')
     exit()
 
 
@@ -85,6 +89,7 @@ def detect_modules():
         pass
     return modules
         
+
 
 #Basically the function that IS the language
 def process(input,count):
@@ -288,10 +293,12 @@ def process(input,count):
         # import <module_name>
         #If a module is imported, add it to the imported modules' list
         modules.append(input.replace("import","").replace(" ",""))
-        
-    
     #If the given line contains any module's name, communicate with that module and process the desired function/action
     else:
+        try:
+            assert modules.len > 1
+        except:
+            error("Unknown function referenced: "+str(input), count)
         for module in modules:
             if module in input and "import" not in input:
                 with open(os.getcwd() + '\\Modules\\input.txt', 'x') as f:
@@ -321,8 +328,6 @@ def dataread(file):
         for line in file:
             if not line == "":
                 if not line == " ":
-                    print(undergoing_if)
-                    print(under_condition)
                     if under_condition == True and undergoing_if == False:
                         pass
                     elif under_condition == True and undergoing_if == True:
@@ -335,7 +340,6 @@ def dataread(file):
                         line = line.replace('\n','')
                         lines.append(line)
         linecount = 1
-        print(lines[-1])
         for line in lines:
             process(line,linecount)
             linecount = linecount + 1
