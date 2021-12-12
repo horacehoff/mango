@@ -12,6 +12,8 @@ jobs:
     runs-on: windows-latest
 
     steps:
+    - name: Checkout
+      uses: actions/checkout@v2
     - name: PyInstaller Build
       uses: eric2788/pyinstaller-build@0.1.2
       with:
