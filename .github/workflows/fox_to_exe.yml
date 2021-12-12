@@ -1,4 +1,4 @@
-name: Installer To Exe
+name: Fox To Exe
 
 on:
   push:
