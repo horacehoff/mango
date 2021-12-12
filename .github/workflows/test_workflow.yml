@@ -1,4 +1,4 @@
-name: Package Application with Pyinstaller
+name: Package exe with PyInstaller - Windows
 
 on:
   push:
@@ -13,13 +13,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-
-    - name: Package Application
+    - name: PyInstaller Windows
       uses: JackMcKew/pyinstaller-action-windows@main
       with:
-        path: fox.py
+        path: ./fox.py
 
     - uses: actions/upload-artifact@v2
       with:
-        name: Fox Executable
-        path: src/dist/windows
+        name: my-exe
+        path: src/dist/windows # or path/to/artifact
