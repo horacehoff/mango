@@ -324,10 +324,8 @@ def dataread(file):
     lines = []
     with open(str(file1).replace("<_io.TextIOWrapper name='","").replace("' mode='r' encoding='cp1252'>","")) as file:
         for line in file:
-            if not line == "":
-                if not line == " ":
-                    line = line.replace('\n','')
-                    lines.append(line)
+            line = line.replace('\n','')
+            lines.append(line)
         linecount = 1
         for line in lines:
             #undergoing_if -> condition true ?
@@ -336,7 +334,11 @@ def dataread(file):
             #If currently under a condition and this condition is false -> do nothing
             #If there is a '#' at the beginning of the line, it's a comment -> do nothing
             #Else -> process the line
-            if line[0] == " " and undergoing_if == True and under_condition == True:
+            if line.isspace() == True:
+                linecount = linecount + 1
+            elif line == '':
+                linecount = linecount + 1
+            elif line[0] == " " and undergoing_if == True and under_condition == True:
                 process(line,linecount)
                 linecount = linecount + 1
             elif line[0] == " " and undergoing_if == False and under_condition == True:
