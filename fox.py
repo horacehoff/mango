@@ -67,7 +67,6 @@ def error(error,count):
         import rich
     except:
         install_module('rich')
-    import rich
     rich.print("       [bold red]😔 /!\ Fox Error /!\ 😔[/bold red] ")
     rich.print("At [bold green]line "+str(count)+"[/bold green] ↓")
     rich.print('[bold]'+str(error)+'[/bold]')
@@ -319,7 +318,7 @@ def dataread(file):
         assert file.split('.')[1] == 'fox'
     except:
         error(file+' is not a .fox file',0)
-    #Try to open the file and convert the entire file into individual lines
+    #Try to open the file a²nd convert the entire file into individual lines
     file1 = open(str(file), 'r')
     linecount = 0
     lines = []
@@ -331,11 +330,6 @@ def dataread(file):
                     lines.append(line)
         linecount = 1
         for line in lines:
-            # undergoing_if -> is the condition true
-            # under_condition -> is under a condition
-            #If the given condition is true, process the line, else, do nothing
-            #If the given line is a comment (starts with '#'), do nothing (it's just a comment after all)
-            #Else, just process the line
             if line[0] == " " and undergoing_if == True and under_condition == True:
                 process(line,linecount)
                 linecount = linecount + 1
@@ -357,12 +351,9 @@ long_options = ["CheckInstall", "InputFile ="]
 try:
     arguments, values = getopt.getopt(argumentList, options, long_options)
     for currentArgument, currentValue in arguments:
-        # python fox.py -i myfile.fox
-        #Executes and processes the given file (basically the same as 'python myfile.py' except it's not python)
         if currentArgument in ("-i", "--InputFile"):
             check_modules_folder()
             dataread(str(currentValue))
-        # python fox.py -c
         if currentArgument in ("-c", "--CheckInstall"):
             print_version(fox_version)
 except getopt.error as err:
