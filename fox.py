@@ -330,6 +330,7 @@ def dataread(file):
                     lines.append(line)
         linecount = 1
         for line in lines:
+            print(line.lstrip()[0])
             if line[0] == " " and undergoing_if == True and under_condition == True:
                 process(line,linecount)
                 linecount = linecount + 1
@@ -337,7 +338,7 @@ def dataread(file):
                 linecount = linecount + 1
             elif line[0] == " " and undergoing_if == False and under_condition == False:
                 error("Unexpected indent", linecount)
-            elif line.lstrip() == "#":
+            elif line.lstrip()[0] == "#":
                 linecount = linecount + 1
             else:
                 process(line,linecount)

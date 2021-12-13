@@ -1,8 +1,10 @@
+# Hello there
 declare var = 8
 if(var = 8) {
     declare cool = ask(Hello there)
     print(cool)
     print(Hello there!)
+    #  Hiii
     declare cool = 85
     print(cool)
 }
