@@ -5,7 +5,7 @@
 
 ### A programming language with the purpose of being easy to understand and fast 
 
-### 🏠 [Homepage](https://github.com/Just-A-Mango/fox#readme)&nbsp; &nbsp; &nbsp; &nbsp; 📄 [Documentation](https://github.com/Just-A-Mango/fox/blob/main/.github/markdown/documentation.md)&nbsp; &nbsp; &nbsp; &nbsp;🤔 [First time ?](https://github.com/Just-A-Mango/fox/blob/main/.github/markdown/first_launch.md) &nbsp; &nbsp; &nbsp; &nbsp; ⬇️ [Download](https://github.com/Just-A-Mango/fox/blob/main/.github/markdown/first_launch.md)
+### 🏠 [Homepage](https://github.com/Just-A-Mango/fox#readme)&nbsp; &nbsp; &nbsp; &nbsp; 📄 [Documentation](https://github.com/Just-A-Mango/fox/blob/main/.github/markdown/documentation.md)&nbsp; &nbsp; &nbsp; &nbsp;🤔 [First time ?](https://github.com/Just-A-Mango/fox/blob/main/.github/markdown/first_launch.md) &nbsp; &nbsp; &nbsp; &nbsp; ⬇️ [Download](https://github.com/just-a-mango/fox/releases)
 ## Usage
 ```sh
 fox.py -i <yourfile>.fox
