@@ -38,3 +38,9 @@ jobs:
       with:
         name: Fox Binary build
         path: D:\a\fox\fox\dist\fox.exe
+    - name: Upload Fox Source Artifact
+      uses: actions/upload-artifact@v2.3.0
+      with:
+        name: Fox Source File
+        path: fox.py
+
