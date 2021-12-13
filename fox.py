@@ -67,6 +67,7 @@ def error(error,count):
         import rich
     except:
         install_module('rich')
+    import rich
     rich.print("       [bold red]😔 /!\ Fox Error /!\ 😔[/bold red] ")
     rich.print("At [bold green]line "+str(count)+"[/bold green] ↓")
     rich.print('[bold]'+str(error)+'[/bold]')
