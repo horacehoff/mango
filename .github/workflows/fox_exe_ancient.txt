@@ -38,3 +38,13 @@ jobs:
       with:
         name: Fox Binary build
         path: D:\a\fox\fox\dist\fox.exe
+    - name: Release
+      uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: "development"
+        prerelease: true
+        title: "Development Build - Potentially unstable"
+        files: |
+          dist/fox_downloader.exe
+          dist/fox.exe
