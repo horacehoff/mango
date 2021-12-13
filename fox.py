@@ -318,7 +318,7 @@ def dataread(file):
         assert file.split('.')[1] == 'fox'
     except:
         error(file+' is not a .fox file',0)
-    #Try to open the file and convert the entire file into individual lines
+    #Try to open the file a²nd convert the entire file into individual lines
     file1 = open(str(file), 'r')
     linecount = 0
     lines = []
@@ -337,6 +337,8 @@ def dataread(file):
                 linecount = linecount + 1
             elif line[0] == " " and undergoing_if == False and under_condition == False:
                 error("Unexpected indent", linecount)
+            elif line.lstrip() == "#":
+                linecount = linecount + 1
             else:
                 process(line,linecount)
                 linecount = linecount + 1

@@ -1,4 +1,7 @@
-declare var = 8
+# Declare a variable called 'var' with a value of 7
+declare var = 7
+
+#If the declared variable 'var' is equal to 8, then do a bunch of cool stuff
 if(var = 8) {
     declare cool = ask(Hello there)
     print(cool)
