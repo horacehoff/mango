@@ -67,7 +67,7 @@ def error(error,count):
         import rich
     except:
         install_module('rich')
-    rich.print("       [bold red]😔 /!\ Fox Error /!\ 😔[/bold red] ")
+    rich.print("     [bold red]😔  /!\ Fox Error /!\ 😔[/bold red]     ")
     rich.print("At [bold green]line "+str(count)+"[/bold green] ↓")
     rich.print('[bold]'+str(error)+'[/bold]')
     exit()
@@ -338,6 +338,8 @@ def dataread(file):
                 linecount = linecount + 1
             elif line == '':
                 linecount = linecount + 1
+            elif line.lstrip()[0] == "#":
+                linecount = linecount + 1
             elif line[0] == " " and undergoing_if == True and under_condition == True:
                 process(line,linecount)
                 linecount = linecount + 1
@@ -345,8 +347,6 @@ def dataread(file):
                 linecount = linecount + 1
             elif line[0] == " " and undergoing_if == False and under_condition == False:
                 error("Unexpected indent", linecount)
-            elif line.lstrip()[0] == "#":
-                linecount = linecount + 1
             else:
                 process(line,linecount)
                 linecount = linecount + 1
