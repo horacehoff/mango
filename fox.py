@@ -27,8 +27,8 @@ fox_version = 'InDev'
 
 
 #Variable used to identify if there is an ongoing condition in the current processed line
-undergoing_if = False
-under_condition = False
+condition_true = False
+is_condition = False
 
 
 #Check if the modules' folder exists, and create it if it doesn't
@@ -265,27 +265,27 @@ def process(input,count):
                 var_name = input[0]
                 var_value = input[1]
                 if str(var_value) == str(declared_variables_values[declared_variables.index(var_name)]):
-                    global undergoing_if
-                    global under_condition
-                    undergoing_if = True
-                    under_condition = True
+                    global condition_true
+                    global is_condition
+                    condition_true = True
+                    is_condition = True
                 else:
-                    under_condition = True
+                    is_condition = True
                     pass
             elif input[1] in declared_variables:
                 var_name = input[1]
                 var_value = input[0]
                 if str(var_value) == str(declared_variables_values[declared_variables.index(var_name)]):
-                    undergoing_if = True
+                    condition_true = True
                 else:
-                    under_condition = True
+                    is_condition = True
                     pass
             else:
                 error("Unknown variable referenced in condition", count)
     #Detect the end of a condition
     elif "}" in input:
-        undergoing_if = False
-        under_condition = False
+        condition_true = False
+        is_condition = False
     # MODULES
     elif "import" in input:
         # import <module_name>
@@ -328,8 +328,8 @@ def dataread(file):
             lines.append(line)
         linecount = 1
         for line in lines:
-            #undergoing_if -> condition true ?
-            #under_condition -> currently under a condition ?
+            #condition_true -> condition true ?
+            #is_condition -> currently under a condition ?
             #If currently under a condition and this condition is true -> process the line
             #If currently under a condition and this condition is false -> do nothing
             #If there is a '#' at the beginning of the line, it's a comment -> do nothing
@@ -340,12 +340,12 @@ def dataread(file):
                 linecount = linecount + 1
             elif line.lstrip()[0] == "#":
                 linecount = linecount + 1
-            elif line[0] == " " and undergoing_if == True and under_condition == True:
+            elif line[0] == " " and condition_true == True and is_condition == True:
                 process(line,linecount)
                 linecount = linecount + 1
-            elif line[0] == " " and undergoing_if == False and under_condition == True:
+            elif line[0] == " " and condition_true == False and is_condition == True:
                 linecount = linecount + 1
-            elif line[0] == " " and undergoing_if == False and under_condition == False:
+            elif line[0] == " " and condition_true == False and is_condition == False:
                 error("Unexpected indent", linecount)
             else:
                 process(line,linecount)
