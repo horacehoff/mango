@@ -1,6 +1,7 @@
-  # Hello there
+# Just a random variable with a condition
 declare var = 8
 if(var = 8) {
     declare cool = ask(Hello there)
+    #Print what the use typed in
     print(cool)
 }
