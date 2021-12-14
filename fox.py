@@ -18,6 +18,13 @@ declared_variables_values = []
 declared_lists = []
 declared_lists_values = []
 
+
+#Declare the lists where the functions and the lines they're assigned to are stored
+declared_functions = []
+declared_functions_values = []
+declared_functions_parameters = []
+
+
 #Declare the imported modules
 modules = []
 
@@ -292,6 +299,26 @@ def process(input,count):
         #If a module is imported, add it to the imported modules' list
         modules.append(input.replace("import","").replace(" ",""))
     #If the given line contains any module's name, communicate with that module and process the desired function/action
+    elif "define" in input:
+        try:
+            assert "(" in input
+            assert ")" in input
+            assert "{" in input
+        except:
+            error("Please check the function syntax",count)
+        input = input.replace("define","")
+        input = input.strip()
+        function_name = input
+        in_brackets = input[input.find('(')+1:input.find(')')]
+        function_name = input.replace("("+in_brackets+")","").replace("{","")
+        try:
+            assert function_name not in declared_functions
+        except:
+            error("An existing function with the same name already exists: "+function_name, count)
+        declared_functions.append(function_name)
+        parameters = in_brackets.split(',')
+        print(parameters)
+        
     else:
         try:
             assert modules.len > 1
