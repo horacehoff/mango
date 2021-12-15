@@ -49,6 +49,23 @@ def print_version(version):
     print("|-----------------------------------|\r\n|          F O X  -  "+version+"          |        by Just_a_Mango\r\n|-----------------------------------|        @Just-A-Mango on GitHub\r\n")
 
 
+#Returns true if the given code returns an error
+def iserror(func, *args, **kw):
+    exception = kw.pop('exception', Exception)
+    try:
+        func(*args, **kw)
+        return False
+    except exception:
+        return True
+
+def is_declaredfunctionsvalues_error():
+    try:
+        random_var = declared_functions_values[-1]
+        return False
+    except:
+        return True
+
+
 #Installs any given module at runtime in the background
 def install_module(module):
     try:
@@ -291,11 +308,9 @@ def process(input,count):
                 error("Unknown variable referenced in condition", count)
     #Detect the end of a condition
     elif "}" in input:
-        if declared_functions_values[-1].split("-")[-1] == "":
+        try:
             declared_functions_values[-1] = declared_functions_values[-1]+str(count)
-            print(declared_functions)
-            print(declared_functions_values)
-        else:
+        except:
             condition_true = False
             is_condition = False
     # MODULES
@@ -303,7 +318,6 @@ def process(input,count):
         # import <module_name>
         #If a module is imported, add it to the imported modules' list
         modules.append(input.replace("import","").replace(" ",""))
-    #If the given line contains any module's name, communicate with that module and process the desired function/action
     elif "define" in input:
         try:
             assert "(" in input
@@ -323,14 +337,16 @@ def process(input,count):
         declared_functions.append(function_name.strip())
         declared_functions_parameters.append(in_brackets)
         declared_functions_values.append(str(count)+'-')
-        parameters = in_brackets.split(',')
-        print(parameters)
-        
+    #If the given line contains any module's name, communicate with that module and process the desired function/action
     else:
         try:
             assert modules.len > 1
         except:
-            error("Unknown function referenced: "+str(input), count)
+            try:
+                assert any(functionn in input for functionn in declared_functions) == False
+                error("Unknown function referenced: "+str(input), count)
+            except:
+                pass
         for module in modules:
             if module in input and "import" not in input:
                 with open(os.getcwd() + '\\Modules\\input.txt', 'x') as f:
@@ -340,8 +356,7 @@ def process(input,count):
                 os.system('python '+os.getcwd()+'\\Modules\\'+module+'.py')
                 os.remove(os.getcwd()+'\\Modules\\input.txt')
                 break
-            else:
-                error("Unknown function referenced: "+str(input), count)
+                    
     
 
 #This function reads the specified file and separates it into lines, which are then read and processed by the process() function
@@ -370,7 +385,12 @@ def dataread(file):
             #Else -> process the line
             if line.isspace() == True:
                 linecount = linecount + 1
+            elif "}" in line:
+                process(line,linecount)
+                linecount = linecount + 1
             elif line == '':
+                linecount = linecount + 1
+            elif line[0] == " " and condition_true == False and is_condition == False and declared_functions_values[0].split("-")[1] == "":
                 linecount = linecount + 1
             elif line.lstrip()[0] == "#":
                 linecount = linecount + 1
@@ -382,6 +402,17 @@ def dataread(file):
             elif line[0] == " " and condition_true == False and is_condition == False:
                 error("Unexpected indent", linecount)
             else:
+                for function in declared_functions:
+                    if function in line:
+                        function_lines = declared_functions_values[declared_functions.index(function)].split('-')
+                        function_start = int(function_lines[0])
+                        function_end = int(function_lines[1])-1
+                        index = int(function_start)
+                        while index < function_end:
+                            process(lines[index].lstrip(), index)
+                            index = index + 1
+                        
+                        
                 process(line,linecount)
                 linecount = linecount + 1
 
