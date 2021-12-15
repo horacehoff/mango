@@ -6,4 +6,3 @@ define col() {
     print(yoo)
 }
 col()
-great_function()

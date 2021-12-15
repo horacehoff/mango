@@ -404,9 +404,14 @@ def dataread(file):
             else:
                 for function in declared_functions:
                     if function in line:
+                        try:
+                            assert "(" in line
+                            assert ")" in line
+                        except:
+                            error("You forgot the () when calling the function [italic]"+function+"[/italic]", linecount)
                         function_lines = declared_functions_values[declared_functions.index(function)].split('-')
                         function_start = int(function_lines[0])
-                        function_end = int(function_lines[1])-1
+                        function_end = int(function_lines[1]) - 1
                         index = int(function_start)
                         while index < function_end:
                             process(lines[index].lstrip(), index)
