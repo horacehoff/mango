@@ -1,3 +1,9 @@
 define great_function() {
     print(var)
 }
+
+define col() {
+    print(yoo)
+}
+col()
+great_function()

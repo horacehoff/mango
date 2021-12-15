@@ -390,7 +390,7 @@ def dataread(file):
                 linecount = linecount + 1
             elif line == '':
                 linecount = linecount + 1
-            elif line[0] == " " and condition_true == False and is_condition == False and declared_functions_values[0].split("-")[1] == "":
+            elif line[0] == " " and condition_true == False and is_condition == False and declared_functions_values[-1].split("-")[1] == "":
                 linecount = linecount + 1
             elif line.lstrip()[0] == "#":
                 linecount = linecount + 1
@@ -411,8 +411,9 @@ def dataread(file):
                         while index < function_end:
                             process(lines[index].lstrip(), index)
                             index = index + 1
-                        
-                        
+                        break
+                    else:
+                        pass
                 process(line,linecount)
                 linecount = linecount + 1
 
