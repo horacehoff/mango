@@ -3,6 +3,6 @@ define great_function() {
 }
 
 define col() {
-    print(yoo)
+    declare ok = 8
 }
 col()
