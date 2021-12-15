@@ -1,3 +1,7 @@
 define my_function(parameter,parametertwo) {
 
-} 
+}
+
+define my_other_function() {
+
+}

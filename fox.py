@@ -291,8 +291,13 @@ def process(input,count):
                 error("Unknown variable referenced in condition", count)
     #Detect the end of a condition
     elif "}" in input:
-        condition_true = False
-        is_condition = False
+        if declared_functions_values[-1].split("-")[-1] == "":
+            declared_functions_values[-1] = declared_functions_values[-1]+str(count)
+            print(declared_functions)
+            print(declared_functions_values)
+        else:
+            condition_true = False
+            is_condition = False
     # MODULES
     elif "import" in input:
         # import <module_name>
@@ -315,7 +320,9 @@ def process(input,count):
             assert function_name not in declared_functions
         except:
             error("An existing function with the same name already exists: "+function_name, count)
-        declared_functions.append(function_name)
+        declared_functions.append(function_name.strip())
+        declared_functions_parameters.append(in_brackets)
+        declared_functions_values.append(str(count)+'-')
         parameters = in_brackets.split(',')
         print(parameters)
         
