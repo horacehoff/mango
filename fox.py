@@ -410,9 +410,21 @@ def dataread(file):
                         except:
                             error("You forgot the () when calling the function [italic]"+function+"[/italic]", linecount)
                         function_lines = declared_functions_values[declared_functions.index(function)].split('-')
+                        function_arguments = declared_functions_parameters[declared_functions.index(function)].replace(" ","").split(',')
                         function_start = int(function_lines[0])
                         function_end = int(function_lines[1]) - 1
                         index = int(function_start)
+                        in_brackets = line.replace(" ","")[line.find('(')+1:line.find(')')].replace(")","").split(",")
+                        indextwo = 0
+                        # for arg in function_arguments:
+                        #     if in_brackets[indextwo] in declared_variables:
+                        #         declared_variables.append(arg)
+                        #         declared_variables_values.append(declared_variables_values[declared_variables.index(in_brackets[indextwo])])
+                        #         indextwo = indextwo + 1
+                        #     else:
+                        #         declared_variables.append(arg)
+                        #         declared_variables_values.append(in_brackets[indextwo])
+                        #         indextwo = indextwo + 1
                         while index < function_end:
                             process(lines[index].lstrip(), index)
                             index = index + 1

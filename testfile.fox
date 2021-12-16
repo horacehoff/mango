@@ -2,7 +2,7 @@ define great_function() {
     print(var)
 }
 
-define col() {
-    declare ok = 8
+define col(argumen,hello) {
+    print(argumen)
 }
 col()
