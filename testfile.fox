@@ -4,5 +4,6 @@ define great_function() {
 
 define col(argumen,hello) {
     print(argumen)
+    print(hello)
 }
-col()
+col(yo,secondargument)

@@ -416,15 +416,18 @@ def dataread(file):
                         index = int(function_start)
                         in_brackets = line.replace(" ","")[line.find('(')+1:line.find(')')].replace(")","").split(",")
                         indextwo = 0
-                        # for arg in function_arguments:
-                        #     if in_brackets[indextwo] in declared_variables:
-                        #         declared_variables.append(arg)
-                        #         declared_variables_values.append(declared_variables_values[declared_variables.index(in_brackets[indextwo])])
-                        #         indextwo = indextwo + 1
-                        #     else:
-                        #         declared_variables.append(arg)
-                        #         declared_variables_values.append(in_brackets[indextwo])
-                        #         indextwo = indextwo + 1
+                        for arg in function_arguments:
+                            try:
+                                if in_brackets[indextwo] in declared_variables:
+                                    declared_variables.append(arg)
+                                    declared_variables_values.append(declared_variables_values[declared_variables.index(in_brackets[indextwo])])
+                                    indextwo = indextwo + 1
+                                else:
+                                    declared_variables.append(arg)
+                                    declared_variables_values.append(in_brackets[indextwo])
+                                    indextwo = indextwo + 1
+                            except:
+                                pass
                         while index < function_end:
                             process(lines[index].lstrip(), index)
                             index = index + 1
