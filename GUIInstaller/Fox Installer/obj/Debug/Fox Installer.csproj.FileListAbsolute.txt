@@ -1,0 +1,11 @@
+C:\Users\horac\Documents\Fox\GUIInstaller\Fox Installer\bin\Debug\Fox Installer.exe.config
+C:\Users\horac\Documents\Fox\GUIInstaller\Fox Installer\bin\Debug\Fox Installer.exe
+C:\Users\horac\Documents\Fox\GUIInstaller\Fox Installer\bin\Debug\Fox Installer.pdb
+C:\Users\horac\Documents\Fox\GUIInstaller\Fox Installer\obj\Debug\Fox Installer.csproj.AssemblyReference.cache
+C:\Users\horac\Documents\Fox\GUIInstaller\Fox Installer\obj\Debug\Fox Installer.csproj.SuggestedBindingRedirects.cache
+C:\Users\horac\Documents\Fox\GUIInstaller\Fox Installer\obj\Debug\Fox_Installer.Form1.resources
+C:\Users\horac\Documents\Fox\GUIInstaller\Fox Installer\obj\Debug\Fox_Installer.Properties.Resources.resources
+C:\Users\horac\Documents\Fox\GUIInstaller\Fox Installer\obj\Debug\Fox Installer.csproj.GenerateResource.cache
+C:\Users\horac\Documents\Fox\GUIInstaller\Fox Installer\obj\Debug\Fox Installer.csproj.CoreCompileInputs.cache
+C:\Users\horac\Documents\Fox\GUIInstaller\Fox Installer\obj\Debug\Fox Installer.exe
+C:\Users\horac\Documents\Fox\GUIInstaller\Fox Installer\obj\Debug\Fox Installer.pdb

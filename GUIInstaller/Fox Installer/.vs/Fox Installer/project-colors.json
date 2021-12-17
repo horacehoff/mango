@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "1b808871-085f-4a71-a301-a93ffe295a5f": {
+      "ProjectGuid": "1b808871-085f-4a71-a301-a93ffe295a5f",
+      "DisplayName": "Fox Installer",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}

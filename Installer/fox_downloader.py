@@ -1,44 +1,61 @@
 def ask_forfolder():
-    import tkinter as tk
-    from tkinter import filedialog
-    from tkinter import Tk, filedialog
-    root = Tk()
-    root.withdraw()
-    root.attributes('-topmost', True)
-    open_file = filedialog.askdirectory()
-    return open_file
-auto_delete = False
-def install_module(module):
     try:
-        import subprocess, os
-        subprocess.call(["pip", "install", module], stdout = open(os.devnull, "w"), stderr = subprocess.STDOUT)
+        import os
+    except:
+        fail()
+    try:
+        os.mkdir('C:/Fox')
     except:
         pass
+    open_file = 'C:/Fox'
+    return open_file
+
+def prompt():
+    #Import the tkinter library
+    from tkinter import Tk
+    from tkinter import Label
+    from tkinter import messagebox
+    #Create an instance of Tkinter frame
+    win= Tk()
+    #Define the geometry of the function
+    win.geometry("750x250")
+    answer = messagebox.askyesno("Question","Do you like Python Tkinter?")
+    #Create a Label
+    Label(win, text=answer, font= ('Georgia 20 bold')).pack()
+    win.mainloop()
+
+auto_delete = False
+def install_module(module):
+    import subprocess, os
+    subprocess.call(["pip", "install", module], stdout = open(os.devnull, "w"), stderr = subprocess.STDOUT)
     
 def fail():
-    import colored
+    try:
+        import colored
+    except:
+        install_module('colored')
+        import colored
     print(colored.stylize("Fox installation failed. Please try again", colored.fg("red")))
     exit()
-    
-install_module('rich')
-from rich.progress import Progress
+
+try:
+    from rich.progress import Progress
+except:
+    install_module('rich')
+    from rich.progress import Progress
 with Progress() as progress:
     task1 = progress.add_task("[bold red]Installing Fox...", total=1000)
     while not progress.finished:
         try:
             import colored
         except:
-            try:
-                install_module('colored')
-            except:
-                fail()
+            install_module('colored')
+            import colored
         try:
             import requests
         except:
-            try:
-                install_module('requests')
-            except:
-                fail()
+            install_module('requests')
+            import requests
         progress.update(task1, advance = 333)
         url = "https://raw.githubusercontent.com/Just-A-Mango/fox/main/fox.py"
         r = requests.get(url, allow_redirects=True)
@@ -48,8 +65,7 @@ with Progress() as progress:
             r = requests.get(url, allow_redirects=True)
             open(folder+'\\fox.py', 'wb').write(r.content)
         except:
-            import ctypes
-            ctypes.windll.user32.MessageBoxW(0, "Fox installation failed.", "F A I L", 1)
+            fail()
         progress.update(task1, advance = 334)
         progress.stop()
         import rich
