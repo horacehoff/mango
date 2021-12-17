@@ -1,9 +1,9 @@
-define great_function() {
-    print(var)
+define ok(input) {
+    print(input)
 }
+ok(HelloThere)
 
-define col(argumen,hello) {
-    print(argumen)
-    print(hello)
+
+if(Hi = 45) {
+    print(It's true!)
 }
-col(yo,secondargument)

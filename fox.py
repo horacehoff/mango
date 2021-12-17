@@ -44,6 +44,17 @@ def check_modules_folder():
     Path(os.getcwd() + "\\Modules\\").mkdir(parents=True, exist_ok=True)
 
 
+#Check if given variables are of the same type
+def check_variable_type(*objs):
+    def _all_bases(o):
+        for b in o.__bases__:
+            if b is not object:
+                yield b
+            yield from _all_bases(b)
+    s = [(i.__class__, *_all_bases(i.__class__)) for i in objs]
+    return len(set(*s[:1]).intersection(*s[1:])) > 0
+
+
 #Print the language's version and name
 def print_version(version):
     print("|-----------------------------------|\r\n|          F O X  -  "+version+"          |        by Just_a_Mango\r\n|-----------------------------------|        @Just-A-Mango on GitHub\r\n")
@@ -301,9 +312,16 @@ def process(input,count):
                 var_value = input[0]
                 if str(var_value) == str(declared_variables_values[declared_variables.index(var_name)]):
                     condition_true = True
+                    is_condition = True
                 else:
                     is_condition = True
                     pass
+            elif input[0] == input [1] and check_variable_type(input[0], input[1]) == True:
+                condition_true = True
+                is_condition = True
+            elif input[0] != input [1] and check_variable_type(input[0], input[1]) == True:
+                is_condition = True
+                pass
             else:
                 error("Unknown variable referenced in condition", count)
     #Detect the end of a condition
