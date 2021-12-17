@@ -7,9 +7,7 @@ def ask_forfolder():
     root.attributes('-topmost', True)
     open_file = filedialog.askdirectory()
     return open_file
-
 auto_delete = False
-
 def install_module(module):
     try:
         import subprocess, os
@@ -22,7 +20,6 @@ def fail():
     print(colored.stylize("Fox installation failed. Please try again", colored.fg("red")))
     exit()
     
-
 install_module('rich')
 from rich.progress import Progress
 with Progress() as progress:
