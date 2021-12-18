@@ -3,8 +3,8 @@ name: Fox To Exe
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    paths:
+      - 'fox.py'
 
 jobs:
   build:
