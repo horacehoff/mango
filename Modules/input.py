@@ -1,8 +1,10 @@
 #Put all your needed imports here ('os' is required)
+# ⚠️ YOU MUST NOT REMOVE 'OS' ⚠️ 
 import os
 
 
 #Main function, input represents the given line where the function is called
+# ⚠️ YOU MUST NOT ALTER THE NAME OR THE ARGUMENTS OF THE FOLLOWING FUNCTION ⚠️ 
 def main(input):
     #Put all your code/actions here
     input = input.replace("input","")

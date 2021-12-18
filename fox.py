@@ -36,6 +36,7 @@ fox_version = 'InDev'
 #Variable used to identify if there is an ongoing condition in the current processed line
 condition_true = False
 is_condition = False
+is_else = False
 
 
 #Check if the modules' folder exists, and create it if it doesn't
@@ -60,15 +61,7 @@ def print_version(version):
     print("|-----------------------------------|\r\n|          F O X  -  "+version+"          |        by Just_a_Mango\r\n|-----------------------------------|        @Just-A-Mango on GitHub\r\n")
 
 
-#Returns true if the given code returns an error
-def iserror(func, *args, **kw):
-    exception = kw.pop('exception', Exception)
-    try:
-        func(*args, **kw)
-        return False
-    except exception:
-        return True
-
+#If the last element of the declared functions' values list returns an error, return False, else, return True
 def is_declaredfunctionsvalues_error():
     try:
         random_var = declared_functions_values[-1]
@@ -295,7 +288,7 @@ def process(input,count):
             #Replace the blank spaces and split the given expression into two to only get the variable's name and its (tested) value
             input = input.replace(" ","")
             input = input.split("=")
-            #If the given condition is true, then execute the code (only print it for now), else, *error*
+            #If the given condition is true, then execute the code, if the condition isn't true, then do nothing
             if input[0] in declared_variables:
                 var_name = input[0]
                 var_value = input[1]
@@ -316,6 +309,7 @@ def process(input,count):
                 else:
                     is_condition = True
                     pass
+            #The following code allows the condition to be True or False even if the given condition doesn't contain a variable
             elif input[0] == input [1] and check_variable_type(input[0], input[1]) == True:
                 condition_true = True
                 is_condition = True
@@ -324,13 +318,35 @@ def process(input,count):
                 pass
             else:
                 error("Unknown variable referenced in condition", count)
+    # ELSE
+    elif "else" in input:
+        # if (something) { 
+        # }
+        # else {
+        # }
+        #Make sure 'is_else' is referenced as a global variable
+        global is_else
+        #Make sure syntax is correct and there isn't already a running condition exception
+        try:
+            assert "{" in input
+            assert is_else == False
+        except:
+            error("No '{' at the end of the line", count)
+        try:
+            assert is_else == False
+        except:
+            error("You already are under a condition")
+        #Change is_else to True -> tells the program that there is a running condition exception
+        is_else = True
     #Detect the end of a condition
     elif "}" in input:
         try:
             declared_functions_values[-1] = declared_functions_values[-1]+str(count)
         except:
-            condition_true = False
-            is_condition = False
+            if is_else == True:
+                is_else = False
+            else:
+                is_condition = False
     # MODULES
     elif "import" in input:
         # import <module_name>
@@ -362,6 +378,7 @@ def process(input,count):
         except:
             try:
                 assert any(functionn in input for functionn in declared_functions) == False
+                assert any(module in input for module in modules) == False
                 error("Unknown function referenced: "+str(input), count)
             except:
                 pass
@@ -397,13 +414,24 @@ def dataread(file):
         for line in lines:
             #condition_true -> condition true ?
             #is_condition -> currently under a condition ?
+            #is_else -> currently under a condition exception ?
             #If currently under a condition and this condition is true -> process the line
             #If currently under a condition and this condition is false -> do nothing
+            #If currently under a condition exception and the target condition is False -> process the line
+            #If currently under a condition exception and the target condition is True -> do nothing
             #If there is a '#' at the beginning of the line, it's a comment -> do nothing
             #Else -> process the line
             if line.isspace() == True:
                 linecount = linecount + 1
-            elif "}" in line:
+            elif "}" in line and 'else' not in line:
+                process(line,linecount)
+                linecount = linecount + 1
+            elif 'else' in line and '{' in line and lines[linecount-2] == "}" and line[0] == "e":
+                process(line,linecount)
+                linecount = linecount + 1
+            elif condition_true == True and is_condition == False and is_else == True:
+                linecount = linecount + 1
+            elif condition_true == False and is_condition == False and is_else == True:
                 process(line,linecount)
                 linecount = linecount + 1
             elif line == '':
@@ -415,7 +443,10 @@ def dataread(file):
             elif line[0] == " " and condition_true == True and is_condition == True:
                 process(line,linecount)
                 linecount = linecount + 1
-            elif line[0] == " " and condition_true == False and is_condition == True:
+            elif line[0] == " " and condition_true == False and is_condition == True and is_else == False:
+                linecount = linecount + 1
+            elif line[0] == " " and is_else == True and condition_true == False:
+                process(line,linecount)
                 linecount = linecount + 1
             elif line[0] == " " and condition_true == False and is_condition == False:
                 error("Unexpected indent", linecount)

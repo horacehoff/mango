@@ -1,9 +1,6 @@
-define ok(input) {
-    print(input)
-}
-ok(HelloThere)
-
-
-if(Hi = 45) {
+if(8 = 7) {
     print(It's true!)
+}
+else {
+    print(It's not true!)
 }
