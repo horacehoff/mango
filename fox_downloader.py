@@ -7,7 +7,6 @@ except:
     install_module('rich')
     install_module('colored')
     install_module('requests')
-    install_module('readchar')
 
 def show_menu():
     import os, rich
@@ -44,7 +43,7 @@ def show_menu():
         os.system('cls' if os.name=='nt' else 'clear')
         rich.print('[bold red]Successfully downloaded and installed [italic green]Fox[/italic green][/bold red]')
         from msvcrt import getch
-        print("Press any key to exit...")
+        print("Press any key to quit...")
         junk = getch()
     elif index == 2:
         import shutil
