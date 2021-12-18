@@ -15,12 +15,22 @@ print(user_asked)
 ```python
 print(5+7/5*98)
 ```
-- If the number the user entered is 5, then print 'The number is 5!'
+- If the number the user entered is 5, then print 'The number is 5!', else, print 'The number is not 5!'
 ```cs
 declare my_var = ask(Enter a number: )
 if (my_var = 5) {
- print(5+7/5*98)
+ print(The number is 5!)
 }
+else {
+ print(The number is not 5!)
+}
+```
+- Declare a function and call it
+```cs
+define my_function() {
+ print(You just called my_function!)
+}
+my_function()
 ```
 And the list goes on...
 
