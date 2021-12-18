@@ -22,7 +22,7 @@ jobs:
       run:
         pip install pyinstaller
         
-        pyinstaller Installer/fox_downloader.py --onefile
+        pyinstaller fox_downloader.py --onefile
     - name: Upload Fox Installer Build Artifact
       uses: actions/upload-artifact@v2.3.0
       with:
