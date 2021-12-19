@@ -35,7 +35,5 @@ When adding and proposing new features to Fox, make sure to have read the follow
 
 ## Show your support
 
-Give a ⭐️ if this project helped you!
-***
-_Thank you [readme-md-generator](https://github.com/kefranabg/readme-md-generator) for generating this README with ❤️_
+Feel free to give a ⭐️ if this project helped you!
 
