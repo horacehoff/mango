@@ -25,6 +25,14 @@ fox.py -c
 
 Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/Just-A-Mango/fox/issues). 
 
+## Pull Requests
+
+When adding and proposing new features to Fox, make sure to have read the following:\
+&nbsp;&nbsp;-the added/improved code must be **readable**\
+&nbsp;&nbsp;-the added/improved code must be **commented**\
+&nbsp;&nbsp;-the added/improved code must **prioritise cross-platform and native solutions, use modules as less as possible**\
+&nbsp;&nbsp;-the comments must be as **understandable and concise** as possible
+
 ## Show your support
 
 Give a ⭐️ if this project helped you!
