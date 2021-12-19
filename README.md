@@ -28,10 +28,10 @@ Contributions, issues and feature requests are welcome!<br />Feel free to check 
 ## Pull Requests
 
 When adding and proposing new features to Fox, make sure to have read the following:\
-&nbsp;&nbsp;-the added/improved code must be **readable**\
-&nbsp;&nbsp;-the added/improved code must be **commented**\
-&nbsp;&nbsp;-the added/improved code must **prioritise cross-platform and native solutions, use modules as less as possible**\
-&nbsp;&nbsp;-the comments must be as **understandable and concise** as possible
+&nbsp;&nbsp;1️⃣-the added/improved code must be **readable**\
+&nbsp;&nbsp;2️⃣-the added/improved code must be **commented**\
+&nbsp;&nbsp;3️⃣-the added/improved code must **prioritise cross-platform and native solutions, use modules as less as possible**\
+&nbsp;&nbsp;4️⃣-the comments must be as **understandable and concise** as possible
 
 ## Show your support
 
