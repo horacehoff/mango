@@ -1,6 +1,2 @@
-if(8 = 7) {
-    print(It's true!)
-}
-else {
-    print(It's not true!)
-}
+import input
+input(Hello There)
