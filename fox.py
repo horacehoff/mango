@@ -43,6 +43,7 @@ is_else = False
 is_while = False
 while_true = False
 while_values = []
+while_conditions = []
 
 
 #Check if the modules' folder exists, and create it if it doesn't
@@ -135,11 +136,7 @@ def process(input,count):
         # print(something)
         try:
             #Remove print("") to only get what the user typed as the input
-            input = input.replace("print","")
-            input = input.replace("(","")
-            input = input.replace(")","")
-            input = input.replace("'","")
-            input = input.replace('"','')
+            input = input.replace("print","").replace("(","").replace(")","").replace("'","").replace('"','')
             #If what the user typed is a variable name, search it, get its value, and then print it
             if input in declared_variables:
                 print(declared_variables_values[declared_variables.index(input)])
@@ -473,7 +470,7 @@ def dataread(file):
             #If currently under a condition exception and the target condition is True -> do nothing
             #If there is a '#' at the beginning of the line, it's a comment -> do nothing
             #Else -> process the line
-            if line.isspace() == True:
+            if line.isspace() == True or line == '':
                 linecount = linecount + 1
             elif "}" in line and is_while == True and while_true == True:
                 while_values[-1] = while_values[-1]+str(linecount-1)

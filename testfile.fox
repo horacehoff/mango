@@ -1,5 +1,2 @@
-declare cool = 6
-while (cool = 6) {
-    print(Hellooo)
-    print(Is working?)
-}
+declare ok = 4
+print(ok+2)
