@@ -39,6 +39,12 @@ is_condition = False
 is_else = False
 
 
+#Variales related to the 'while' function/featrue
+is_while = False
+while_true = False
+while_values = []
+
+
 #Check if the modules' folder exists, and create it if it doesn't
 def check_modules_folder():
     from pathlib import Path
@@ -120,6 +126,9 @@ def detect_modules():
 
 #Basically the function that IS the language
 def process(input,count):
+    global is_while
+    global while_true
+    global while_values
     # PRINT
     if "print" in input:
         input = input.lstrip()
@@ -273,9 +282,7 @@ def process(input,count):
         # }
         #Make sure the given syntax is correct, else, *error*
         try:
-            assert "(" in input
-            assert ")" in input
-            assert "{" in input
+            assert "(" in input and ")" in input and "{" in input
         except:
             error("Please check the condition syntax",count)
         #Replace all the unused words to only get the condition (for example, 'if (something = 10) {' => 'something=10'))
@@ -328,8 +335,7 @@ def process(input,count):
         global is_else
         #Make sure syntax is correct and there isn't already a running condition exception
         try:
-            assert "{" in input
-            assert is_else == False
+            assert "{" in input and is_else == False
         except:
             error("No '{' at the end of the line", count)
         try:
@@ -343,10 +349,58 @@ def process(input,count):
         try:
             declared_functions_values[-1] = declared_functions_values[-1]+str(count)
         except:
-            if is_else == True:
+            if is_while == True:
+                while_values[-1] = while_values[-1]+str(count-1)
+                is_while == False
+                while_true == False
+            elif is_else == True:
                 is_else = False
             else:
                 is_condition = False
+    # WHILE
+    elif "while" in input:
+        # while (something) {
+        # }
+        try:
+            assert "{" in input and "(" in input and ")" in input
+        except:
+            error("Syntax error",count)
+        input = input[input.find('(')+1:input.find(')')]
+        if "=" in input:
+            #Replace the blank spaces and split the given expression into two to only get the variable's name and its (tested) value
+            input = input.replace(" ","")
+            input = input.split("=")
+            #If the given condition is true, then execute the code, if the condition isn't true, then do nothing
+            if input[0] in declared_variables:
+                var_name = input[0]
+                var_value = input[1]
+                if str(var_value) == str(declared_variables_values[declared_variables.index(var_name)]):
+                    while_true = True
+                    is_while = True
+                    while_values.append(str(count)+'-')
+                else:
+                    is_while = True
+                    pass
+            elif input[1] in declared_variables:
+                var_name = input[1]
+                var_value = input[0]
+                if str(var_value) == str(declared_variables_values[declared_variables.index(var_name)]):
+                    while_true = True
+                    is_while = True
+                    while_values.append(str(count)+'-')
+                else:
+                    is_while = True
+                    pass
+            #The following code allows the condition to be True or False even if the given condition doesn't contain a variable
+            elif input[0] == input [1] and check_variable_type(input[0], input[1]) == True:
+                while_true = True
+                while_values.append(str(count)+'-')
+                is_while = True
+            elif input[0] != input [1] and check_variable_type(input[0], input[1]) == True:
+                is_while = True
+                pass
+            else:
+                error("Unknown variable referenced in 'while'", count)
     # MODULES
     elif "import" in input:
         # import <module_name>
@@ -354,9 +408,7 @@ def process(input,count):
         modules.append(input.replace("import","").replace(" ",""))
     elif "define" in input:
         try:
-            assert "(" in input
-            assert ")" in input
-            assert "{" in input
+            assert "(" in input and ")" in input and "{" in input
         except:
             error("Please check the function syntax",count)
         input = input.replace("define","")
@@ -423,11 +475,26 @@ def dataread(file):
             #Else -> process the line
             if line.isspace() == True:
                 linecount = linecount + 1
+            elif "}" in line and is_while == True and while_true == True:
+                while_values[-1] = while_values[-1]+str(linecount-1)
+                while_start = while_values[-1].split('-')[0]
+                while_end = while_values[-1].split('-')[1]
+                while_lines = list(range(int(while_start), int(while_end)))
+                print(lines[int(while_start)].lstrip())
+                print(while_lines)
+                while while_true == True:
+                    for while_line in while_lines:
+                        process(lines[while_line].lstrip(),while_line)
+                linecount = linecount + 1
             elif "}" in line and 'else' not in line:
                 process(line,linecount)
                 linecount = linecount + 1
             elif 'else' in line and '{' in line and lines[linecount-2] == "}" and line[0] == "e":
                 process(line,linecount)
+                linecount = linecount + 1
+            elif line[0] == " " and is_while == True and while_true == True:
+                linecount = linecount + 1
+            elif line[0] == " " and is_while == True and while_true == False:
                 linecount = linecount + 1
             elif condition_true == True and is_condition == False and is_else == True:
                 linecount = linecount + 1

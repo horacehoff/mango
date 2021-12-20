@@ -7,6 +7,7 @@ import os
 # ⚠️ YOU MUST NOT ALTER THE NAME OR THE ARGUMENTS OF THE FOLLOWING FUNCTION ⚠️ 
 def main(input):
     #Put all your code/actions here
+    print(input)
     os.system("color 2")
     print("Hello World")
     print("This is an example module")

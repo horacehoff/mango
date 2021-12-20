@@ -1,2 +1,5 @@
-import input
-input(Hello There)
+declare cool = 6
+while (cool = 6) {
+    print(Hellooo)
+    print(Is working?)
+}
