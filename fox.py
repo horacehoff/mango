@@ -38,12 +38,21 @@ condition_true = False
 is_condition = False
 is_else = False
 
+conditions = []
+conditions_lines = []
+conditions_level_of_indent = []
+
 
 #Variales related to the 'while' function/featrue
 is_while = False
 while_true = False
 while_values = []
 while_conditions = []
+
+
+
+is_bracket = False
+
 
 
 #Check if the modules' folder exists, and create it if it doesn't
@@ -127,11 +136,28 @@ def detect_modules():
 
 #Basically the function that IS the language
 def process(input,count):
+    original_input = input
     global is_while
     global while_true
     global while_values
+    global conditions
+    global conditions_lines
+    global conditions_level_of_indent
+    global is_bracket
+    if input[0] == " " and is_bracket == False:
+        indent_length = 4
+        print(conditions)
+        print(conditions_lines)
+        print(conditions_level_of_indent)
+        if "}" not in input and "if" not in input:
+            process(input.lstrip(), count)
+        elif 
+        else:
+            is_bracket = True
+            process(input, count)
+            
     # PRINT
-    if "print" in input:
+    elif "print" in input:
         input = input.lstrip()
         # print(something)
         try:
@@ -158,13 +184,15 @@ def process(input,count):
                         for arg in args:
                             #If detected arguments are known variables, join and print them
                             if arg in declared_variables:
-                                final_print = final_print+declared_variables_values[declared_variables.index(arg)]
+                                final_print = final_print+str(declared_variables_values[declared_variables.index(arg)])
+                            elif arg in declared_lists:
+                                final_print = final_print+str(declared_lists_values[declared_lists.index(arg)]).replace("+",",")
                             else:
                                 #If it can calculate, then do so, else, join
                                 try:
                                     final_print = final_print+eval(arg)
                                 except: 
-                                    final_print = final_print+arg
+                                    final_print = final_print+str(arg)
                         print(final_print)
                     #The user tries to join strings/numbers
                     elif ',' in input:
@@ -214,6 +242,9 @@ def process(input,count):
                 elif 'ask(' in var_value:
                     declared_variables.append(var_name)
                     declared_variables_values.append(askfor(var_value.replace("(","").replace(")","").replace("ask","").replace("'","").replace('"','')))
+                elif var_value in declared_variables:
+                    declared_variables.append(var_name)
+                    declared_variables_values.append(declared_variables_values[declared_variables.index(var_value)])
                 #Else, just declare and add it
                 else:
                     try:
@@ -301,8 +332,14 @@ def process(input,count):
                     global is_condition
                     condition_true = True
                     is_condition = True
+                    conditions.append(True)
+                    conditions_lines.append(str(count)+'-')
+                    conditions_level_of_indent.append(len(original_input) - len(original_input.lstrip(' ')))
                 else:
                     is_condition = True
+                    conditions.append(False)
+                    conditions_lines.append(str(count)+'-')
+                    conditions_level_of_indent.append(len(original_input) - len(original_input.lstrip(' ')))
                     pass
             elif input[1] in declared_variables:
                 var_name = input[1]
@@ -310,15 +347,27 @@ def process(input,count):
                 if str(var_value) == str(declared_variables_values[declared_variables.index(var_name)]):
                     condition_true = True
                     is_condition = True
+                    conditions.append(True)
+                    conditions_lines.append(str(count)+'-')
+                    conditions_level_of_indent.append(len(original_input) - len(original_input.lstrip(' ')))
                 else:
                     is_condition = True
+                    conditions.append(False)
+                    conditions_lines.append(str(count)+'-')
+                    conditions_level_of_indent.append(len(original_input) - len(original_input.lstrip(' ')))
                     pass
             #The following code allows the condition to be True or False even if the given condition doesn't contain a variable
             elif input[0] == input [1] and check_variable_type(input[0], input[1]) == True:
                 condition_true = True
                 is_condition = True
+                conditions.append(True)
+                conditions_lines.append(str(count)+'-')
+                conditions_level_of_indent.append(len(original_input) - len(original_input.lstrip(' ')))
             elif input[0] != input [1] and check_variable_type(input[0], input[1]) == True:
                 is_condition = True
+                conditions.append(False)
+                conditions_lines.append(str(count)+'-')
+                conditions_level_of_indent.append(len(original_input) - len(original_input.lstrip(' ')))
                 pass
             else:
                 error("Unknown variable referenced in condition", count)
@@ -343,17 +392,9 @@ def process(input,count):
         is_else = True
     #Detect the end of a condition
     elif "}" in input:
-        try:
-            declared_functions_values[-1] = declared_functions_values[-1]+str(count)
-        except:
-            if is_while == True:
-                while_values[-1] = while_values[-1]+str(count-1)
-                is_while == False
-                while_true == False
-            elif is_else == True:
-                is_else = False
-            else:
-                is_condition = False
+        level_of_indent = len(input) - len(input.lstrip(' '))
+        conditions_lines[conditions_level_of_indent.index(level_of_indent)] = conditions_lines[conditions_level_of_indent.index(level_of_indent)] + str(count)
+        is_bracket = False
     # WHILE
     elif "while" in input:
         # while (something) {
@@ -403,6 +444,10 @@ def process(input,count):
         # import <module_name>
         #If a module is imported, add it to the imported modules' list
         modules.append(input.replace("import","").replace(" ",""))
+        try:
+            open(os.getcwd()+'\\Modules\\'+input.replace("import","").replace(" ","")+'.py', 'r')
+        except:
+            error("Unknown module [bold red]"+input.replace("import","").replace(" ","")+'[/bold red]', count)
     elif "define" in input:
         try:
             assert "(" in input and ")" in input and "{" in input
@@ -472,82 +517,8 @@ def dataread(file):
             #Else -> process the line
             if line.isspace() == True or line == '':
                 linecount = linecount + 1
-            elif "}" in line and is_while == True and while_true == True:
-                while_values[-1] = while_values[-1]+str(linecount-1)
-                while_start = while_values[-1].split('-')[0]
-                while_end = while_values[-1].split('-')[1]
-                while_lines = list(range(int(while_start), int(while_end)))
-                print(lines[int(while_start)].lstrip())
-                print(while_lines)
-                while while_true == True:
-                    for while_line in while_lines:
-                        process(lines[while_line].lstrip(),while_line)
-                linecount = linecount + 1
-            elif "}" in line and 'else' not in line:
-                process(line,linecount)
-                linecount = linecount + 1
-            elif 'else' in line and '{' in line and lines[linecount-2] == "}" and line[0] == "e":
-                process(line,linecount)
-                linecount = linecount + 1
-            elif line[0] == " " and is_while == True and while_true == True:
-                linecount = linecount + 1
-            elif line[0] == " " and is_while == True and while_true == False:
-                linecount = linecount + 1
-            elif condition_true == True and is_condition == False and is_else == True:
-                linecount = linecount + 1
-            elif condition_true == False and is_condition == False and is_else == True:
-                process(line,linecount)
-                linecount = linecount + 1
-            elif line == '':
-                linecount = linecount + 1
-            elif line[0] == " " and condition_true == False and is_condition == False and declared_functions_values[-1].split("-")[1] == "":
-                linecount = linecount + 1
-            elif line.lstrip()[0] == "#":
-                linecount = linecount + 1
-            elif line[0] == " " and condition_true == True and is_condition == True:
-                process(line,linecount)
-                linecount = linecount + 1
-            elif line[0] == " " and condition_true == False and is_condition == True and is_else == False:
-                linecount = linecount + 1
-            elif line[0] == " " and is_else == True and condition_true == False:
-                process(line,linecount)
-                linecount = linecount + 1
-            elif line[0] == " " and condition_true == False and is_condition == False:
-                error("Unexpected indent", linecount)
             else:
-                for function in declared_functions:
-                    if function in line:
-                        try:
-                            assert "(" in line
-                            assert ")" in line
-                        except:
-                            error("You forgot the () when calling the function [italic]"+function+"[/italic]", linecount)
-                        function_lines = declared_functions_values[declared_functions.index(function)].split('-')
-                        function_arguments = declared_functions_parameters[declared_functions.index(function)].replace(" ","").split(',')
-                        function_start = int(function_lines[0])
-                        function_end = int(function_lines[1]) - 1
-                        index = int(function_start)
-                        in_brackets = line.replace(" ","")[line.find('(')+1:line.find(')')].replace(")","").split(",")
-                        indextwo = 0
-                        for arg in function_arguments:
-                            try:
-                                if in_brackets[indextwo] in declared_variables:
-                                    declared_variables.append(arg)
-                                    declared_variables_values.append(declared_variables_values[declared_variables.index(in_brackets[indextwo])])
-                                    indextwo = indextwo + 1
-                                else:
-                                    declared_variables.append(arg)
-                                    declared_variables_values.append(in_brackets[indextwo])
-                                    indextwo = indextwo + 1
-                            except:
-                                pass
-                        while index < function_end:
-                            process(lines[index].lstrip(), index)
-                            index = index + 1
-                        break
-                    else:
-                        pass
-                process(line,linecount)
+                process(line, linecount)
                 linecount = linecount + 1
 
 

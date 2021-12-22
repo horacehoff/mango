@@ -1,2 +1,7 @@
-declare ok = 4
-print(ok+2)
+
+if (hello = hello) {
+    print(Hello)
+    if (nice = cool) {
+        print(Ahoy)
+    }
+}
