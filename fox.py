@@ -145,16 +145,25 @@ def process(input,count):
     global conditions_level_of_indent
     global is_bracket
     if input[0] == " " and is_bracket == False:
-        indent_length = 4
-        print(conditions)
-        print(conditions_lines)
-        print(conditions_level_of_indent)
-        if "}" not in input and "if" not in input:
+        matching = [num for num in conditions_lines if num.split('-')[1] == ""]
+        matches = []
+        for match in matching:
+            matches.append(conditions[conditions_lines.index(match)])
+        for element in matches:
+            if element == True:
+                result = True
+            else:
+                result = False
+                break
+        if "}" not in input and "if" not in input and result == True:
             process(input.lstrip(), count)
-        elif 
         else:
-            is_bracket = True
-            process(input, count)
+            if result == True:
+                is_bracket = True
+                process(input, count)
+            else:
+                is_bracket = True
+                pass
             
     # PRINT
     elif "print" in input:
@@ -306,6 +315,7 @@ def process(input,count):
             error("Failed to print('<whatever you asked>')",count)
     # IF
     elif "if" in input:
+        is_bracket = False
         # if (something) {
         # }
         #Make sure the given syntax is correct, else, *error*
@@ -392,9 +402,9 @@ def process(input,count):
         is_else = True
     #Detect the end of a condition
     elif "}" in input:
+        is_bracket = False
         level_of_indent = len(input) - len(input.lstrip(' '))
         conditions_lines[conditions_level_of_indent.index(level_of_indent)] = conditions_lines[conditions_level_of_indent.index(level_of_indent)] + str(count)
-        is_bracket = False
     # WHILE
     elif "while" in input:
         # while (something) {

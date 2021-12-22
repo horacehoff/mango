@@ -1,7 +1,9 @@
-
 if (hello = hello) {
-    print(Hello)
-    if (nice = cool) {
-        print(Ahoy)
+    print(Hiiiii)
+    if (cool = col) {
+        print(Yoss)
+    }
+    if (yoss = yss) {
+        print(Ahoyyy)
     }
 }
