@@ -21,7 +21,7 @@ declared_lists_values = []
 
 #Declare the lists where the functions and the lines they're assigned to are stored
 declared_functions = []
-declared_functions_values = []
+declared_functions_lines = []
 declared_functions_parameters = []
 
 
@@ -36,7 +36,9 @@ fox_version = 'InDev'
 #Variable used to identify if there is an ongoing condition in the current processed line
 condition_true = False
 is_condition = False
-is_else = False
+
+elses_lines = []
+elses_indents = []
 
 conditions = []
 conditions_lines = []
@@ -80,7 +82,7 @@ def print_version(version):
 #If the last element of the declared functions' values list returns an error, return False, else, return True
 def is_declaredfunctionsvalues_error():
     try:
-        random_var = declared_functions_values[-1]
+        random_var = declared_functions_lines[-1]
         return False
     except:
         return True
@@ -141,7 +143,6 @@ def process(input,count):
     global while_true
     global while_values
     global conditions
-    global conditions_lines
     global conditions_level_of_indent
     global is_bracket
     if input[0] == " " and is_bracket == False:
@@ -149,14 +150,22 @@ def process(input,count):
         matches = []
         for match in matching:
             matches.append(conditions[conditions_lines.index(match)])
+        if not matches:
+            result = False
         for element in matches:
             if element == True:
                 result = True
             else:
                 result = False
                 break
-        if "}" not in input and "if" not in input and result == True:
+        if "}" not in input and "if" not in input and "else" not in input and result == True:
             process(input.lstrip(), count)
+        elif elses_lines and elses_lines[-1].split("-")[1] == "":
+            matching = [num for num in conditions_level_of_indent if num == elses_indents[-1]]
+            if conditions[conditions_level_of_indent.index(matching[-1])] == False:
+                process(input.lstrip(), count)
+            else:
+                pass
         else:
             if result == True:
                 is_bracket = True
@@ -387,24 +396,19 @@ def process(input,count):
         # }
         # else {
         # }
-        #Make sure 'is_else' is referenced as a global variable
-        global is_else
-        #Make sure syntax is correct and there isn't already a running condition exception
-        try:
-            assert "{" in input and is_else == False
-        except:
-            error("No '{' at the end of the line", count)
-        try:
-            assert is_else == False
-        except:
-            error("You already are under a condition")
-        #Change is_else to True -> tells the program that there is a running condition exception
-        is_else = True
+        elses_lines.append(str(count)+'-')
+        elses_indents.append(len(original_input) - len(original_input.lstrip(' ')))
+        
+        
     #Detect the end of a condition
     elif "}" in input:
         is_bracket = False
         level_of_indent = len(input) - len(input.lstrip(' '))
-        conditions_lines[conditions_level_of_indent.index(level_of_indent)] = conditions_lines[conditions_level_of_indent.index(level_of_indent)] + str(count)
+        if conditions_lines and conditions_lines[-1].split("-")[1] == "":
+            conditions_lines[conditions_level_of_indent.index(level_of_indent)] = conditions_lines[conditions_level_of_indent.index(level_of_indent)] + str(count)
+        elif elses_lines and elses_lines[-1].split("-")[1] == "":
+            matching = [num for num in elses_indents if num == level_of_indent and elses_lines[elses_indents.index(num)].split('-')[1] == ""]
+            elses_lines[elses_indents.index(matching[-1])] = elses_lines[elses_indents.index(matching[-1])] + str(count)
     # WHILE
     elif "while" in input:
         # while (something) {
@@ -474,11 +478,11 @@ def process(input,count):
             error("An existing function with the same name already exists: "+function_name, count)
         declared_functions.append(function_name.strip())
         declared_functions_parameters.append(in_brackets)
-        declared_functions_values.append(str(count)+'-')
+        declared_functions_lines.append(str(count)+'-')
     #If the given line contains any module's name, communicate with that module and process the desired function/action
     else:
         try:
-            assert modules.len > 1
+            assert len(modules) > 1
         except:
             try:
                 assert any(functionn in input for functionn in declared_functions) == False
@@ -516,15 +520,6 @@ def dataread(file):
             lines.append(line)
         linecount = 1
         for line in lines:
-            #condition_true -> condition true ?
-            #is_condition -> currently under a condition ?
-            #is_else -> currently under a condition exception ?
-            #If currently under a condition and this condition is true -> process the line
-            #If currently under a condition and this condition is false -> do nothing
-            #If currently under a condition exception and the target condition is False -> process the line
-            #If currently under a condition exception and the target condition is True -> do nothing
-            #If there is a '#' at the beginning of the line, it's a comment -> do nothing
-            #Else -> process the line
             if line.isspace() == True or line == '':
                 linecount = linecount + 1
             else:

@@ -1,9 +1,12 @@
-if (hello = hello) {
-    print(Hiiiii)
-    if (cool = col) {
-        print(Yoss)
+if (col = cool) {
+    print(Ah)
+    if (nice = nice) {
+        print(Yp)
     }
-    if (yoss = yss) {
-        print(Ahoyyy)
+    else {
+        print(Not true)
     }
+}
+else {
+    print(Ahoyy)
 }
