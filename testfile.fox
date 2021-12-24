@@ -1,4 +1,7 @@
-declare my_var = 6
+declare my_var = ask(Enter number)
 if (my_var = 7) {
     print(Ah)
+}
+else {
+    print(Yes.)
 }
