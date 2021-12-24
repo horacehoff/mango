@@ -409,50 +409,6 @@ def process(input,count):
         elif elses_lines and elses_lines[-1].split("-")[1] == "":
             matching = [num for num in elses_indents if num == level_of_indent and elses_lines[elses_indents.index(num)].split('-')[1] == ""]
             elses_lines[elses_indents.index(matching[-1])] = elses_lines[elses_indents.index(matching[-1])] + str(count)
-    # WHILE
-    elif "while" in input:
-        # while (something) {
-        # }
-        try:
-            assert "{" in input and "(" in input and ")" in input
-        except:
-            error("Syntax error",count)
-        input = input[input.find('(')+1:input.find(')')]
-        if "=" in input:
-            #Replace the blank spaces and split the given expression into two to only get the variable's name and its (tested) value
-            input = input.replace(" ","")
-            input = input.split("=")
-            #If the given condition is true, then execute the code, if the condition isn't true, then do nothing
-            if input[0] in declared_variables:
-                var_name = input[0]
-                var_value = input[1]
-                if str(var_value) == str(declared_variables_values[declared_variables.index(var_name)]):
-                    while_true = True
-                    is_while = True
-                    while_values.append(str(count)+'-')
-                else:
-                    is_while = True
-                    pass
-            elif input[1] in declared_variables:
-                var_name = input[1]
-                var_value = input[0]
-                if str(var_value) == str(declared_variables_values[declared_variables.index(var_name)]):
-                    while_true = True
-                    is_while = True
-                    while_values.append(str(count)+'-')
-                else:
-                    is_while = True
-                    pass
-            #The following code allows the condition to be True or False even if the given condition doesn't contain a variable
-            elif input[0] == input [1] and check_variable_type(input[0], input[1]) == True:
-                while_true = True
-                while_values.append(str(count)+'-')
-                is_while = True
-            elif input[0] != input [1] and check_variable_type(input[0], input[1]) == True:
-                is_while = True
-                pass
-            else:
-                error("Unknown variable referenced in 'while'", count)
     # MODULES
     elif "import" in input:
         # import <module_name>
@@ -462,23 +418,6 @@ def process(input,count):
             open(os.getcwd()+'\\Modules\\'+input.replace("import","").replace(" ","")+'.py', 'r')
         except:
             error("Unknown module [bold red]"+input.replace("import","").replace(" ","")+'[/bold red]', count)
-    elif "define" in input:
-        try:
-            assert "(" in input and ")" in input and "{" in input
-        except:
-            error("Please check the function syntax",count)
-        input = input.replace("define","")
-        input = input.strip()
-        function_name = input
-        in_brackets = input[input.find('(')+1:input.find(')')]
-        function_name = input.replace("("+in_brackets+")","").replace("{","")
-        try:
-            assert function_name not in declared_functions
-        except:
-            error("An existing function with the same name already exists: "+function_name, count)
-        declared_functions.append(function_name.strip())
-        declared_functions_parameters.append(in_brackets)
-        declared_functions_lines.append(str(count)+'-')
     #If the given line contains any module's name, communicate with that module and process the desired function/action
     else:
         try:
