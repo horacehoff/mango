@@ -1,12 +1,4 @@
-if (col = cool) {
+declare my_var = 6
+if (my_var = 7) {
     print(Ah)
-    if (nice = nice) {
-        print(Yp)
-    }
-    else {
-        print(Not true)
-    }
-}
-else {
-    print(Ahoyy)
 }
