@@ -1,7 +1,3 @@
-declare my_var = ask(Enter number)
-if (my_var = 7) {
-    print(Ah)
-}
-else {
-    print(Yes.)
+if (nice = nice) {
+    print(Dodado)
 }

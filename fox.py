@@ -22,7 +22,8 @@ declared_lists_values = []
 #Declare the lists where the functions and the lines they're assigned to are stored
 declared_functions = []
 declared_functions_lines = []
-declared_functions_parameters = []
+declared_functions_arguments = []
+declared_functions_indents = []
 
 
 #Declare the imported modules
@@ -51,11 +52,8 @@ while_true = False
 while_values = []
 while_conditions = []
 
-
-
 is_bracket = False
-
-
+all_lines = []
 
 #Check if the modules' folder exists, and create it if it doesn't
 def check_modules_folder():
@@ -152,17 +150,15 @@ def process(input,count):
             matches.append(conditions[conditions_lines.index(match)])
         if not matches:
             result = False
-        for element in matches:
-            if element == True:
-                result = True
-            else:
-                result = False
-                break
-        if "}" not in input and "if" not in input and "else" not in input and result == True:
-            process(input.lstrip(), count)
-        elif elses_lines and elses_lines[-1].split("-")[1] == "":
-            matching = [num for num in conditions_level_of_indent if num == elses_indents[-1]]
-            if conditions[conditions_level_of_indent.index(matching[-1])] == False:
+        else:
+            for element in matches:
+                if element == True:
+                    result = True
+                else:
+                    result = False
+                    break
+        if "}" not in input and "if" not in input and "else" not in input:
+            if result == True:
                 process(input.lstrip(), count)
             else:
                 pass
@@ -171,7 +167,6 @@ def process(input,count):
                 is_bracket = True
                 process(input, count)
             else:
-                is_bracket = True
                 pass
             
     # PRINT
@@ -392,23 +387,20 @@ def process(input,count):
                 error("Unknown variable referenced in condition", count)
     # ELSE
     elif "else" in input:
-        # if (something) { 
-        # }
-        # else {
-        # }
-        elses_lines.append(str(count)+'-')
+        try:
+            assert "{" in input
+        except:
+            error("Bad syntax when declaring condition exception -> "+input,count)
+        elses_lines.append(str(count)+"-")
         elses_indents.append(len(original_input) - len(original_input.lstrip(' ')))
-        
-        
     #Detect the end of a condition
     elif "}" in input:
         is_bracket = False
         level_of_indent = len(input) - len(input.lstrip(' '))
-        if conditions_lines and conditions_lines[-1].split("-")[1] == "":
+        if conditions_lines and [num for num in conditions_lines if num.split('-')[1] == ""]:
             conditions_lines[conditions_level_of_indent.index(level_of_indent)] = conditions_lines[conditions_level_of_indent.index(level_of_indent)] + str(count)
-        elif elses_lines and elses_lines[-1].split("-")[1] == "":
-            matching = [num for num in elses_indents if num == level_of_indent and elses_lines[elses_indents.index(num)].split('-')[1] == ""]
-            elses_lines[elses_indents.index(matching[-1])] = elses_lines[elses_indents.index(matching[-1])] + str(count)
+        elif declared_functions_lines and declared_functions_lines[declared_functions_indents.index(level_of_indent)].split('-')[1] == "":
+            declared_functions_lines[declared_functions_indents.index(level_of_indent)] = declared_functions_lines[declared_functions_indents.index(level_of_indent)] + str(count)
     # MODULES
     elif "import" in input:
         # import <module_name>
@@ -418,6 +410,32 @@ def process(input,count):
             open(os.getcwd()+'\\Modules\\'+input.replace("import","").replace(" ","")+'.py', 'r')
         except:
             error("Unknown module [bold red]"+input.replace("import","").replace(" ","")+'[/bold red]', count)
+    elif "define" in input:
+        try:
+            assert "{" in input and "(" in input and ")" in input
+        except:
+            error("Bad syntax when trying to define a function -> "+input, count)
+        function_name = input.replace("define","").replace(" ","").replace("("+input[input.find("(")+1:input.find(")")]+")","").replace("{","")
+        function_arguments = input[input.find("(")+1:input.find(")")]
+        declared_functions.append(function_name)
+        declared_functions_arguments.append(function_arguments)
+        declared_functions_lines.append(str(count)+'-')
+        declared_functions_indents.append(len(input) - len(input.lstrip(' ')))
+    elif declared_functions:
+        for function in declared_functions:
+            if function in input:
+                try:
+                    assert "(" in input and ")" in input
+                except:
+                    error("You forgot the () when calling "+function+"() -> "+input, count)
+                func_lines = declared_functions_lines[declared_functions.index(function)].split('-')
+                rng = list(range(int(func_lines[0]), int(func_lines[-1])))
+                rng.remove(rng[0])
+                rng = [x - 1 for x in rng]
+                for line in rng:
+                    is_bracket = True
+                    process(all_lines[line], count)
+                break
     #If the given line contains any module's name, communicate with that module and process the desired function/action
     else:
         try:
@@ -425,10 +443,23 @@ def process(input,count):
         except:
             try:
                 assert any(functionn in input for functionn in declared_functions) == False
-                assert any(module in input for module in modules) == False
-                error("Unknown function referenced: "+str(input), count)
             except:
-                pass
+                for function in declared_functions:
+                    if function in input:
+                        try:
+                            assert "(" in input and ")" in input
+                        except:
+                            error("You forgot the () when calling "+function+"() -> "+input, count)
+                        func_lines = declared_functions_lines[declared_functions.index(function)].split('-')
+                        rng = list(range(int(func_lines[0]), int(func_lines[-1])))
+                        rng.remove(rng[0])
+                        rng = [x - 1 for x in rng]
+                        print(rng)
+                        for line in rng:
+                            process(all_lines[line], count)
+                        break
+            assert any(module in input for module in modules) == False
+            error("Unknown function referenced: "+str(input), count)
         for module in modules:
             if module in input and "import" not in input:
                 with open(os.getcwd() + '\\Modules\\input.txt', 'x') as f:
@@ -449,7 +480,7 @@ def dataread(file):
         assert file.split('.')[1] == 'fox'
     except:
         error(file+' is not a .fox file',0)
-    #Try to open the file a²nd convert the entire file into individual lines
+    #Try to open the file and convert the entire file into individual lines
     file1 = open(str(file), 'r')
     linecount = 0
     lines = []
@@ -457,6 +488,8 @@ def dataread(file):
         for line in file:
             line = line.replace('\n','')
             lines.append(line)
+        global all_lines
+        all_lines = lines
         linecount = 1
         for line in lines:
             if line.isspace() == True or line == '':
@@ -479,4 +512,4 @@ try:
         if currentArgument in ("-c", "--CheckInstall"):
             print_version(fox_version)
 except getopt.error as err:
-    print (str(err))
+    print(str(err))
