@@ -144,9 +144,10 @@ def process(input,count):
     global conditions_level_of_indent
     global is_bracket
     if input[0] == " " and is_bracket == False:
-        matching = [num for num in conditions_lines if num.split('-')[1] == ""]
+        matching_conditions = [num for num in conditions_lines if num.split('-')[1] == ""]
+        matching_functions = [num for num in conditions_lines if num.split('-')[1] == ""]
         matches = []
-        for match in matching:
+        for match in matching_conditions:
             matches.append(conditions[conditions_lines.index(match)])
         if not matches:
             result = False
@@ -157,7 +158,7 @@ def process(input,count):
                 else:
                     result = False
                     break
-        if "}" not in input and "if" not in input and "else" not in input:
+        if "}" not in input and "if" not in input and "define" not in input and "else" not in input:
             if result == True:
                 process(input.lstrip(), count)
             else:

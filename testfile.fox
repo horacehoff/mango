@@ -1,3 +1,4 @@
-if (nice = nice) {
-    print(Dodado)
+define my_var() {
+    print(Hullo there)
 }
+my_var()
