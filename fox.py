@@ -144,6 +144,10 @@ def process(input,count):
     global conditions_level_of_indent
     global is_bracket
     if input[0] == " " and is_bracket == False:
+        if declared_functions_lines[-1].split('-')[1] == "":
+            return
+        else:
+            pass
         matching_conditions = [num for num in conditions_lines if num.split('-')[1] == ""]
         matching_functions = [num for num in conditions_lines if num.split('-')[1] == ""]
         matches = []
@@ -435,7 +439,7 @@ def process(input,count):
                 rng = [x - 1 for x in rng]
                 for line in rng:
                     is_bracket = True
-                    process(all_lines[line], count)
+                    process(str(all_lines[line]).removeprefix('    '), count)
                 break
     #If the given line contains any module's name, communicate with that module and process the desired function/action
     else:
