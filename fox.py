@@ -134,6 +134,12 @@ def detect_modules():
     return modules
 
 
+def obj_property(object, property, count):
+    if property == "removespace":
+        return object.replace("e","")
+    else:
+        error("Unknown property for object [italic red]"+object+"[/italic red] -> [bold purple]"+property+"[/bold purple]", count)
+
 #Basically the function that IS the language
 def process(input,count):
     original_input = input
@@ -143,6 +149,13 @@ def process(input,count):
     global conditions
     global conditions_level_of_indent
     global is_bracket
+    if "." in input:
+        print([num for num in input.split(' ') if "." in num])
+        if "(" in input and ")" in input:
+            in_between_token = input[input.find("(")+1:input.find(")")]
+            value_token = [num for num in in_between_token.split(' ') if "." in num][-1].split(".")[0]
+            effect_token = [num for num in in_between_token.split(' ') if "." in num][-1].split(".")[1]
+        input = input.replace(value_token+"."+effect_token, obj_property(value_token, effect_token, count))
     if input[0] == " " and is_bracket == False:
         if declared_functions_lines[-1].split('-')[1] == "":
             return

@@ -1,7 +1,1 @@
-define my_var() {
-    print(Hullo there)
-    if (ok = cool) {
-        print(Niiice)
-    }
-}
-my_var()
+print(hello there.removespace)
