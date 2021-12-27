@@ -77,15 +77,6 @@ def print_version(version):
     print("|-----------------------------------|\r\n|          F O X  -  "+version+"          |        by Just_a_Mango\r\n|-----------------------------------|        @Just-A-Mango on GitHub\r\n")
 
 
-#If the last element of the declared functions' values list returns an error, return False, else, return True
-def is_declaredfunctionsvalues_error():
-    try:
-        random_var = declared_functions_lines[-1]
-        return False
-    except:
-        return True
-
-
 #Installs any given module at runtime in the background
 def install_module(module):
     try:
@@ -93,11 +84,6 @@ def install_module(module):
         subprocess.call(["pip", "install", module], stdout = open(os.devnull, "w"), stderr = subprocess.STDOUT)
     except:
         pass
-
-
-#Prints the current Fox installation directory
-def get_dir():
-    print("Fox installation directory: "+os.getcwd())
 
 
 #Function used to ask, if the user asks!
@@ -117,28 +103,15 @@ def error(error,count):
     exit()
 
 
-#Detect the installed modules/functions
-def detect_modules():
-    modules = []
-    from fnmatch import fnmatch
-    root = os.getcwd() + '\\Modules\\'
-    pattern = "*.py"
-    for path, subdirs, files in os.walk(root):
-        for name in files:
-            if fnmatch(name, pattern):
-                modules.append(name.replace(".py",""))
-    try:
-        os.remove(os.getcwd()+'\\Modules\\input.txt')
-    except:
-        pass
-    return modules
-
-
+#All the properties associated with objects
 def obj_property(object, property, count):
     if property == "removespace":
         return object.replace("e","")
+    elif property == "uppercase":
+        return object.upper()
     else:
         error("Unknown property for object [italic red]"+object+"[/italic red] -> [bold purple]"+property+"[/bold purple]", count)
+
 
 #Basically the function that IS the language
 def process(input,count):
@@ -149,13 +122,20 @@ def process(input,count):
     global conditions
     global conditions_level_of_indent
     global is_bracket
-    if "." in input:
-        print([num for num in input.split(' ') if "." in num])
-        if "(" in input and ")" in input:
-            in_between_token = input[input.find("(")+1:input.find(")")]
-            value_token = [num for num in in_between_token.split(' ') if "." in num][-1].split(".")[0]
-            effect_token = [num for num in in_between_token.split(' ') if "." in num][-1].split(".")[1]
-        input = input.replace(value_token+"."+effect_token, obj_property(value_token, effect_token, count))
+    if "(" in input and ")" in input and "+" in input[input.find("(")+1:input.find(")")]:
+        in_between_token = input[input.find("(")+1:input.find(")")]
+        tokens = in_between_token.split('+')
+        final_token = ""
+        for token in tokens:
+            if "." in token:
+                final_token = final_token+token.replace(token, obj_property(token.split('.')[0], token.split('.')[1], count))
+            else:
+                final_token = final_token+token
+        input = input.replace(in_between_token, final_token)
+    elif "(" in input and ")" in input and "." in input[input.find("(")+1:input.find(")")]:
+        in_between_token = input[input.find("(")+1:input.find(")")]
+        final_token = in_between_token.replace(in_between_token, obj_property(in_between_token.split('.')[0], in_between_token.split('.')[1], count))
+        input = input.replace(in_between_token, final_token)
     if input[0] == " " and is_bracket == False:
         if declared_functions_lines[-1].split('-')[1] == "":
             return
@@ -477,7 +457,7 @@ def process(input,count):
                             process(all_lines[line], count)
                         break
             assert any(module in input for module in modules) == False
-            error("Unknown function referenced: "+str(input), count)
+            error("Unknown function referenced -> "+str(input), count)
         for module in modules:
             if module in input and "import" not in input:
                 with open(os.getcwd() + '\\Modules\\input.txt', 'x') as f:
