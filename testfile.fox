@@ -1,3 +1,3 @@
-declare nice = 69
+declare nice = 69.cool
 declare nice = 700
 ask(nice)

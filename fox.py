@@ -114,7 +114,7 @@ def obj_property(object, property, count):
     elif property == "round" and object.isdecimal() == True:
         return str(int(object))
     else:
-        error("Unknown property for object [italic red]"+object+"[/italic red] -> [bold purple]"+property+"[/bold purple]", count)
+        error("Unknown property for object \x1B[3m\033[91m"+object+"\x1b[23m\033[0m -> \033[1m\033[95m"+property+"\033[0m", count)
 
 
 #Basically the function that IS the language
@@ -485,4 +485,3 @@ else:
         os.remove("debug.log")
     except:
         pass
-error("Test",5)
