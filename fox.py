@@ -82,6 +82,10 @@ def install_module(module):
     try:
         import subprocess
         subprocess.call(["pip", "install", module], stdout = open(os.devnull, "w"), stderr = subprocess.STDOUT)
+        try:
+            import subprocess
+        except ImportError:
+            error("Could not install module")
     except:
         pass
 
@@ -93,14 +97,9 @@ def askfor(arg):
 
 #Function used to print a nice and clean error
 def error(error,count):
-    try:
-        import rich
-    except:
-        install_module('rich')
-        import rich
-    rich.print("     [bold red]😔  /!\ Fox Error /!\ 😔[/bold red]     ")
-    rich.print("At [bold green]line "+str(count)+"[/bold green] ↓")
-    rich.print('[bold]'+str(error)+'[/bold]')
+    print("     \033[1m\033[91m😔  /!\ Fox Error /!\ 😔\033[0m     ")
+    print("At \033[1m\033[92mline "+str(count)+"\033[0m ↓")
+    print('\033[1m'+str(error)+'\033[0m')
     exit()
 
 
@@ -486,3 +485,4 @@ else:
         os.remove("debug.log")
     except:
         pass
+error("Test",5)
