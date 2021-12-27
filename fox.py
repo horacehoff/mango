@@ -515,9 +515,9 @@ try:
         if currentArgument in ("-i", "--InputFile"):
             check_modules_folder()
             dataread(str(currentValue))
-        if currentArgument in ("-c", "--CheckInstall"):
+        elif currentArgument in ("-c", "--CheckInstall"):
             print_version(fox_version)
 except getopt.error as err:
     print(str(err))
-    
-print("--- %s seconds ---" % (time.time() - start_time))
+with open('debug.log','w') as f:
+    f.write('Run Time: '+str((time.time() - start_time))+" seconds")
