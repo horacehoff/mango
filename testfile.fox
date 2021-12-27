@@ -1,1 +1,3 @@
-there.uppercase
+declare there = world.uppercase
+print(there)
+print(there.uppercase+WORLD)

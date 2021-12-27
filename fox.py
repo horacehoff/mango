@@ -109,6 +109,8 @@ def obj_property(object, property, count):
         return object.replace("e","")
     elif property == "uppercase":
         return object.upper()
+    elif property == "lowercase":
+        return object.lower()
     else:
         error("Unknown property for object [italic red]"+object+"[/italic red] -> [bold purple]"+property+"[/bold purple]", count)
 
@@ -123,15 +125,19 @@ def process(input,count):
     global conditions_level_of_indent
     global is_bracket
     if "(" in input and ")" in input and "+" in input[input.find("(")+1:input.find(")")]:
-        in_between_token = input[input.find("(")+1:input.find(")")]
-        tokens = in_between_token.split('+')
-        final_token = ""
-        for token in tokens:
-            if "." in token:
-                final_token = final_token+token.replace(token, obj_property(token.split('.')[0], token.split('.')[1], count))
-            else:
-                final_token = final_token+token
-        input = input.replace(in_between_token, final_token)
+        if input.count('.') == 1:
+            in_between_token = input[input.find("(")+1:input.find(")")]
+            tokens = in_between_token.split('+')
+            final_token = ""
+            for token in tokens:
+                if "." in token:
+                    if token.split(".")[0] in declared_variables:
+                        token = token.replace(token.split(".")[0], declared_variables_values[declared_variables.index(token.split('.')[0])])
+                    final_token = final_token+token.replace(token, obj_property(token.split('.')[0], token.split('.')[1], count))
+                else:
+                    final_token = final_token+token
+            input = input.replace(in_between_token, final_token)
+            
     elif "(" in input and ")" in input and "." in input[input.find("(")+1:input.find(")")]:
         in_between_token = input[input.find("(")+1:input.find(")")]
         final_token = in_between_token.replace(in_between_token, obj_property(in_between_token.split('.')[0], in_between_token.split('.')[1], count))
@@ -498,6 +504,8 @@ def dataread(file):
 
 
 #Detect and process the given arguments
+import time
+start_time = time.time()
 argumentList = sys.argv[1:]
 options = "i:c"
 long_options = ["CheckInstall", "InputFile ="]
@@ -511,3 +519,5 @@ try:
             print_version(fox_version)
 except getopt.error as err:
     print(str(err))
+    
+print("--- %s seconds ---" % (time.time() - start_time))
