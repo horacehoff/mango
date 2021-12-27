@@ -8,6 +8,8 @@
 #Import the necessary modules
 import sys, getopt, os
 
+#Decides wether the program should generate a .log file when it's done processing
+debug_mode = False
 
 #Decalare the lists where the variables and their values are stored
 declared_variables = []
@@ -124,6 +126,9 @@ def process(input,count):
     global conditions
     global conditions_level_of_indent
     global is_bracket
+    if [s for s in declared_variables if s in input]:
+        match = [s for s in declared_variables if s in input][0]
+        input = input.replace(match, declared_variables_values[declared_variables.index(match)])
     if "(" in input and ")" in input and "+" in input[input.find("(")+1:input.find(")")]:
         if input.count('.') == 1:
             in_between_token = input[input.find("(")+1:input.find(")")]
@@ -137,11 +142,13 @@ def process(input,count):
                 else:
                     final_token = final_token+token
             input = input.replace(in_between_token, final_token)
-            
     elif "(" in input and ")" in input and "." in input[input.find("(")+1:input.find(")")]:
         in_between_token = input[input.find("(")+1:input.find(")")]
         final_token = in_between_token.replace(in_between_token, obj_property(in_between_token.split('.')[0], in_between_token.split('.')[1], count))
         input = input.replace(in_between_token, final_token)
+    elif "." in input and [s for s in input.split(' ') if "." in s][-1]:
+        matching_token = [s for s in input.split(' ') if "." in s][-1]
+        input = input.replace(matching_token, obj_property(matching_token.split(".")[0], matching_token.split(".")[1], count))
     if input[0] == " " and is_bracket == False:
         if declared_functions_lines[-1].split('-')[1] == "":
             return
@@ -519,5 +526,13 @@ try:
             print_version(fox_version)
 except getopt.error as err:
     print(str(err))
-with open('debug.log','w') as f:
-    f.write('Run Time: '+str((time.time() - start_time))+" seconds")
+    
+if debug_mode == True:
+    with open('debug.log','w') as f:
+        f.write('Run Time: '+str((time.time() - start_time))+" seconds\r")
+else:
+    try:
+        import os
+        os.remove("debug.log")
+    except:
+        pass
