@@ -97,6 +97,7 @@ def error(error,count):
         import rich
     except:
         install_module('rich')
+        import rich
     rich.print("     [bold red]😔  /!\ Fox Error /!\ 😔[/bold red]     ")
     rich.print("At [bold green]line "+str(count)+"[/bold green] ↓")
     rich.print('[bold]'+str(error)+'[/bold]')
@@ -429,6 +430,7 @@ def process(input,count):
                     
     
 
+
 #This function reads the specified file and separates it into lines, which are then read and processed by the process() function
 def dataread(file):
     #Check if the specified file is a .fox file, else, notify the user that it is not
@@ -456,6 +458,8 @@ def dataread(file):
                 linecount = linecount + 1
 
 
+
+
 #Detect and process the given arguments
 import time
 start_time = time.time()
@@ -472,7 +476,6 @@ try:
             print_version(fox_version)
 except getopt.error as err:
     print(str(err))
-
 run_time = str((time.time() - start_time))
 if debug_mode == True:
     with open('debug.log','w') as f:
