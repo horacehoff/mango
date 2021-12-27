@@ -366,7 +366,7 @@ def process(input,count):
         try:
             open(os.getcwd()+'\\Modules\\'+input.replace("import","").replace(" ","")+'.py', 'r')
         except:
-            error("Unknown module [bold red]"+input.replace("import","").replace(" ","")+'[/bold red]', count)
+            error("Unknown module \033[1m\033[91m"+input.replace("import","").replace(" ","")+'\033[0m', count)
     elif "define" in input:
         try:
             assert "{" in input and "(" in input and ")" in input
