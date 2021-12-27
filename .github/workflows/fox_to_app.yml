@@ -5,6 +5,7 @@ on:
     branches: [ main ]
     paths:
       - 'fox.py'
+      - '.github/workflows/fox_to_app.yml'
 
 jobs:
   build:
@@ -25,8 +26,8 @@ jobs:
         py2applet --make-setup fox.py
         
         python setup.py py2app
-    - name: Upload Fox Source Artifact
+    - name: Upload Fox .App Artifact
       uses: actions/upload-artifact@v2.3.0
       with:
-        name: Fox Source File
-        path: fox.py
+        name: Fox .App File
+        path: /Users/runner/work/fox/fox/dist/fox.app
