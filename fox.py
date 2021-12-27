@@ -82,15 +82,13 @@ def install_module(module):
     try:
         import subprocess
         subprocess.call(["pip", "install", module], stdout = open(os.devnull, "w"), stderr = subprocess.STDOUT)
-        try:
-            import subprocess
-        except ImportError:
-            error("Could not install module")
+        import importlib
+        i = importlib.import_module(module)
     except:
         pass
 
 
-#Function used to ask, if the user asks!
+#Function used to ask, if the user asks
 def askfor(arg):
     return input(arg)
 
