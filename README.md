@@ -29,11 +29,11 @@ Contributions, issues and feature requests are welcome!<br />Feel free to check 
 
 When adding and proposing new features to Fox, make sure to have read the following:\
 &nbsp;&nbsp;1️⃣-the added/improved code must be **readable**\
-&nbsp;&nbsp;2️⃣-the added/improved code must be **commented**\
-&nbsp;&nbsp;3️⃣-the added/improved code must **prioritise cross-platform and native solutions, use modules as less as possible**\
+&nbsp;&nbsp;2️⃣-the added/improved code must be **as commented as possible**\
+&nbsp;&nbsp;3️⃣-the added/improved code must **prioritise cross-platform and native solutions, only use modules at last resort, and if used, use the install_module() function to install them at runtime**\
 &nbsp;&nbsp;4️⃣-the comments must be as **understandable and concise** as possible
 
 ## Show your support
 
-Feel free to give a ⭐️ if this project helped you!
+Feel free to give a ⭐️ if my language helps/helped you!
 
