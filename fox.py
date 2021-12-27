@@ -126,25 +126,27 @@ def process(input,count):
     global is_bracket
     if [s for s in declared_variables if s in input]:
         match = [s for s in declared_variables if s in input][0]
-        input = input.replace(match, str(declared_variables_values[declared_variables.index(match)]))
+        if "declare" in input and input.split(' ')[1] != match:
+            input = input.replace(match, str(declared_variables_values[declared_variables.index(match)]))
+        elif "declare" not in input:
+            input = input.replace(match, str(declared_variables_values[declared_variables.index(match)]))
     if "(" in input and ")" in input and input[input.find("(")+1:input.find(")")].replace(".","").isdecimal() == True:
         input = input.replace(input[input.find("(")+1:input.find(")")], str(eval(input[input.find("(")+1:input.find(")")])))
     elif "(" in input and ")" in input and "+" in input[input.find("(")+1:input.find(")")]:
         try:
             input = input.replace(input[input.find("(")+1:input.find(")")], str(eval(input[input.find("(")+1:input.find(")")])))
         except:
-            if input.count('.') == 1:
-                in_between_token = input[input.find("(")+1:input.find(")")]
-                tokens = in_between_token.split('+')
-                final_token = ""
-                for token in tokens:
-                    if "." in token:
-                        if token.split(".")[0] in declared_variables:
-                            token = token.replace(token.split(".")[0], declared_variables_values[declared_variables.index(token.split('.')[0])])
-                        final_token = final_token+token.replace(token, obj_property(token.split('.')[0], token.split('.')[1], count))
-                    else:
-                        final_token = final_token+token
-                input = input.replace(in_between_token, final_token)
+            in_between_token = input[input.find("(")+1:input.find(")")]
+            tokens = in_between_token.split('+')
+            final_token = ""
+            for token in tokens:
+                if "." in token:
+                    if token.split(".")[0] in declared_variables:
+                        token = token.replace(token.split(".")[0], declared_variables_values[declared_variables.index(token.split('.')[0])])
+                    final_token = final_token+token.replace(token, obj_property(token.split('.')[0], token.split('.')[1], count))
+                else:
+                    final_token = final_token+token
+            input = input.replace(in_between_token, final_token)
     elif "(" in input and ")" in input and "." in input[input.find("(")+1:input.find(")")]:
         try:
             input = input.replace(input[input.find("(")+1:input.find(")")], str(eval(str(input[input.find("(")+1:input.find(")")]))))
@@ -193,56 +195,7 @@ def process(input,count):
         try:
             #Remove print("") to only get what the user typed as the input
             input = input.replace("print","").replace("(","").replace(")","").replace("'","").replace('"','')
-            #If what the user typed is a variable name, search it, get its value, and then print it
-            if input in declared_variables:
-                print(declared_variables_values[declared_variables.index(input)])
-            elif input in declared_lists:
-                list_toprint = declared_lists_values[declared_lists.index(input)]
-                list_toprint = list_toprint.replace("+",",")
-                list_toprint = "["+list_toprint+"]"
-                print(list_toprint)
-            #Else, if it's an equation(or simple math), just calculate and print it
-            else:
-                try:
-                    print(eval(input))
-                except:
-                    #If The user tries to calculate/join strings/numbers
-                    if "+" in input:
-                        args = input.lstrip().replace(" ","")
-                        args = args.split('+')
-                        final_print = ""
-                        for arg in args:
-                            #If detected arguments are known variables, join and print them
-                            if arg in declared_variables:
-                                final_print = final_print+str(declared_variables_values[declared_variables.index(arg)])
-                            elif arg in declared_lists:
-                                final_print = final_print+str(declared_lists_values[declared_lists.index(arg)]).replace("+",",")
-                            else:
-                                #If it can calculate, then do so, else, join
-                                try:
-                                    final_print = final_print+eval(arg)
-                                except: 
-                                    final_print = final_print+str(arg)
-                        print(final_print)
-                    #The user tries to join strings/numbers
-                    elif ',' in input:
-                        args = input.lstrip()
-                        args = args.split(',')
-                        final_print = ""
-                        for arg in args:
-                            if arg in declared_variables:
-                                final_print = final_print+declared_variables_values[declared_variables.index(arg)]
-                            else:
-                                #If it can't calculate, then join (joins 99.9% of the time (not a bug!))
-                                try:
-                                    final_print = final_print+eval(arg)
-                                except: 
-                                    final_print = final_print+arg
-                        print(final_print)
-                    #If all else fails, just print what's in-between the brackets
-                    else:
-                        print(input.strip())
-                
+            print(input)
         except:
             error("Failed to print('<whatever you typed>')",count)
     # DECLARE
@@ -250,6 +203,10 @@ def process(input,count):
         # declare var_name = var_value
         # OR
         # declare list list_name = list_value
+        try:
+            assert input.split(' ')[0] == "declare"
+        except:
+            error("Wrong word order when declaring variable", count)
         if not 'list' in input:
             #Try to add declared variable and its value to declared_variables and declared_variables_values
             try:
@@ -325,13 +282,7 @@ def process(input,count):
             input = input.replace(")","")
             input = input.replace("'","")
             input = input.replace('"','')
-            #If what the user wants to ask is a known variable, ask the content/value of the variable
-            if input in declared_variables:
-                askfor(declared_variables_values[declared_variables.index(input)])
-            elif input in declared_lists:
-                askfor(declared_lists_values[declared_lists.index(input)])
-            else:
-                askfor(input.strip())
+            askfor(input)
         except:
             error("Failed to print('<whatever you asked>')",count)
     # IF
