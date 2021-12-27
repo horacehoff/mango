@@ -36,4 +36,3 @@ When adding and proposing new features to Fox, make sure to have read the follow
 ## Show your support
 
 Feel free to give a ⭐️ if my language helps/helped you!
-
