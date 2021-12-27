@@ -10,7 +10,7 @@ def main(input):
     input = input.replace("input","")
     input = input.replace("(","")
     input = input.replace(")","")
-    print("You said: "+input)
+    input=input.replace()
 
 
 #Code used to communicate with the main file

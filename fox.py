@@ -8,8 +8,10 @@
 #Import the necessary modules
 import sys, getopt, os
 
+
 #Decides wether the program should generate a .log file when it's done processing
 debug_mode = False
+
 
 #Decalare the lists where the variables and their values are stored
 declared_variables = []
@@ -36,10 +38,7 @@ modules = []
 fox_version = 'InDev'
 
 
-#Variable used to identify if there is an ongoing condition in the current processed line
-condition_true = False
-is_condition = False
-
+#Variable used to identify if there is an ongoing condition/exception in the current processed line
 elses_lines = []
 elses_indents = []
 
@@ -49,13 +48,12 @@ conditions_level_of_indent = []
 
 
 #Variales related to the 'while' function/featrue
-is_while = False
-while_true = False
 while_values = []
 while_conditions = []
 
 is_bracket = False
 all_lines = []
+
 
 #Check if the modules' folder exists, and create it if it doesn't
 def check_modules_folder():
@@ -107,12 +105,14 @@ def error(error,count):
 
 #All the properties associated with objects
 def obj_property(object, property, count):
-    if property == "removespace":
+    if property == "removespace" and object.isalnum() == True:
         return object.replace("e","")
-    elif property == "uppercase":
+    elif property == "uppercase" and object.isalnum() == True:
         return object.upper()
-    elif property == "lowercase":
+    elif property == "lowercase" and object.isalnum() == True:
         return object.lower()
+    elif property == "round" and object.isdecimal() == True:
+        return str(int(object))
     else:
         error("Unknown property for object [italic red]"+object+"[/italic red] -> [bold purple]"+property+"[/bold purple]", count)
 
@@ -120,32 +120,38 @@ def obj_property(object, property, count):
 #Basically the function that IS the language
 def process(input,count):
     original_input = input
-    global is_while
-    global while_true
     global while_values
     global conditions
     global conditions_level_of_indent
     global is_bracket
     if [s for s in declared_variables if s in input]:
         match = [s for s in declared_variables if s in input][0]
-        input = input.replace(match, declared_variables_values[declared_variables.index(match)])
-    if "(" in input and ")" in input and "+" in input[input.find("(")+1:input.find(")")]:
-        if input.count('.') == 1:
-            in_between_token = input[input.find("(")+1:input.find(")")]
-            tokens = in_between_token.split('+')
-            final_token = ""
-            for token in tokens:
-                if "." in token:
-                    if token.split(".")[0] in declared_variables:
-                        token = token.replace(token.split(".")[0], declared_variables_values[declared_variables.index(token.split('.')[0])])
-                    final_token = final_token+token.replace(token, obj_property(token.split('.')[0], token.split('.')[1], count))
-                else:
-                    final_token = final_token+token
-            input = input.replace(in_between_token, final_token)
+        input = input.replace(match, str(declared_variables_values[declared_variables.index(match)]))
+    if "(" in input and ")" in input and input[input.find("(")+1:input.find(")")].replace(".","").isdecimal() == True:
+        input = input.replace(input[input.find("(")+1:input.find(")")], str(eval(input[input.find("(")+1:input.find(")")])))
+    elif "(" in input and ")" in input and "+" in input[input.find("(")+1:input.find(")")]:
+        try:
+            input = input.replace(input[input.find("(")+1:input.find(")")], str(eval(input[input.find("(")+1:input.find(")")])))
+        except:
+            if input.count('.') == 1:
+                in_between_token = input[input.find("(")+1:input.find(")")]
+                tokens = in_between_token.split('+')
+                final_token = ""
+                for token in tokens:
+                    if "." in token:
+                        if token.split(".")[0] in declared_variables:
+                            token = token.replace(token.split(".")[0], declared_variables_values[declared_variables.index(token.split('.')[0])])
+                        final_token = final_token+token.replace(token, obj_property(token.split('.')[0], token.split('.')[1], count))
+                    else:
+                        final_token = final_token+token
+                input = input.replace(in_between_token, final_token)
     elif "(" in input and ")" in input and "." in input[input.find("(")+1:input.find(")")]:
-        in_between_token = input[input.find("(")+1:input.find(")")]
-        final_token = in_between_token.replace(in_between_token, obj_property(in_between_token.split('.')[0], in_between_token.split('.')[1], count))
-        input = input.replace(in_between_token, final_token)
+        try:
+            input = input.replace(input[input.find("(")+1:input.find(")")], str(eval(str(input[input.find("(")+1:input.find(")")]))))
+        except:
+            in_between_token = input[input.find("(")+1:input.find(")")]
+            final_token = in_between_token.replace(in_between_token, obj_property(in_between_token.split('.')[0], in_between_token.split('.')[1], count))
+            input = input.replace(in_between_token, final_token)
     elif "." in input and [s for s in input.split(' ') if "." in s][-1]:
         matching_token = [s for s in input.split(' ') if "." in s][-1]
         input = input.replace(matching_token, obj_property(matching_token.split(".")[0], matching_token.split(".")[1], count))
@@ -353,15 +359,10 @@ def process(input,count):
                 var_name = input[0]
                 var_value = input[1]
                 if str(var_value) == str(declared_variables_values[declared_variables.index(var_name)]):
-                    global condition_true
-                    global is_condition
-                    condition_true = True
-                    is_condition = True
                     conditions.append(True)
                     conditions_lines.append(str(count)+'-')
                     conditions_level_of_indent.append(len(original_input) - len(original_input.lstrip(' ')))
                 else:
-                    is_condition = True
                     conditions.append(False)
                     conditions_lines.append(str(count)+'-')
                     conditions_level_of_indent.append(len(original_input) - len(original_input.lstrip(' ')))
@@ -370,26 +371,20 @@ def process(input,count):
                 var_name = input[1]
                 var_value = input[0]
                 if str(var_value) == str(declared_variables_values[declared_variables.index(var_name)]):
-                    condition_true = True
-                    is_condition = True
                     conditions.append(True)
                     conditions_lines.append(str(count)+'-')
                     conditions_level_of_indent.append(len(original_input) - len(original_input.lstrip(' ')))
                 else:
-                    is_condition = True
                     conditions.append(False)
                     conditions_lines.append(str(count)+'-')
                     conditions_level_of_indent.append(len(original_input) - len(original_input.lstrip(' ')))
                     pass
             #The following code allows the condition to be True or False even if the given condition doesn't contain a variable
             elif input[0] == input [1] and check_variable_type(input[0], input[1]) == True:
-                condition_true = True
-                is_condition = True
                 conditions.append(True)
                 conditions_lines.append(str(count)+'-')
                 conditions_level_of_indent.append(len(original_input) - len(original_input.lstrip(' ')))
             elif input[0] != input [1] and check_variable_type(input[0], input[1]) == True:
-                is_condition = True
                 conditions.append(False)
                 conditions_lines.append(str(count)+'-')
                 conditions_level_of_indent.append(len(original_input) - len(original_input.lstrip(' ')))
@@ -526,10 +521,11 @@ try:
             print_version(fox_version)
 except getopt.error as err:
     print(str(err))
-    
+
+run_time = str((time.time() - start_time))
 if debug_mode == True:
     with open('debug.log','w') as f:
-        f.write('Run Time: '+str((time.time() - start_time))+" seconds\r")
+        f.write('Run Time: '+run_time+" seconds\r")
 else:
     try:
         import os
