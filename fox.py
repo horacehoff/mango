@@ -10,7 +10,7 @@ import sys, getopt, os
 
 
 #Decides wether the program should generate a .log file when it's done processing
-debug_mode = False
+debug_mode = True
 
 
 #Decalare the lists where the variables and their values are stored
@@ -426,12 +426,11 @@ def process(input,count):
             os.system('python '+os.getcwd()+'\\Modules\\'+module+'.py')
             os.remove(os.getcwd()+'\\Modules\\input.txt')
             return
-        else:
-            error("❓ Unknown function/object -> "+input, count)
     else:
-            error("❓ Unknown function/object -> "+input, count)
-                    
-    
+            error("❓ Unknown function/object -> \033[91m"+input+"\033[0m", count)
+
+       
+
 
 #This function reads the specified file and separates it into lines, which are then read and processed by the process() function
 def dataread(file):

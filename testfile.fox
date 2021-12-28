@@ -1,1 +1,3 @@
-ask(\U00087765555)
+declare nice = 70
+declare coo = 4
+print(nice+coo+4)
