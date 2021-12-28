@@ -74,7 +74,7 @@ def check_variable_type(*objs):
 
 #Print the language's version and name
 def print_version(version):
-    print("|-----------------------------------|\r\n|         🦊 F O X 🦊 -  "+version+"      |        by Just_a_Mango\r\n|-----------------------------------|        @Just-A-Mango on GitHub\r\n")
+    print("|-----------------------------------|\r\n|         \U0001F98A F O X \U0001F98A -  "+version+"      |        by \033[1mJust_a_Mango\033[0m\r\n|-----------------------------------|        \033[1m@Just-A-Mango\033[0m on \033[1mGitHub\033[0m\r\n")
 
 
 #Installs any given module at runtime in the background
@@ -95,7 +95,7 @@ def askfor(arg):
 
 #Function used to print a nice and clean error
 def error(error,count):
-    print("     \033[1m\033[91m😔  /!\ Fox Error /!\ 😔\033[0m     ")
+    print("        \033[1m\033[91m⚠️   Fox Error  ⚠️\033[0m        ")
     print("At \033[1m\033[92mline "+str(count)+"\033[0m ↓")
     print('\033[1m'+str(error)+'\033[0m')
     exit()
@@ -112,7 +112,7 @@ def obj_property(object, property, count):
     elif property == "round" and object.isdecimal() == True:
         return str(int(object))
     else:
-        error("Unknown property for object \x1B[3m\033[91m"+object+"\x1b[23m\033[0m -> \033[1m\033[95m"+property+"\033[0m", count)
+        error("❓ Unknown property for object \x1B[3m\033[91m"+object+"\x1b[23m\033[0m -> \033[1m\033[95m"+property+"\033[0m", count)
 
 
 #Basically the function that IS the language
@@ -122,14 +122,17 @@ def process(input,count):
     global conditions
     global conditions_level_of_indent
     global is_bracket
+    #Replace a variable name by its value if itsn't declaring
     if [s for s in declared_variables if s in input]:
         match = [s for s in declared_variables if s in input][0]
         if "declare" in input and input.split(' ')[1] != match:
             input = input.replace(match, str(declared_variables_values[declared_variables.index(match)]))
         elif "declare" not in input:
             input = input.replace(match, str(declared_variables_values[declared_variables.index(match)]))
+    #If the content of the parentheses is math, process it and replace it by the result
     if "(" in input and ")" in input and input[input.find("(")+1:input.find(")")].replace(".","").isdecimal() == True:
         input = input.replace(input[input.find("(")+1:input.find(")")], str(eval(input[input.find("(")+1:input.find(")")])))
+    #If the content of the parentheses contains +(which means "appending things to other things"), try to process it if it's math or else just "append things to other things"
     elif "(" in input and ")" in input and "+" in input[input.find("(")+1:input.find(")")]:
         try:
             input = input.replace(input[input.find("(")+1:input.find(")")], str(eval(input[input.find("(")+1:input.find(")")])))
@@ -145,6 +148,7 @@ def process(input,count):
                 else:
                     final_token = final_token+token
             input = input.replace(in_between_token, final_token)
+    #If the content of the parentheses is a single object with a property, then process that property and replace 'object.property' => 'ouput'
     elif "(" in input and ")" in input and "." in input[input.find("(")+1:input.find(")")]:
         try:
             input = input.replace(input[input.find("(")+1:input.find(")")], str(eval(str(input[input.find("(")+1:input.find(")")]))))
@@ -152,9 +156,11 @@ def process(input,count):
             in_between_token = input[input.find("(")+1:input.find(")")]
             final_token = in_between_token.replace(in_between_token, obj_property(in_between_token.split('.')[0], in_between_token.split('.')[1], count))
             input = input.replace(in_between_token, final_token)
+    #If, in the line, there is no parentheses but a single object with a property, do the same thing as the previous condition
     elif "." in input and [s for s in input.split(' ') if "." in s][-1]:
         matching_token = [s for s in input.split(' ') if "." in s][-1]
         input = input.replace(matching_token, obj_property(matching_token.split(".")[0], matching_token.split(".")[1], count))
+    #The function in charge of recongizing if the current processed line is (under ?) a condition/function/loop/etc and choosing wether to process it or not
     if input[0] == " " and is_bracket == False:
         if declared_functions_lines and declared_functions_lines[-1].split('-')[1] == "":
             return
@@ -195,7 +201,7 @@ def process(input,count):
             input = input.replace("print","").replace("(","").replace(")","").replace("'","").replace('"','')
             print(input)
         except:
-            error("Failed to print('whatever you typed')",count)
+            error("⚠️  Failed to print('whatever you typed')",count)
     # DECLARE
     elif "declare" in input:
         # declare var_name = var_value
@@ -282,7 +288,7 @@ def process(input,count):
             input = input.replace('"','')
             askfor(input)
         except:
-            error("Failed to print('<whatever you asked>')",count)
+            error("⚠️  Failed to ask('<whatever you asked>')",count)
     # IF
     elif "if" in input:
         is_bracket = False
@@ -292,8 +298,8 @@ def process(input,count):
         try:
             assert "(" in input and ")" in input and "{" in input
         except:
-            error("Please check the condition syntax",count)
-        #Replace all the unused words to only get the condition (for example, 'if (something = 10) {' => 'something=10'))
+            error("\U0001F64F Please check the condition syntax",count)
+        #Replace all the unused syntax to only get the condition (for example, 'if (something = 10) {' => 'something=10'))
         input = input.replace("if","")
         input = input.replace("(","")
         input = input.replace(")","")
@@ -339,16 +345,19 @@ def process(input,count):
                 conditions_level_of_indent.append(len(original_input) - len(original_input.lstrip(' ')))
                 pass
             else:
-                error("Unknown variable referenced in condition", count)
-    # ELSE
+                error("❓ Unknown variable referenced in condition", count)
+    # ELSE -> NOT WORKING
     elif "else" in input:
+        #else {
+        #}
         try:
             assert "{" in input
         except:
-            error("Bad syntax when declaring condition exception -> "+input,count)
+            error("⛔ Bad syntax when declaring condition exception -> "+input,count)
+        #Append to the elses' lists the line and indentation of this condition exception
         elses_lines.append(str(count)+"-")
         elses_indents.append(len(original_input) - len(original_input.lstrip(' ')))
-    #Detect the end of a condition
+    #Detect the end of a condition/function/loop/etc
     elif "}" in input:
         is_bracket = False
         level_of_indent = len(input) - len(input.lstrip(' '))
@@ -364,89 +373,65 @@ def process(input,count):
         try:
             open(os.getcwd()+'\\Modules\\'+input.replace("import","").replace(" ","")+'.py', 'r')
         except:
-            error("Unknown module \033[1m\033[91m"+input.replace("import","").replace(" ","")+'\033[0m', count)
+            error("❓ Unknown module \033[1m\033[91m"+input.replace("import","").replace(" ","")+'\033[0m', count)
+    # DEFINE -> CONDITIONS/ARGUMENTS NOT WORKING
     elif "define" in input:
+        #define function_name(argument1, argument2) {
+        #}
+        #Let the user know if the syntax is wrong
         try:
             assert "{" in input and "(" in input and ")" in input
         except:
-            error("Bad syntax when trying to define a function -> "+input, count)
+            error("⛔ Bad syntax when trying to define a function -> "+input, count)
+        #Append the current line, indentation, name, and arguments to the lists
         function_name = input.replace("define","").replace(" ","").replace("("+input[input.find("(")+1:input.find(")")]+")","").replace("{","")
         function_arguments = input[input.find("(")+1:input.find(")")]
         declared_functions.append(function_name)
         declared_functions_arguments.append(function_arguments)
         declared_functions_lines.append(str(count)+'-')
         declared_functions_indents.append(len(input) - len(input.lstrip(' ')))
+    # STOP
     elif "stop" in input:
+        #stop()
+        #Let the user know if the syntax is wrong
         try:
             assert "()" in input
         except:
-            error("Bad syntax when calling the stop() function", count)
+            error("⛔ Bad syntax when calling the \033[91mstop()\033[0m function", count)
+        #Quit
         exit()
-    elif declared_functions:
-        for function in declared_functions:
-            if function in input:
-                try:
-                    assert "(" in input and ")" in input
-                except:
-                    error("You forgot the () when calling "+function+"() -> "+input, count)
-                func_lines = declared_functions_lines[declared_functions.index(function)].split('-')
-                rng = list(range(int(func_lines[0]), int(func_lines[-1])))
-                rng.remove(rng[0])
-                rng = [x - 1 for x in rng]
-                for line in rng:
-                    is_bracket = True
-                    process(str(all_lines[line]).removeprefix('    '), count)
-                break
+    # FUNCTION/MODULE CALLING
     elif [s for s in modules if s in input] or [s for s in declared_functions if s in input]:
-        if [s for s in declared_functions if s in input]:
-            function =  [s for s in declared_functions if s in input][0]
-    #If the given line contains any module's name, communicate with that module and process the desired function/action
+        #FUNCTIONS
+        if declared_functions and [s for s in declared_functions if s in input and declared_functions_lines[declared_functions.index(s)].split('-')[1] != ""]:
+            function =  [s for s in declared_functions if s in input and declared_functions_lines[declared_functions.index(s)].split('-')[1] != ""][0]
+            try:
+                assert "(" in input and ")" in input
+            except:
+                error("You forgot the () when calling \033[91m"+function+"()\033[0m -> "+input, count)
+            func_lines = declared_functions_lines[declared_functions.index(function)].split('-')
+            rng = list(range(int(func_lines[0]), int(func_lines[-1])))
+            rng.remove(rng[0])
+            rng = [x - 1 for x in rng]
+            for line in rng:
+                process(all_lines[line].removeprefix('    '), count)
+            return
+        #MODULES
+        elif modules and [s for s in modules if s in input] and "import" not in input:
+            module = [s for s in modules if s in input][0]
+            with open(os.getcwd() + '\\Modules\\input.txt', 'x') as f:
+                f.write(input)
+            import subprocess
+            subprocess.call(["python", os.getcwd()+'\\Modules\\'+module+'.py'], stdout = open(os.devnull, "w"), stderr = subprocess.STDOUT)
+            os.system('python '+os.getcwd()+'\\Modules\\'+module+'.py')
+            os.remove(os.getcwd()+'\\Modules\\input.txt')
+            return
+        else:
+            error("❓ Unknown function/object -> "+input, count)
     else:
-        try:
-            assert len(modules) > 1
-        except:
-            try:
-                assert any(functionn in input for functionn in declared_functions) == False
-            except:
-                for function in declared_functions:
-                    if function in input:
-                        try:
-                            assert "(" in input and ")" in input
-                        except:
-                            error("You forgot the () when calling "+function+"() -> "+input, count)
-                        func_lines = declared_functions_lines[declared_functions.index(function)].split('-')
-                        rng = list(range(int(func_lines[0]), int(func_lines[-1])))
-                        rng.remove(rng[0])
-                        rng = [x - 1 for x in rng]
-                        print(rng)
-                        for line in rng:
-                            process(all_lines[line], count)
-                        break
-            try:
-                assert any(module in input for module in modules) == False
-                error("Unknown function referenced -> "+str(input), count)
-            except:
-                 for module in modules:
-                    if module in input and "import" not in input:
-                        with open(os.getcwd() + '\\Modules\\input.txt', 'x') as f:
-                            f.write(input)
-                        import subprocess
-                        subprocess.call(["python", os.getcwd()+'\\Modules\\'+module+'.py'], stdout = open(os.devnull, "w"), stderr = subprocess.STDOUT)
-                        os.system('python '+os.getcwd()+'\\Modules\\'+module+'.py')
-                        os.remove(os.getcwd()+'\\Modules\\input.txt')
-                        return
-        for module in modules:
-            if module in input and "import" not in input:
-                with open(os.getcwd() + '\\Modules\\input.txt', 'x') as f:
-                    f.write(input)
-                import subprocess
-                subprocess.call(["python", os.getcwd()+'\\Modules\\'+module+'.py'], stdout = open(os.devnull, "w"), stderr = subprocess.STDOUT)
-                os.system('python '+os.getcwd()+'\\Modules\\'+module+'.py')
-                os.remove(os.getcwd()+'\\Modules\\input.txt')
-                break
+            error("❓ Unknown function/object -> "+input, count)
                     
     
-
 
 #This function reads the specified file and separates it into lines, which are then read and processed by the process() function
 def dataread(file):
@@ -493,12 +478,13 @@ try:
             elif currentArgument in ("-c", "--CheckInstall"):
                 print_version(fox_version)
     else:
+        #If no argument is given, then start the console
         import platform
         if platform.system() == "Windows":
             os.system('cls')
         elif platform.system() == "Linux" or platform.system == "Darwin":
             os.system('clear')
-        print("----    \033[1m\033[91m🦊 Fox 🦊\033[0m    ----")
+        print("----    \033[1m\033[91m\U0001F98A Fox \U0001F98A\033[0m    ----")
         index = 1
         while True:
             process(input(">>"), index)
