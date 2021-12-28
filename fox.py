@@ -10,7 +10,7 @@ import sys, getopt, os
 
 
 #Decides wether the program should generate a .log file when it's done processing
-debug_mode = True
+debug_mode = False
 
 
 #Decalare the lists where the variables and their values are stored
