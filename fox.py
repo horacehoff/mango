@@ -98,7 +98,9 @@ def error(error,count):
     print("        \033[1m\033[91m⚠️   Fox Error  ⚠️\033[0m        ")
     print("At \033[1m\033[92mline "+str(count)+"\033[0m ↓")
     print('\033[1m'+str(error)+'\033[0m')
-    exit()
+    if debug_mode == False:
+        from sys import exit
+        exit()
 
 
 #All the properties associated with objects
