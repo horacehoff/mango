@@ -74,7 +74,7 @@ def check_variable_type(*objs):
 
 #Print the language's version and name
 def print_version(version):
-    print("|-----------------------------------|\r\n|          F O X  -  "+version+"          |        by Just_a_Mango\r\n|-----------------------------------|        @Just-A-Mango on GitHub\r\n")
+    print("|-----------------------------------|\r\n|         🦊 F O X 🦊 -  "+version+"      |        by Just_a_Mango\r\n|-----------------------------------|        @Just-A-Mango on GitHub\r\n")
 
 
 #Installs any given module at runtime in the background
@@ -195,7 +195,7 @@ def process(input,count):
             input = input.replace("print","").replace("(","").replace(")","").replace("'","").replace('"','')
             print(input)
         except:
-            error("Failed to print('<whatever you typed>')",count)
+            error("Failed to print('whatever you typed')",count)
     # DECLARE
     elif "declare" in input:
         # declare var_name = var_value
@@ -376,11 +376,11 @@ def process(input,count):
         declared_functions_arguments.append(function_arguments)
         declared_functions_lines.append(str(count)+'-')
         declared_functions_indents.append(len(input) - len(input.lstrip(' ')))
-    elif "exit" in input:
+    elif "stop" in input:
         try:
             assert "()" in input
         except:
-            error("Bad syntax when calling the exit() function", count)
+            error("Bad syntax when calling the stop() function", count)
         exit()
     elif declared_functions:
         for function in declared_functions:
@@ -485,12 +485,24 @@ options = "i:c"
 long_options = ["CheckInstall", "InputFile ="]
 try:
     arguments, values = getopt.getopt(argumentList, options, long_options)
-    for currentArgument, currentValue in arguments:
-        if currentArgument in ("-i", "--InputFile"):
-            check_modules_folder()
-            dataread(str(currentValue))
-        elif currentArgument in ("-c", "--CheckInstall"):
-            print_version(fox_version)
+    if arguments:
+        for currentArgument, currentValue in arguments:
+            if currentArgument in ("-i", "--InputFile"):
+                check_modules_folder()
+                dataread(str(currentValue))
+            elif currentArgument in ("-c", "--CheckInstall"):
+                print_version(fox_version)
+    else:
+        import platform
+        if platform.system() == "Windows":
+            os.system('cls')
+        elif platform.system() == "Linux" or platform.system == "Darwin":
+            os.system('clear')
+        print("----    \033[1m\033[91m🦊 Fox 🦊\033[0m    ----")
+        index = 1
+        while True:
+            process(input(">>"), index)
+            index = index + 1
 except getopt.error as err:
     print(str(err))
 run_time = str((time.time() - start_time))
