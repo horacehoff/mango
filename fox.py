@@ -36,6 +36,7 @@ modules = []
 
 #Declare this language's current version
 fox_version = 'InDev'
+is_editor = False
 
 
 #Variable used to identify if there is an ongoing condition/exception in the current processed line
@@ -98,7 +99,7 @@ def error(error,count):
     print("        \033[1m\033[91m⚠️   Fox Error  ⚠️\033[0m        ")
     print("At \033[1m\033[92mline "+str(count)+"\033[0m ↓")
     print('\033[1m'+str(error)+'\033[0m')
-    if debug_mode == False:
+    if is_editor == False:
         from sys import exit
         exit()
 
@@ -464,6 +465,7 @@ def dataread(file):
 
 
 #Detect and process the given arguments
+is_editor = False
 import time
 start_time = time.time()
 argumentList = sys.argv[1:]
@@ -480,6 +482,7 @@ try:
                 print_version(fox_version)
     else:
         #If no argument is given, then start the console
+        is_editor = True
         import platform
         if platform.system() == "Windows":
             os.system('cls')
