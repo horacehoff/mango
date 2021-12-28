@@ -1,3 +1,7 @@
 declare nice = 69
-declare nice = 700
-ask(nice)
+declare nice = 70
+if (nice = 700) {
+    print(Hello)
+    exit()
+}
+print(You were wrong: +nice+, yep, you were definitely wrong)

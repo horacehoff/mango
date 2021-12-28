@@ -156,7 +156,7 @@ def process(input,count):
         matching_token = [s for s in input.split(' ') if "." in s][-1]
         input = input.replace(matching_token, obj_property(matching_token.split(".")[0], matching_token.split(".")[1], count))
     if input[0] == " " and is_bracket == False:
-        if declared_functions_lines[-1].split('-')[1] == "":
+        if declared_functions_lines and declared_functions_lines[-1].split('-')[1] == "":
             return
         else:
             pass
@@ -376,6 +376,12 @@ def process(input,count):
         declared_functions_arguments.append(function_arguments)
         declared_functions_lines.append(str(count)+'-')
         declared_functions_indents.append(len(input) - len(input.lstrip(' ')))
+    elif "exit" in input:
+        try:
+            assert "()" in input
+        except:
+            error("Bad syntax when calling the exit() function", count)
+        exit()
     elif declared_functions:
         for function in declared_functions:
             if function in input:
@@ -391,6 +397,9 @@ def process(input,count):
                     is_bracket = True
                     process(str(all_lines[line]).removeprefix('    '), count)
                 break
+    elif [s for s in modules if s in input] or [s for s in declared_functions if s in input]:
+        if [s for s in declared_functions if s in input]:
+            function =  [s for s in declared_functions if s in input][0]
     #If the given line contains any module's name, communicate with that module and process the desired function/action
     else:
         try:
@@ -413,8 +422,19 @@ def process(input,count):
                         for line in rng:
                             process(all_lines[line], count)
                         break
-            assert any(module in input for module in modules) == False
-            error("Unknown function referenced -> "+str(input), count)
+            try:
+                assert any(module in input for module in modules) == False
+                error("Unknown function referenced -> "+str(input), count)
+            except:
+                 for module in modules:
+                    if module in input and "import" not in input:
+                        with open(os.getcwd() + '\\Modules\\input.txt', 'x') as f:
+                            f.write(input)
+                        import subprocess
+                        subprocess.call(["python", os.getcwd()+'\\Modules\\'+module+'.py'], stdout = open(os.devnull, "w"), stderr = subprocess.STDOUT)
+                        os.system('python '+os.getcwd()+'\\Modules\\'+module+'.py')
+                        os.remove(os.getcwd()+'\\Modules\\input.txt')
+                        return
         for module in modules:
             if module in input and "import" not in input:
                 with open(os.getcwd() + '\\Modules\\input.txt', 'x') as f:
