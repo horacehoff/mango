@@ -1,3 +1,5 @@
 declare nice = 70
 declare coo = 4
-print(nice+coo+4)
+if (nice = 71) {
+    print(Niiiice)
+}
