@@ -127,11 +127,11 @@ def process(input,count):
     global is_bracket
     #Replace a variable name by its value if itsn't declaring
     if [s for s in declared_variables if s in input]:
-        match = [s for s in declared_variables if s in input][0]
-        if "declare" in input and input.split(' ')[1] != match:
-            input = input.replace(match, str(declared_variables_values[declared_variables.index(match)]))
-        elif "declare" not in input:
-            input = input.replace(match, str(declared_variables_values[declared_variables.index(match)]))
+        for match in [s for s in declared_variables if s in input]:
+            if "declare" in input and input.split(' ')[1] != match:
+                input = input.replace(match, str(declared_variables_values[declared_variables.index(match)]))
+            elif "declare" not in input:
+                input = input.replace(match, str(declared_variables_values[declared_variables.index(match)]))
     #If the content of the parentheses is math, process it and replace it by the result
     if "(" in input and ")" in input and input[input.find("(")+1:input.find(")")].replace(".","").isdecimal() == True:
         input = input.replace(input[input.find("(")+1:input.find(")")], str(eval(input[input.find("(")+1:input.find(")")])))
