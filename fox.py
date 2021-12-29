@@ -211,6 +211,10 @@ def process(input,count):
                 input = input.split('=')
                 var_name = input[0].replace("declare","").lstrip().replace(" ","")
                 var_value = input[1].lstrip()
+                try:
+                    assert any(i.isdigit() for i in var_name) == False
+                except:
+                    error("⛔ Cannot declare variable with any digit in its name -> "+var_name, count)
                 #If the declared variable already exists, then overwrite its value
                 if var_name in declared_variables:
                     if 'ask(' in var_value:
@@ -455,8 +459,7 @@ def dataread(file):
 
 #Detect and process the given arguments
 is_editor = False
-import time
-start_time = time.time()
+import timeit
 argumentList = sys.argv[1:]
 options = "i:cd"
 long_options = ["CheckInstall", "InputFile =", "Debug"]
@@ -471,6 +474,8 @@ try:
                 print_version(fox_version)
             elif currentArgument in ("-d", "--Debug"):
                 debug_mode = True
+                global start
+                start = timeit.default_timer()
     else:
         #If no argument is given, then start the console
         is_editor = True
@@ -486,10 +491,11 @@ try:
             index = index + 1
 except getopt.error as err:
     print(str(err))
-run_time = str((time.time() - start_time))
+end = timeit.default_timer()
+run_time = format(float(end - start), ".50f")
 if debug_mode == True:
     with open('debug.log','w') as f:
-        f.write('Run Time: '+run_time+" seconds\r")
+        f.write('Run Time: '+run_time+" seconds")
 else:
     try:
         import os
