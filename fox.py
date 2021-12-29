@@ -62,17 +62,6 @@ def check_modules_folder():
     Path(os.getcwd() + "\\Modules\\").mkdir(parents=True, exist_ok=True)
 
 
-#Check if given variables are of the same type
-def check_variable_type(*objs):
-    def _all_bases(o):
-        for b in o.__bases__:
-            if b is not object:
-                yield b
-            yield from _all_bases(b)
-    s = [(i.__class__, *_all_bases(i.__class__)) for i in objs]
-    return len(set(*s[:1]).intersection(*s[1:])) > 0
-
-
 #Print the language's version and name
 def print_version(version):
     print("|-----------------------------------|\r\n|         \U0001F98A F O X \U0001F98A -  "+version+"      |        by \033[1mJust_a_Mango\033[0m\r\n|-----------------------------------|        \033[1m@Just-A-Mango\033[0m on \033[1mGitHub\033[0m\r\n")
@@ -338,11 +327,11 @@ def process(input,count):
                     conditions_level_of_indent.append(len(original_input) - len(original_input.lstrip(' ')))
                     pass
             #The following code allows the condition to be True or False even if the given condition doesn't contain a variable
-            elif input[0] == input [1] and check_variable_type(input[0], input[1]) == True:
+            elif input[0] == input [1]:
                 conditions.append(True)
                 conditions_lines.append(str(count)+'-')
                 conditions_level_of_indent.append(len(original_input) - len(original_input.lstrip(' ')))
-            elif input[0] != input [1] and check_variable_type(input[0], input[1]) == True:
+            elif input[0] != input [1]:
                 conditions.append(False)
                 conditions_lines.append(str(count)+'-')
                 conditions_level_of_indent.append(len(original_input) - len(original_input.lstrip(' ')))
@@ -469,8 +458,8 @@ is_editor = False
 import time
 start_time = time.time()
 argumentList = sys.argv[1:]
-options = "i:c"
-long_options = ["CheckInstall", "InputFile ="]
+options = "i:cd"
+long_options = ["CheckInstall", "InputFile =", "Debug"]
 try:
     arguments, values = getopt.getopt(argumentList, options, long_options)
     if arguments:
@@ -480,6 +469,8 @@ try:
                 dataread(str(currentValue))
             elif currentArgument in ("-c", "--CheckInstall"):
                 print_version(fox_version)
+            elif currentArgument in ("-d", "--Debug"):
+                debug_mode = True
     else:
         #If no argument is given, then start the console
         is_editor = True
