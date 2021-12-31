@@ -370,7 +370,9 @@ def process(input,count):
             open(os.getcwd()+'\\Modules\\'+input.replace("import","").replace(" ","")+'.py', 'r')
         except:
             error("❓ Unknown module \033[1m\033[91m"+input.replace("import","").replace(" ","")+'\033[0m', count)
+    # UN_IMPORT MODULES
     elif "un_import" in input:
+        # un_import <module_name>
         try:
             modules.remove(input.replace("un_import","").replace(" ",""))
         except:
