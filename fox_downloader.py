@@ -7,7 +7,7 @@ except:
     install_module('requests')
 
 def show_menu():
-    import os, rich
+    import os
     os.system('cls' if os.name=='nt' else 'clear')
     print('\033[1m\33[92mFOX - Installer\033[0m')
     print("---------------")
