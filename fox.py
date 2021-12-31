@@ -362,7 +362,7 @@ def process(input,count):
         elif declared_functions_lines and declared_functions_lines[declared_functions_indents.index(level_of_indent)].split('-')[1] == "":
             declared_functions_lines[declared_functions_indents.index(level_of_indent)] = declared_functions_lines[declared_functions_indents.index(level_of_indent)] + str(count)
     # MODULES
-    elif "import" in input:
+    elif "import" in input and "un_import" not in input:
         # import <module_name>
         #If a module is imported, add it to the imported modules' list
         modules.append(input.replace("import","").replace(" ",""))
@@ -370,6 +370,15 @@ def process(input,count):
             open(os.getcwd()+'\\Modules\\'+input.replace("import","").replace(" ","")+'.py', 'r')
         except:
             error("❓ Unknown module \033[1m\033[91m"+input.replace("import","").replace(" ","")+'\033[0m', count)
+    elif "un_import" in input:
+        try:
+            modules.remove(input.replace("un_import","").replace(" ",""))
+        except:
+            try:
+                open(os.getcwd()+'\\Modules\\'+input.replace("un_import","").replace(" ","")+'.py', 'r')
+                error("⛔ Module is not imported -> \033[1m\033[91m"+input.replace("un_import","").replace(" ","")+'\033[0m', count)
+            except Exception as e:
+                error("⛔ Module does not exist -> \033[1m\033[91m"+input.replace("un_import","").replace(" ","")+'\033[0m', count)
     # DEFINE -> CONDITIONS/ARGUMENTS NOT WORKING
     elif "define" in input:
         #define function_name(argument1, argument2) {
@@ -392,10 +401,9 @@ def process(input,count):
         #Let the user know if the syntax is wrong
         try:
             assert "()" in input
-        except:
+            exit()
+        except Exception as e:
             error("⛔ Bad syntax when calling the \033[91mstop()\033[0m function", count)
-        #Quit
-        exit()
     # FUNCTION/MODULE CALLING
     elif [s for s in modules if s in input] or [s for s in declared_functions if s in input]:
         #FUNCTIONS
@@ -448,7 +456,7 @@ def dataread(file):
         all_lines = lines
         linecount = 1
         for line in lines:
-            if line.isspace() == True or line == '':
+            if line.isspace() == True or line == '' or "#" in line:
                 linecount = linecount + 1
             else:
                 process(line, linecount)
@@ -482,7 +490,7 @@ try:
         import platform
         if platform.system() == "Windows":
             os.system('cls')
-        elif platform.system() == "Linux" or platform.system == "Darwin":
+        elif platform.system() == "Linux" or platform.system() == "Darwin":
             os.system('clear')
         print("----    \033[1m\033[91m\U0001F98A Fox \U0001F98A\033[0m    ----")
         index = 1
@@ -492,8 +500,8 @@ try:
 except getopt.error as err:
     print(str(err))
 end = timeit.default_timer()
-run_time = format(float(end - start), ".50f")
-if debug_mode == True:
+if debug_mode:
+    run_time = format(float(end - start), ".50f")
     with open('debug.log','w') as f:
         f.write('Run Time: '+run_time+" seconds")
 else:

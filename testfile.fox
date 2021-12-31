@@ -1,5 +1,1 @@
-declare nice = 71
-declare coo = 4
-if (nice = 71) {
-    print(Niiiice)
-}
+un_import example_module
