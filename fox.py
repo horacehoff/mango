@@ -48,10 +48,7 @@ conditions_lines = []
 conditions_level_of_indent = []
 
 
-#Variales related to the 'while' function/featrue
-while_values = []
-while_conditions = []
-
+# Variable used to identify if current line contains indent-sensitive statements, and list used to contain all the lines (make all the lines accessible in any scope)
 is_bracket = False
 all_lines = []
 
@@ -95,12 +92,11 @@ def error(error,count):
 
 #All the properties associated with objects
 def obj_property(object, property, count):
-    if property == "removespace" and object.isalnum() == True:
-        return object.replace("e","")
-    elif property == "uppercase" and object.isalnum() == True:
+    if property == "uppercase" and object.isdecimal() == False:
         return object.upper()
-    elif property == "lowercase" and object.isalnum() == True:
+    elif property == "lowercase" and object.isdecimal() == False:
         return object.lower()
+    elif property == ""
     elif property == "round" and object.isdecimal() == True:
         return str(int(object))
     else:
@@ -124,6 +120,14 @@ def process(input,count):
     #If the content of the parentheses is math, process it and replace it by the result
     if "(" in input and ")" in input and input[input.find("(")+1:input.find(")")].replace(".","").isdecimal() == True:
         input = input.replace(input[input.find("(")+1:input.find(")")], str(eval(input[input.find("(")+1:input.find(")")])))
+    elif "if" in input and "(" in input and ")" in input and "." in input:
+        if "=" in input:
+            my_input = input.replace("if","").replace("(","").replace(")","").replace("{","").replace(" ","")
+            my_input = my_input.split("=")
+            if "." in my_input[0]:
+                input = input.replace(my_input[0], obj_property(my_input[0].split(".")[0], my_input[0].split(".")[1], count))
+            if "." in my_input[1]:
+                input = input.replace(my_input[1], obj_property(my_input[1].split(".")[0], my_input[1].split(".")[1], count))
     #If the content of the parentheses contains +(which means "appending things to other things"), try to process it if it's math or else just "append things to other things"
     elif "(" in input and ")" in input and "+" in input[input.find("(")+1:input.find(")")]:
         try:
