@@ -9,37 +9,37 @@
 import sys, getopt, os
 
 
-#Decides wether the program should generate a .log file when it's done processing
+#Decides wether the language should generate a .log file when it's done processing
 debug_mode = False
 
 
-#Decalare the lists where the variables and their values are stored
+#Lists where the variables and their values are stored
 declared_variables = []
 declared_variables_values = []
 
 
-#Declare the lists where the lists (inception!) and their values are stored
+#Lists where the lists (inception!) and their values are stored
 declared_lists = []
 declared_lists_values = []
 
 
-#Declare the lists where the functions and the lines they're assigned to are stored
+#Lists where the functions and the lines they're assigned to are stored
 declared_functions = []
 declared_functions_lines = []
 declared_functions_arguments = []
 declared_functions_indents = []
 
 
-#Declare the imported modules
+#Imported modules
 modules = []
 
 
-#Declare this language's current version
+#Language's current version, and variable that tells the language if it is in console-editor mode or not
 fox_version = 'InDev'
 is_editor = False
 
 
-#Variable used to identify if there is an ongoing condition/exception in the current processed line
+#Variables used to identify if there is an ongoing condition/exception in the current processed line
 elses_lines = []
 elses_indents = []
 
@@ -96,7 +96,11 @@ def obj_property(object, property, count):
         return object.upper()
     elif property == "lowercase" and object.isdecimal() == False:
         return object.lower()
-    elif property == ""
+    elif property == "onlynumbers":
+        if object.isdecimal() == True:
+            return "True"
+        if object.isdecimal() == False:
+            return "False"
     elif property == "round" and object.isdecimal() == True:
         return str(int(object))
     else:
@@ -106,7 +110,6 @@ def obj_property(object, property, count):
 #Basically the function that IS the language
 def process(input,count):
     original_input = input
-    global while_values
     global conditions
     global conditions_level_of_indent
     global is_bracket
@@ -117,6 +120,13 @@ def process(input,count):
                 input = input.replace(match, str(declared_variables_values[declared_variables.index(match)]))
             elif "declare" not in input:
                 input = input.replace(match, str(declared_variables_values[declared_variables.index(match)]))
+    #Replace a list name by its value if it isn't declaring -> MAY NOT BE WORKING
+    elif [s for s in declared_lists if s in input]:
+        for match in [s for s in declared_lists if s in input]:
+            if "declare" in input and input.split(' ')[1] != match:
+                input = input.replace(match, str(declared_lists_values[declared_lists.index(match)]))
+            elif "declare" not in input:
+                input = input.replace(match, str(declared_lists_values[declared_lists.index(match)]))
     #If the content of the parentheses is math, process it and replace it by the result
     if "(" in input and ")" in input and input[input.find("(")+1:input.find(")")].replace(".","").isdecimal() == True:
         input = input.replace(input[input.find("(")+1:input.find(")")], str(eval(input[input.find("(")+1:input.find(")")])))
@@ -187,7 +197,6 @@ def process(input,count):
                 process(input, count)
             else:
                 pass
-            
     # PRINT
     elif "print" in input:
         input = input.lstrip()
