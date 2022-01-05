@@ -91,7 +91,7 @@ def error(error):
 
 
 #All the properties associated with objects
-def obj_property(object, property, count):
+def obj_property(object, property):
     if property == "uppercase":
         if object.isdecimal() == True:
             error("Object does not contain letters")
@@ -105,6 +105,25 @@ def obj_property(object, property, count):
             return "True"
         if object.isdecimal() == False:
             return "False"
+    elif "remove[" in property:
+        property = property.replace("remove","").replace("[","").replace("]","")
+        try:
+            assert property != None or property != ""
+        except:
+            error("⛔ Remove property cannot be empty")
+        return object.replace(property, "")
+    elif "replace[" in property:
+        property = property.replace("replace","").replace("[","").replace("]","")
+        try:
+            assert property != None or property != ""
+        except:
+            error("⛔ Replace property cannot be empty")
+        try:
+            assert "," in property
+        except:
+            error("⛔ Replace property takes in 2 arguments: only got 1")
+        to_be_replaced = property.rsplit(",", 1)
+        return object.replace(to_be_replaced[0], to_be_replaced[1])
     else:
         error("❓ Unknown property for object \x1B[3m\033[91m"+object+"\x1b[23m\033[0m -> \033[1m\033[95m"+property+"\033[0m")
 
@@ -137,9 +156,9 @@ def process(input,count):
             my_input = input.replace("if","").replace("(","").replace(")","").replace("{","").replace(" ","")
             my_input = my_input.split("=")
             if "." in my_input[0]:
-                input = input.replace(my_input[0], obj_property(my_input[0].split(".")[0], my_input[0].split(".")[1], count))
+                input = input.replace(my_input[0], obj_property(my_input[0].split(".")[0], my_input[0].split(".")[1]))
             if "." in my_input[1]:
-                input = input.replace(my_input[1], obj_property(my_input[1].split(".")[0], my_input[1].split(".")[1], count))
+                input = input.replace(my_input[1], obj_property(my_input[1].split(".")[0], my_input[1].split(".")[1]))
     #If the content of the parentheses contains +(which means "appending things to other things"), try to process it if it's math or else just "append things to other things"
     elif "(" in input and ")" in input and "+" in input[input.find("(")+1:input.find(")")]:
         try:
@@ -152,7 +171,7 @@ def process(input,count):
                 if "." in token:
                     if token.split(".")[0] in declared_variables:
                         token = token.replace(token.split(".")[0], declared_variables_values[declared_variables.index(token.split('.')[0])])
-                    final_token = final_token+token.replace(token, obj_property(token.split('.')[0], token.split('.')[1], count))
+                    final_token = final_token+token.replace(token, obj_property(token.split('.')[0], token.split('.')[1]))
                 else:
                     final_token = final_token+token
             input = input.replace(in_between_token, final_token)
@@ -162,12 +181,12 @@ def process(input,count):
             input = input.replace(input[input.find("(")+1:input.find(")")], str(eval(str(input[input.find("(")+1:input.find(")")]))))
         except:
             in_between_token = input[input.find("(")+1:input.find(")")]
-            final_token = in_between_token.replace(in_between_token, obj_property(in_between_token.split('.')[0], in_between_token.split('.')[1], count))
+            final_token = in_between_token.replace(in_between_token, obj_property(in_between_token.split('.')[0], in_between_token.split('.')[1]))
             input = input.replace(in_between_token, final_token)
     #If, in the line, there is no parentheses but a single object with a property, do the same thing as the previous condition
     elif "." in input and [s for s in input.split(' ') if "." in s][-1]:
         matching_token = [s for s in input.split(' ') if "." in s][-1]
-        input = input.replace(matching_token, obj_property(matching_token.split(".")[0], matching_token.split(".")[1], count))
+        input = input.replace(matching_token, obj_property(matching_token.split(".")[0], matching_token.split(".")[1]))
     #The function in charge of recongizing if the current processed line is (under ?) a condition/function/loop/etc and choosing wether to process it or not
     if input[0] == " " and is_bracket == False:
         if declared_functions_lines and declared_functions_lines[-1].split('-')[1] == "":
@@ -190,13 +209,13 @@ def process(input,count):
                     break
         if "}" not in input and "if" not in input and "define" not in input and "else" not in input:
             if result == True:
-                process(input.lstrip(), count)
+                process(input.lstrip())
             else:
                 pass
         else:
             if result == True:
                 is_bracket = True
-                process(input, count)
+                process(input)
             else:
                 pass
     # PRINT
@@ -217,7 +236,7 @@ def process(input,count):
         try:
             assert input.split(' ')[0] == "declare"
         except:
-            error("Wrong word order when declaring variable", count)
+            error("Wrong word order when declaring variable")
         if not 'list' in input:
             #Try to add declared variable and its value to declared_variables and declared_variables_values
             try:
@@ -229,7 +248,7 @@ def process(input,count):
                 try:
                     assert any(i.isdigit() for i in var_name) == False
                 except:
-                    error("⛔ Cannot declare variable with any digit in its name -> "+var_name, count)
+                    error("⛔ Cannot declare variable with any digit in its name -> "+var_name)
                 #If the declared variable already exists, then overwrite its value
                 if var_name in declared_variables:
                     if 'ask(' in var_value:
@@ -286,7 +305,7 @@ def process(input,count):
                     declared_lists_values[declared_lists.index[list_name]] = list_toadd
             #The 
             except:
-                error("Failed to declare list <unknown name>", count)
+                error("Failed to declare list <unknown name>")
     # ASK
     elif "ask" in input:
         # ask(something)
@@ -356,7 +375,7 @@ def process(input,count):
                 conditions_level_of_indent.append(len(original_input) - len(original_input.lstrip(' ')))
                 pass
             else:
-                error("❓ Unknown variable referenced in condition", count)
+                error("❓ Unknown variable referenced in condition")
     # ELSE -> NOT WORKING
     elif "else" in input:
         #else {
@@ -384,7 +403,7 @@ def process(input,count):
         try:
             open(os.getcwd()+'\\Modules\\'+input.replace("import","").replace(" ","")+'.py', 'r')
         except:
-            error("❓ Unknown module \033[1m\033[91m"+input.replace("import","").replace(" ","")+'\033[0m', count)
+            error("❓ Unknown module \033[1m\033[91m"+input.replace("import","").replace(" ","")+'\033[0m')
     # UN_IMPORT MODULES
     elif "un_import" in input:
         # un_import <module_name>
@@ -393,9 +412,9 @@ def process(input,count):
         except:
             try:
                 open(os.getcwd()+'\\Modules\\'+input.replace("un_import","").replace(" ","")+'.py', 'r')
-                error("⛔ Module is not imported -> \033[1m\033[91m"+input.replace("un_import","").replace(" ","")+'\033[0m', count)
+                error("⛔ Module is not imported -> \033[1m\033[91m"+input.replace("un_import","").replace(" ","")+'\033[0m')
             except Exception as e:
-                error("⛔ Module does not exist -> \033[1m\033[91m"+input.replace("un_import","").replace(" ","")+'\033[0m', count)
+                error("⛔ Module does not exist -> \033[1m\033[91m"+input.replace("un_import","").replace(" ","")+'\033[0m')
     # DEFINE -> CONDITIONS/ARGUMENTS NOT WORKING
     elif "define" in input:
         #define function_name(argument1, argument2) {
@@ -404,7 +423,7 @@ def process(input,count):
         try:
             assert "{" in input and "(" in input and ")" in input
         except:
-            error("⛔ Bad syntax when trying to define a function -> "+input, count)
+            error("⛔ Bad syntax when trying to define a function -> "+input)
         #Append the current line, indentation, name, and arguments to the lists
         function_name = input.replace("define","").replace(" ","").replace("("+input[input.find("(")+1:input.find(")")]+")","").replace("{","")
         function_arguments = input[input.find("(")+1:input.find(")")]
@@ -420,7 +439,7 @@ def process(input,count):
             assert "()" in input
             exit()
         except Exception as e:
-            error("⛔ Bad syntax when calling the \033[91mstop()\033[0m function", count)
+            error("⛔ Bad syntax when calling the \033[91mstop()\033[0m function")
     # FUNCTION/MODULE CALLING
     elif [s for s in modules if s in input] or [s for s in declared_functions if s in input]:
         #FUNCTIONS
@@ -429,13 +448,13 @@ def process(input,count):
             try:
                 assert "(" in input and ")" in input
             except:
-                error("You forgot the () when calling \033[91m"+function+"()\033[0m -> "+input, count)
+                error("You forgot the () when calling \033[91m"+function+"()\033[0m -> "+input)
             func_lines = declared_functions_lines[declared_functions.index(function)].split('-')
             rng = list(range(int(func_lines[0]), int(func_lines[-1])))
             rng.remove(rng[0])
             rng = [x - 1 for x in rng]
             for line in rng:
-                process(all_lines[line].removeprefix('    '), count)
+                process(all_lines[line].removeprefix('    '))
             return
         #MODULES
         elif modules and [s for s in modules if s in input] and "import" not in input:
@@ -448,7 +467,7 @@ def process(input,count):
             os.remove(os.getcwd()+'\\Modules\\input.txt')
             return
     else:
-            error("❓ Unknown function/object -> \033[91m"+input+"\033[0m", count)
+            error("❓ Unknown function/object -> \033[91m"+input+"\033[0m")
 
        
 
