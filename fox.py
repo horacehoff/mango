@@ -81,9 +81,9 @@ def askfor(arg):
 
 
 #Function used to print a nice and clean error
-def error(error,count):
+def error(error):
     print("        \033[1m\033[91m⚠️   Fox Error  ⚠️\033[0m        ")
-    print("At \033[1m\033[92mline "+str(count)+"\033[0m ↓")
+    print("At \033[1m\033[92mline "+str(linecount)+"\033[0m ↓")
     print('\033[1m'+str(error)+'\033[0m')
     if is_editor == False:
         from sys import exit
@@ -92,19 +92,21 @@ def error(error,count):
 
 #All the properties associated with objects
 def obj_property(object, property, count):
-    if property == "uppercase" and object.isdecimal() == False:
+    if property == "uppercase":
+        if object.isdecimal() == True:
+            error("Object does not contain letters")
         return object.upper()
-    elif property == "lowercase" and object.isdecimal() == False:
+    elif property == "lowercase":
+        if object.isdecimal() == True:
+            error("Object does not contain letters")
         return object.lower()
     elif property == "onlynumbers":
         if object.isdecimal() == True:
             return "True"
         if object.isdecimal() == False:
             return "False"
-    elif property == "round" and object.isdecimal() == True:
-        return str(int(object))
     else:
-        error("❓ Unknown property for object \x1B[3m\033[91m"+object+"\x1b[23m\033[0m -> \033[1m\033[95m"+property+"\033[0m", count)
+        error("❓ Unknown property for object \x1B[3m\033[91m"+object+"\x1b[23m\033[0m -> \033[1m\033[95m"+property+"\033[0m")
 
 
 #Basically the function that IS the language
@@ -461,6 +463,7 @@ def dataread(file):
         error(file+' is not a .fox file',0)
     #Try to open the file and convert the entire file into individual lines
     file1 = open(str(file), 'r')
+    global linecount
     linecount = 0
     lines = []
     with open(str(file1).replace("<_io.TextIOWrapper name='","").replace("' mode='r' encoding='cp1252'>","")) as file:
@@ -518,7 +521,7 @@ end = timeit.default_timer()
 if debug_mode:
     run_time = format(float(end - start), ".50f")
     with open('debug.log','w') as f:
-        f.write('Run Time: '+run_time+" seconds")
+        f.write('Run Time(it is highly probable this is false): '+run_time+" seconds")
 else:
     try:
         import os
