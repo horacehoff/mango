@@ -387,6 +387,13 @@ def process(input,count):
         #Append to the elses' lists the line and indentation of this condition exception
         elses_lines.append(str(count)+"-")
         elses_indents.append(len(original_input) - len(original_input.lstrip(' ')))
+    #FOR # IN #
+    elif "for" in input:
+        try:
+            assert len(input.split(" ")) == 4
+            assert "{" in input
+        except:
+            error("Bad syntax when calling loop")
     #Detect the end of a condition/function/loop/etc
     elif "}" in input:
         is_bracket = False
