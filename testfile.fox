@@ -1,1 +1,4 @@
-print(HiThereMyGuy.replace[Hi,Nice])
+declare list me = [hi, you, me, ncie]
+for (name in me) {
+}
+y

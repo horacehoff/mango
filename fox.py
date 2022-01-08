@@ -48,6 +48,11 @@ conditions_lines = []
 conditions_level_of_indent = []
 
 
+#Variable used to identify if there is an ongoing loop
+loop_lines = []
+loop_level_of_indent = []
+
+
 # Variable used to identify if current line contains indent-sensitive statements, and list used to contain all the lines (make all the lines accessible in any scope)
 is_bracket = False
 all_lines = []
@@ -142,7 +147,7 @@ def process(input,count):
             elif "declare" not in input:
                 input = input.replace(match, str(declared_variables_values[declared_variables.index(match)]))
     #Replace a list name by its value if it isn't declaring -> MAY NOT BE WORKING
-    elif [s for s in declared_lists if s in input]:
+    elif [s for s in declared_lists if s in input] and "for" not in input:
         for match in [s for s in declared_lists if s in input]:
             if "declare" in input and input.split(' ')[1] != match:
                 input = input.replace(match, str(declared_lists_values[declared_lists.index(match)]))
@@ -390,18 +395,31 @@ def process(input,count):
     #FOR # IN #
     elif "for" in input:
         try:
-            assert len(input.split(" ")) == 4
+            assert len(input.split(" ")) == 5
             assert "{" in input
+            assert "(" in input and ")" in input
         except:
-            error("Bad syntax when calling loop")
+            error("⛔ Bad syntax when calling loop")
+        given_name = input.replace("for","").replace("(","").replace(")","").replace("{","").replace(" ","").split("in",1)[0]
+        given_list = input.replace("for","").replace("(","").replace(")","").replace("{","").replace(" ","").split("in",1)[1]
+        try:
+            assert given_list in declared_lists
+        except:
+            error("⛔ Unknown list -> \x1B[3m\033[91m"+given_list+"\x1b[23m\033[0m")
+        loop_lines.append(str(count)+"-")
+        loop_level_of_indent.append(len(original_input) - len(original_input.lstrip(' ')))
     #Detect the end of a condition/function/loop/etc
     elif "}" in input:
         is_bracket = False
         level_of_indent = len(input) - len(input.lstrip(' '))
-        if conditions_lines and [num for num in conditions_lines if num.split('-')[1] == ""]:
+        if loop_lines and [num for num in loop_lines if num.split('-')[1] == ""]:
+            loop_lines[loop_level_of_indent.index(level_of_indent)] = loop_lines[loop_level_of_indent.index(level_of_indent)] + str(count)
+        elif conditions_lines and [num for num in conditions_lines if num.split('-')[1] == ""]:
             conditions_lines[conditions_level_of_indent.index(level_of_indent)] = conditions_lines[conditions_level_of_indent.index(level_of_indent)] + str(count)
         elif declared_functions_lines and declared_functions_lines[declared_functions_indents.index(level_of_indent)].split('-')[1] == "":
             declared_functions_lines[declared_functions_indents.index(level_of_indent)] = declared_functions_lines[declared_functions_indents.index(level_of_indent)] + str(count)
+        else:
+            error("⛔ Cannot find owner of bracket")
     # MODULES
     elif "import" in input and "un_import" not in input:
         # import <module_name>
