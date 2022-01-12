@@ -139,7 +139,7 @@ def process(input,count):
     global conditions
     global conditions_level_of_indent
     global is_bracket
-    #Replace a variable name by its value if itsn't declaring
+    #Replace a variable name by its value if it isn't declaring
     if [s for s in declared_variables if s in input]:
         for match in [s for s in declared_variables if s in input]:
             if "declare" in input and input.split(' ')[1] != match:
@@ -192,7 +192,7 @@ def process(input,count):
     elif "." in input and [s for s in input.split(' ') if "." in s][-1]:
         matching_token = [s for s in input.split(' ') if "." in s][-1]
         input = input.replace(matching_token, obj_property(matching_token.split(".")[0], matching_token.split(".")[1]))
-    #The function in charge of recongizing if the current processed line is (under ?) a condition/function/loop/etc and choosing wether to process it or not
+    #The function in charge of recognizing if the current processed line is (under ?) a condition/function/loop/etc and choosing wether to process it or not
     if input[0] == " " and is_bracket == False:
         if declared_functions_lines and declared_functions_lines[-1].split('-')[1] == "":
             return
@@ -420,6 +420,7 @@ def process(input,count):
             declared_functions_lines[declared_functions_indents.index(level_of_indent)] = declared_functions_lines[declared_functions_indents.index(level_of_indent)] + str(count)
         else:
             error("⛔ Cannot find owner of bracket")
+        
     # MODULES
     elif "import" in input and "un_import" not in input:
         # import <module_name>
