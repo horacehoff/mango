@@ -1,4 +1,16 @@
-declare list me = [hi, you, me, ncie]
-for (name in me) {
+if (col = cool) {
+    print(nice)
+    if (nie = nice) {
+        print(Ayoo)
+    }
+} else {
+    print(not nice)
 }
-y
+
+declare my_var = color
+if (my_var = color) {
+    print(Yello)
+} else {
+    print(Ayo)
+}
+print(heyya)

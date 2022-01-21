@@ -47,6 +47,8 @@ conditions = []
 conditions_lines = []
 conditions_level_of_indent = []
 
+to_be_replaced = []
+to_be_replaced_with = []
 
 #Variable used to identify if there is an ongoing loop
 loop_lines = []
@@ -137,8 +139,12 @@ def obj_property(object, property):
 def process(input,count):
     original_input = input
     global conditions
+    global elses_lines
+    global elses_indents
     global conditions_level_of_indent
     global is_bracket
+    global to_be_replaced
+    global to_be_replaced_with
     #Replace a variable name by its value if it isn't declaring
     if [s for s in declared_variables if s in input]:
         for match in [s for s in declared_variables if s in input]:
@@ -194,35 +200,46 @@ def process(input,count):
         input = input.replace(matching_token, obj_property(matching_token.split(".")[0], matching_token.split(".")[1]))
     #The function in charge of recognizing if the current processed line is (under ?) a condition/function/loop/etc and choosing wether to process it or not
     if input[0] == " " and is_bracket == False:
-        if declared_functions_lines and declared_functions_lines[-1].split('-')[1] == "":
-            return
+        if elses_lines and elses_lines[-1].split('-')[1] == "":
+            if conditions[conditions_level_of_indent.index([num for num in conditions_level_of_indent if num == (len(original_input) - len(original_input.lstrip(' '))-4)][0])] != True:
+                result = True
+            else:
+                result = False
         else:
-            pass
-        matching_conditions = [num for num in conditions_lines if num.split('-')[1] == ""]
-        matching_functions = [num for num in conditions_lines if num.split('-')[1] == ""]
-        matches = []
-        for match in matching_conditions:
-            matches.append(conditions[conditions_lines.index(match)])
-        if not matches:
-            result = False
-        else:
-            for element in matches:
-                if element == True:
-                    result = True
-                else:
-                    result = False
-                    break
+            if declared_functions_lines and declared_functions_lines[-1].split('-')[1] == "":
+                return
+            else:
+                pass
+            matching_conditions = [num for num in conditions_lines if num.split('-')[1] == ""]
+            matching_functions = [num for num in conditions_lines if num.split('-')[1] == ""]
+            matches = []
+            for match in matching_conditions:
+                matches.append(conditions[conditions_lines.index(match)])
+            if not matches:
+                result = False
+            else:
+                for element in matches:
+                    if element == True:
+                        result = True
+                    else:
+                        result = False
+                        break
+            
         if "}" not in input and "if" not in input and "define" not in input and "else" not in input:
             if result == True:
-                process(input.lstrip())
+                process(input.lstrip(), count)
             else:
                 pass
         else:
             if result == True:
                 is_bracket = True
-                process(input)
+                process(input, count)
             else:
                 pass
+    elif "replace" and "with" in input:
+        print(input.split(" ")[3])
+        to_be_replaced.append(input.split(" ")[1])
+        to_be_replaced_with.append(input.split(" ")[3])
     # PRINT
     elif "print" in input:
         input = input.lstrip()
@@ -381,17 +398,6 @@ def process(input,count):
                 pass
             else:
                 error("❓ Unknown variable referenced in condition")
-    # ELSE -> NOT WORKING
-    elif "else" in input:
-        #else {
-        #}
-        try:
-            assert "{" in input
-        except:
-            error("⛔ Bad syntax when declaring condition exception -> "+input,count)
-        #Append to the elses' lists the line and indentation of this condition exception
-        elses_lines.append(str(count)+"-")
-        elses_indents.append(len(original_input) - len(original_input.lstrip(' ')))
     #FOR # IN #
     elif "for" in input:
         try:
@@ -410,16 +416,34 @@ def process(input,count):
         loop_level_of_indent.append(len(original_input) - len(original_input.lstrip(' ')))
     #Detect the end of a condition/function/loop/etc
     elif "}" in input:
-        is_bracket = False
-        level_of_indent = len(input) - len(input.lstrip(' '))
-        if loop_lines and [num for num in loop_lines if num.split('-')[1] == ""]:
-            loop_lines[loop_level_of_indent.index(level_of_indent)] = loop_lines[loop_level_of_indent.index(level_of_indent)] + str(count)
-        elif conditions_lines and [num for num in conditions_lines if num.split('-')[1] == ""]:
-            conditions_lines[conditions_level_of_indent.index(level_of_indent)] = conditions_lines[conditions_level_of_indent.index(level_of_indent)] + str(count)
-        elif declared_functions_lines and declared_functions_lines[declared_functions_indents.index(level_of_indent)].split('-')[1] == "":
-            declared_functions_lines[declared_functions_indents.index(level_of_indent)] = declared_functions_lines[declared_functions_indents.index(level_of_indent)] + str(count)
+        if "else" in input:
+            try:
+                assert "{" in input
+            except:
+                error("⛔ Bad syntax when declaring exception ")
+            elses_lines.append(str(count)+"-")
+            elses_indents.append(len(original_input) - len(original_input.lstrip(' ')))
+            is_bracket = False
+            level_of_indent = len(original_input) - len(original_input.lstrip(' '))
+            if conditions_lines and [num for num in conditions_lines if num.split('-')[1] == ""]:
+                conditions_lines[conditions_lines.index([num for num in conditions_lines if num.split('-')[1] == ""][-1])] = conditions_lines[conditions_lines.index([num for num in conditions_lines if num.split('-')[1] == ""][-1])] + str(count)
+            else:
+                error("⛔ Cannot find owner of bracket")
+        elif "{" in input:
+            error("⛔ Bad syntax when declaring exception ")
         else:
-            error("⛔ Cannot find owner of bracket")
+            is_bracket = False
+            level_of_indent = len(original_input) - len(original_input.lstrip(' '))
+            if elses_lines and [num for num in elses_lines if num.split('-')[1] == ""]:
+                elses_lines[elses_indents.index(level_of_indent)] = elses_lines[elses_indents.index(level_of_indent)] + str(count)
+            elif loop_lines and [num for num in loop_lines if num.split('-')[1] == ""]:
+                loop_lines[loop_level_of_indent.index(level_of_indent)] = loop_lines[loop_level_of_indent.index(level_of_indent)] + str(count)
+            elif conditions_lines and [num for num in conditions_lines if num.split('-')[1] == ""]:
+                conditions_lines[conditions_level_of_indent.index(level_of_indent)] = conditions_lines[conditions_level_of_indent.index(level_of_indent)] + str(count)
+            elif declared_functions_lines and declared_functions_lines[declared_functions_indents.index(level_of_indent)].split('-')[1] == "":
+                declared_functions_lines[declared_functions_indents.index(level_of_indent)] = declared_functions_lines[declared_functions_indents.index(level_of_indent)] + str(count)
+            else:
+                error("⛔ Cannot find owner of bracket")
         
     # MODULES
     elif "import" in input and "un_import" not in input:
@@ -515,11 +539,15 @@ def dataread(file):
         for line in file:
             line = line.replace('\n','')
             lines.append(line)
+        for line in lines:
+            for replacement in to_be_replaced_with:
+                if replacement in line:
+                    line = line.replace(replacement, to_be_replaced[to_be_replaced_with.index(replacement)])
         global all_lines
         all_lines = lines
         linecount = 1
         for line in lines:
-            if line.isspace() == True or line == '' or "#" in line:
+            if line.isspace() == True or line == '' or "#" in line or "//" in line:
                 linecount = linecount + 1
             else:
                 process(line, linecount)
