@@ -1,16 +1,4 @@
-if (col = cool) {
-    print(nice)
-    if (nie = nice) {
-        print(Ayoo)
-    }
-} else {
-    print(not nice)
+declare my_var = coo
+if (my_var = cool) {
+    print(Noice)
 }
-
-declare my_var = color
-if (my_var = color) {
-    print(Yello)
-} else {
-    print(Ayo)
-}
-print(heyya)

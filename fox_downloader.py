@@ -37,6 +37,7 @@ def show_menu():
         os.system('cls' if os.name=='nt' else 'clear')
         print("\033[91mDownloading & Installing Fox...\033[0m |████████  |")
         os.system('cls' if os.name=='nt' else 'clear')
+        os.system('cmd /k setx /M path "%path%;C:\Fox\"')
         print("\033[91mDownloading & Installing Fox...\033[0m |██████████|")
         print('\033[1m\033[91mSuccessfully downloaded and installed \33[92mFox\x1B[3m\033[0m')
         from msvcrt import getch
@@ -49,4 +50,8 @@ def show_menu():
     else:
         pass
     
-show_menu()
+import ctypes
+if ctypes.windll.shell32.IsUserAnAdmin():  
+    show_menu()
+else:
+    print("\033[31m\033[1m[ERROR] - PLEASE LAUNCH AGAIN AS ADMINISTRATOR\33[0m")

@@ -250,6 +250,13 @@ def process(input,count):
             print(input)
         except:
             error("⚠️  Failed to print('whatever you typed')",count)
+    # DEBUG
+    elif "debug" in input:
+        try:
+            assert "(" in input and ")" in input
+        except:
+            error("⛔ Bad syntax when calling debug function")
+        print("\33[31m[DEBUG]\33[0m\33[3m"+input.replace("debug","").replace("(","").replace(")","")+"\33[0m")
     # DECLARE
     elif "declare" in input:
         # declare var_name = var_value
