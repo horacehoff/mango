@@ -1,4 +1,2 @@
-declare my_var = coo
-if (my_var = cool) {
-    print(Noice)
-}
+import example_module
+example_module()

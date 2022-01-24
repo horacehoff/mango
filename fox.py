@@ -517,7 +517,7 @@ def process(input,count):
         elif modules and [s for s in modules if s in input] and "import" not in input:
             module = [s for s in modules if s in input][0]
             with open(os.getcwd() + '\\Modules\\input.txt', 'x') as f:
-                f.write(input)
+                f.write(input+"\n"+str(count))
             import subprocess
             subprocess.call(["python", os.getcwd()+'\\Modules\\'+module+'.py'], stdout = open(os.devnull, "w"), stderr = subprocess.STDOUT)
             os.system('python '+os.getcwd()+'\\Modules\\'+module+'.py')
