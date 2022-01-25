@@ -1,2 +1,1 @@
-import example_module
-example_module()
+debug(69)

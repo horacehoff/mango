@@ -19,7 +19,7 @@ def error(error):
 # ⚠️ YOU MUST NOT ALTER THE NAME OR THE ARGUMENTS OF THE FOLLOWING FUNCTION ⚠️ 
 def main(input, current_line):
     #Put all your code/actions here
-    print("Hello World")
+    print(input)
     error("An example error")
 
 

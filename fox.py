@@ -256,7 +256,7 @@ def process(input,count):
             assert "(" in input and ")" in input
         except:
             error("⛔ Bad syntax when calling debug function")
-        print("\33[31m[DEBUG]\33[0m\33[3m"+input.replace("debug","").replace("(","").replace(")","")+"\33[0m")
+        print("\33[31m[DEBUG]\33[0m\33[3m "+input.replace("debug","").replace("(","").replace(")","")+"\33[0m")
     # DECLARE
     elif "declare" in input:
         # declare var_name = var_value
@@ -591,10 +591,14 @@ try:
         elif platform.system() == "Linux" or platform.system() == "Darwin":
             os.system('clear')
         print("----    \033[1m\033[91m\U0001F98A Fox \U0001F98A\033[0m    ----")
-        index = 1
+        linecount = 1
         while True:
-            process(input(">>"), index)
-            index = index + 1
+            line = input(">>")
+            if line.isspace() == True or line == '' or "#" in line or "//" in line:
+                linecount = linecount + 1
+            else:
+                process(line, linecount)
+                linecount = linecount + 1
 except getopt.error as err:
     print(str(err))
 end = timeit.default_timer()
