@@ -9,7 +9,7 @@ module_name = "Example Module"
 
 #Function used to report error, can be modified, although the name mustn't change
 def error(error):
-    print("        \033[1m\033[91m⚠️   Fox Module Error  ⚠️\033[0m        ")
+    print("        \033[1m\033[91m⚠️   Mango Module Error  ⚠️\033[0m        ")
     print("At \033[1m\033[92mline "+str(line)+"\033[0m with module \33[93m"+module_name+"\033[0m ↓")
     print('\033[1m'+str(error)+'\033[0m')
     exit()
