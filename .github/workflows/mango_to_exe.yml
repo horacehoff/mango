@@ -22,15 +22,15 @@ jobs:
       run:
         pip install pyinstaller
     
-        pyinstaller fox.py --onefile
+        pyinstaller mango.py --onefile
     - name: Upload Fox Build Artifact
       uses: actions/upload-artifact@v2.3.0
       with:
         name: Fox Binary build
-        path: D:\a\fox\fox\dist\fox.exe
+        path: D:\a\fox\fox\dist\mango.exe
     - name: Upload Fox Source Artifact
       uses: actions/upload-artifact@v2.3.0
       with:
         name: Fox Source File
-        path: fox.py
+        path: mango.py
 
