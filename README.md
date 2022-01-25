@@ -1,18 +1,17 @@
-<h1 align="center">Welcome to Fox 👋</h1>
+<h1 align="center">Welcome to Mango 👋</h1>
 
-![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fjust-a-mango%2Ffox%2Fbadge%3Fref%3Dmain%26token%3D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&style=for-the-badge)
 ![forthebadge](https://img.shields.io/badge/Version-INDEV-informational?style=for-the-badge)
 
 ### A programming language with the purpose of being easy to understand and fast 
 
-### 🏠 [Homepage](https://github.com/Just-A-Mango/fox#readme)&nbsp; &nbsp; &nbsp; &nbsp; 📄 [Documentation](https://github.com/Just-A-Mango/fox/blob/main/.github/markdown/documentation.md)&nbsp; &nbsp; &nbsp; &nbsp; 🛣️ [Roadmap](https://trello.com/b/QkPYOFwk/fox-roadmap)
+### 🏠 [Homepage](https://github.com/Just-A-Mango/mango#readme)&nbsp; &nbsp; &nbsp; &nbsp; 📄 [Documentation](https://github.com/Just-A-Mango/mango/blob/main/.github/markdown/documentation.md)&nbsp; &nbsp; &nbsp; &nbsp; 🛣️ [Roadmap](https://trello.com/b/QkPYOFwk/fox-roadmap)
 ## Usage
 ```sh
-fox.py -i <yourfile>.fox
+mango.py -i <yourfile>.mango
 ```  
 ## Run tests
 ```sh
-fox.py -c
+mango.py -c
 ```
 &nbsp;
 ## Author
