@@ -526,7 +526,7 @@ def process(input,count):
     else:
             error("❓ Unknown function/object -> \033[91m"+input+"\033[0m")
 
-       
+
 
 
 #This function reads the specified file and separates it into lines, which are then read and processed by the process() function
