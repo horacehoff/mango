@@ -9,7 +9,7 @@
 import sys, getopt, os
 
 
-#Decides wether the language should generate a .log file when it's done processing
+#Tells the language whether or not it should generate a .log file when it's done processing
 debug_mode = False
 
 
