@@ -1,10 +1,10 @@
-name: Fox Installer To Exe
+name: Mango Installer To Exe
 
 on:
   push:
     branches: [ main ]
     paths:
-      - 'fox_downloader.py'
+      - 'mango_downloader.py'
 
 jobs:
   build:
