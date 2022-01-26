@@ -1,10 +1,10 @@
-name: Fox To Exe
+name: Mango To Exe
 
 on:
   push:
     branches: [ main ]
     paths:
-      - 'fox.py'
+      - 'mango.py'
 
 jobs:
   build:
