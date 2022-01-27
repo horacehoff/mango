@@ -1,4 +1,5 @@
 """
+Mango © 2022 by Just_a_Mango is licensed under Attribution-NonCommercial-NoDerivatives 4.0 International
                         |-----------------------------------|
                         |              M A N G O            |        by Just_a_Mango
                         |-----------------------------------|        @Just-A-Mango on GitHub
