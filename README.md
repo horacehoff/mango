@@ -31,11 +31,16 @@ Contributions, issues and feature requests are welcome!<br />Feel free to check 
 
 ## Pull Requests
 
-When adding and proposing new features to Mango, make sure to have read the following:\
+When adding/proposing new features to Mango, make sure to have read the following:\
 &nbsp;&nbsp;1️⃣-the added/improved code must be **readable**\
 &nbsp;&nbsp;2️⃣-the added/improved code must be **as commented as possible**\
 &nbsp;&nbsp;3️⃣-the added/improved code must **prioritise cross-platform and native solutions, do not use third-party modules**\
 &nbsp;&nbsp;4️⃣-the comments must be as **understandable and concise** as possible
+
+## How versioning works
+
+Each major Mango release gets a new "version name": a **random word, animal, that describes it best**.\
+Right now, the current version is *Newborn*, due to the fact that Mango is still very young, in active development, and nowhere near fully developed.
 
 ## Show your support
 
