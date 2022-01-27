@@ -35,7 +35,7 @@ modules = []
 
 
 #Language's current version, and variable that tells the language if it is in console-editor mode or not
-Mango_version = 'InDev'
+Mango_version = 'Newborn'
 is_editor = False
 
 
