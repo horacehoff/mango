@@ -18,7 +18,7 @@ declared_variables = []
 declared_variables_values = []
 
 
-#Lists where the lists (inception!) and their values are stored
+#Lists where the lists (inception!!) and their values are stored
 declared_lists = []
 declared_lists_values = []
 
