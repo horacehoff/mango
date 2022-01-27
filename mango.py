@@ -1,6 +1,6 @@
 """
                         |-----------------------------------|
-                        |              F O X                |        by Just_a_Mango
+                        |              M A N G O            |        by Just_a_Mango
                         |-----------------------------------|        @Just-A-Mango on GitHub
 """
 
@@ -68,7 +68,7 @@ def check_modules_folder():
 
 #Print the language's version and name
 def print_version(version):
-    print("|-----------------------------------|\r\n|         \U0001F96D F O X \U0001F96D -  "+version+"      |        by \033[1mJust_a_Mango\033[0m\r\n|-----------------------------------|        \033[1m@Just-A-Mango\033[0m on \033[1mGitHub\033[0m\r\n")
+    print("|-----------------------------------|\r\n|         \U0001F96D MANGO \U0001F96D -  "+version+"      |        by \033[1mJust_a_Mango\033[0m\r\n|-----------------------------------|        \033[1m@Just-A-Mango\033[0m on \033[1mGitHub\033[0m\r\n")
 
 
 #Installs any given module at runtime in the background
