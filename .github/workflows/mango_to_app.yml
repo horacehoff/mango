@@ -27,7 +27,7 @@ jobs:
       uses: actions/upload-artifact@v2.3.0
       with:
         name: Mango App build
-        path: ./dist/mango.app
+        path: /Users/runner/work/mango/mango/dist/mango
     - name: Upload Mango Source Artifact
       uses: actions/upload-artifact@v2.3.0
       with:
