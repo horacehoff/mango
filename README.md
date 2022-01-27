@@ -21,12 +21,13 @@ mango.py -c
 &nbsp;
 ## Compatibility
 ✅: fully compatible\
-❓: under investigation\
+❓: under investigation/not planned atm\
 💢: partially compatible\
 ⛔: not compatible
 
   - Windows 11: ✅ -> using Windows Terminal
   - Windows 10: 💢 -> works if you use Windows Terminal instead of cmd.exe
+  - Windows 8(and lower): ❓
   - Linux(any distro): ❓
   - MacOs(any version): ❓
 &nbsp;
