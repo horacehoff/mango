@@ -600,7 +600,7 @@ try:
             os.system('cls')
         elif platform.system() == "Linux" or platform.system() == "Darwin":
             os.system('clear')
-        print("----    \033[1m\033[91m\U0001F98A Mango \U0001F98A\033[0m    ----")
+        print("----    \033[1m\033[91m\U0001F96D Mango \U0001F96D\033[0m    ----")
         linecount = 1
         while True:
             line = input(">>")
