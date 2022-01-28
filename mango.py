@@ -244,6 +244,10 @@ def process(input,count):
         to_be_replaced_with.append(input.split(" ")[3])
     # PRINT
     elif "print" in input:
+        try:
+            assert "(" in input and ")" in input
+        except:
+            error("Missing parentheses when calling print function")
         input = input.lstrip()
         # print(something)
         try:
