@@ -22,7 +22,7 @@ jobs:
       run:
         pip install pyinstaller
     
-        pyinstaller mango.py --onefile
+        pyinstaller mango.py --onefile -i "NONE"
     - name: Upload Mango Build Artifact
       uses: actions/upload-artifact@v2.3.0
       with:
