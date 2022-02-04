@@ -52,10 +52,15 @@ conditions_level_of_indent = []
 to_be_replaced = []
 to_be_replaced_with = []
 
-#Variable used to identify if there is an ongoing loop
-loop_lines = []
-loop_level_of_indent = []
+#Variables used to identify if there is an ongoing loop
+loop_condition_lines = []
+loop_condition_level_of_indent = []
 
+
+#Variables used to identify if there is an ongoing repeat
+repeat_lines = []
+repeat_level_of_indent = []
+repeat_count = []
 
 # Variable used to identify if current line contains indent-sensitive statements (if, for, declare, etc), and list used to contain all the lines (make all the lines accessible in any scope)
 is_bracket = False
@@ -193,14 +198,15 @@ def process(input,count):
     global is_bracket
     global to_be_replaced
     global to_be_replaced_with
-    #Replace a variable name by its value if it isn't declaring
+    #Replace a variable name (when it is detected in the current line) by its value if it isn't declaring
     if [s for s in declared_variables if s in input]:
         for match in [s for s in declared_variables if s in input]:
             if "declare" in input and input.split(' ')[1] != match:
                 input = input.replace(match, str(declared_variables_values[declared_variables.index(match)]))
             elif "declare" not in input:
                 input = input.replace(match, str(declared_variables_values[declared_variables.index(match)]))
-    #Replace a list name by its value if it isn't declaring -> MAY NOT BE WORKING
+    #Replace a list name (when it is detected in the current line) by its value if it isn't declaring 
+    #!!NOT FULLY WORKING!!
     elif [s for s in declared_lists if s in input] and "for" not in input:
         for match in [s for s in declared_lists if s in input]:
             if "declare" in input and input.split(' ')[1] != match:
@@ -253,6 +259,10 @@ def process(input,count):
                 result = True
             else:
                 result = False
+        elif repeat_lines and repeat_lines[-1].split('-')[1] == "":
+            result = False
+            for x in range(int(repeat_count[-1])):
+                process(input.lstrip(), count)
         else:
             if declared_functions_lines and declared_functions_lines[-1].split('-')[1] == "":
                 return
@@ -471,8 +481,17 @@ def process(input,count):
             assert given_list in declared_lists
         except:
             error("⛔ Unknown list -> \x1B[3m\033[91m"+given_list+"\x1b[23m\033[0m")
-        loop_lines.append(str(count)+"-")
-        loop_level_of_indent.append(len(original_input) - len(original_input.lstrip(' ')))
+        loop_condition_lines.append(str(count)+"-")
+        loop_condition_level_of_indent.append(len(original_input) - len(original_input.lstrip(' ')))
+    elif "repeat" in input:
+        try:
+            assert "{" in input and "(" in input and ")" in input
+        except:
+            error("⛔ Bad syntax when calling repeat")
+        repeat_lines.append(str(count)+"-")
+        repeat_level_of_indent.append(len(original_input) - len(original_input.lstrip(' ')))
+        repeat_count.append(input.replace("repeat","").replace("(","").replace(")","").replace("{","").replace(" ",""))
+
     #Detect the end of a condition/function/loop/etc
     elif "}" in input:
         if "else" in input:
@@ -495,8 +514,10 @@ def process(input,count):
             level_of_indent = len(original_input) - len(original_input.lstrip(' '))
             if elses_lines and [num for num in elses_lines if num.split('-')[1] == ""]:
                 elses_lines[elses_indents.index(level_of_indent)] = elses_lines[elses_indents.index(level_of_indent)] + str(count)
-            elif loop_lines and [num for num in loop_lines if num.split('-')[1] == ""]:
-                loop_lines[loop_level_of_indent.index(level_of_indent)] = loop_lines[loop_level_of_indent.index(level_of_indent)] + str(count)
+            elif repeat_lines and [num for num in repeat_lines if num.split('-')[1] == ""]:
+                repeat_lines[repeat_level_of_indent.index(level_of_indent)] = repeat_lines[repeat_level_of_indent.index(level_of_indent)] + str(count)
+            elif loop_condition_lines and [num for num in loop_condition_lines if num.split('-')[1] == ""]:
+                loop_condition_lines[loop_condition_level_of_indent.index(level_of_indent)] = loop_condition_lines[loop_condition_level_of_indent.index(level_of_indent)] + str(count)
             elif conditions_lines and [num for num in conditions_lines if num.split('-')[1] == ""]:
                 conditions_lines[conditions_level_of_indent.index(level_of_indent)] = conditions_lines[conditions_level_of_indent.index(level_of_indent)] + str(count)
             elif declared_functions_lines and declared_functions_lines[declared_functions_indents.index(level_of_indent)].split('-')[1] == "":
