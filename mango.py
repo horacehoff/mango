@@ -467,7 +467,8 @@ def process(input,count):
                 pass
             else:
                 error("❓ Unknown variable referenced in condition")
-    #FOR # IN #
+    #FOR # IN # {   
+    #}
     elif "for" in input:
         try:
             assert len(input.split(" ")) == 5
@@ -483,11 +484,15 @@ def process(input,count):
             error("⛔ Unknown list -> \x1B[3m\033[91m"+given_list+"\x1b[23m\033[0m")
         loop_condition_lines.append(str(count)+"-")
         loop_condition_level_of_indent.append(len(original_input) - len(original_input.lstrip(' ')))
+    #REPEAT (n times) {
+    #}
     elif "repeat" in input:
+        #Make sure the syntax is correct
         try:
             assert "{" in input and "(" in input and ")" in input
         except:
             error("⛔ Bad syntax when calling repeat")
+        #Add the characteristics of the repeat expression to the different lists
         repeat_lines.append(str(count)+"-")
         repeat_level_of_indent.append(len(original_input) - len(original_input.lstrip(' ')))
         repeat_count.append(input.replace("repeat","").replace("(","").replace(")","").replace("{","").replace(" ",""))
