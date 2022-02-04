@@ -94,9 +94,8 @@ def error(error):
     print("        \033[1m\033[91m⚠️   Mango Error  ⚠️\033[0m        ")
     print("At \033[1m\033[92mline "+str(linecount)+"\033[0m ↓")
     print('\033[1m'+str(error)+'\033[0m')
-    if is_editor == False:
-        from sys import exit
-        exit()
+    from sys import exit
+    exit()
 
 
 #All the properties associated with objects
@@ -105,6 +104,26 @@ def obj_property(object, property):
         if object.isdecimal() == True:
             error("Object does not contain letters")
         return object.upper()
+    elif property == "isupper":
+        if object.isdecimal() == True:
+            error("Object does not contain letters")
+        if object.isupper() == True:
+            return "True"
+        elif object.isupper() == True:
+            return "False"
+    elif property == "islower":
+        if object.isdecimal() == True:
+            error("Object does not contain letters")
+        if object.islower() == True:
+            return "True"
+        elif object.islower() == True:
+            return "False"
+    elif property == "swapcase":
+        if object.isdecimal() == True:
+            error("Object does not contain letters")
+        return object.swapcase()
+    elif property == "removespaces":
+        return object.replace(" ","")
     elif property == "lowercase":
         if object.isdecimal() == True:
             error("Object does not contain letters")
@@ -113,6 +132,33 @@ def obj_property(object, property):
         if object.isdecimal() == True:
             return "True"
         if object.isdecimal() == False:
+            return "False"
+    elif "separate" in property:
+        property = property.replace("separate","").replace("[","").replace("]","")
+        print(property)
+        try:
+            assert property != None or property != ""
+        except:
+            error("⛔ Separate property cannot be empty")
+        return "Hello"
+    elif property == "onlyletters":
+        if object.isalpha() == True:
+            return "True"
+        if object.isalpha() == False:
+            return "False"
+    elif property == "capitalize":
+        if object.isdecimal() == True:
+            error("Object does not contain letters")
+        return object.capitalize()
+    elif "startswith" in property:
+        property = property.replace("startswith","").replace("[","").replace("]","")
+        try:
+            assert property != None or property != ""
+        except:
+            error("⛔ Startswith property cannot be empty")
+        if object.startswith(property):
+            return "True"
+        else:
             return "False"
     elif "remove[" in property:
         property = property.replace("remove","").replace("[","").replace("]","")
@@ -507,7 +553,7 @@ def process(input,count):
     elif [s for s in modules if s in input] or [s for s in declared_functions if s in input]:
         #FUNCTIONS
         if declared_functions and [s for s in declared_functions if s in input and declared_functions_lines[declared_functions.index(s)].split('-')[1] != ""]:
-            function =  [s for s in declared_functions if s in input and declared_functions_lines[declared_functions.index(s)].split('-')[1] != ""][0]
+            function =  [s for s in declared_functions if s in input and declared_functions_lines[declared_functions.index(s)].split( '-')[1] != ""][0]
             try:
                 assert "(" in input and ")" in input
             except:
