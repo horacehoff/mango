@@ -25,8 +25,8 @@ mango.py -c
 💢: partially compatible\
 ⛔: not compatible
 
-  - Windows 11: ✅ -> using Windows Terminal
-  - Windows 10: 💢 -> works if you use Windows Terminal instead of cmd.exe
+  - Windows 11: ✅ -> emojis/colors will work if you use Windows Terminal
+  - Windows 10: ✅ -> emojis/colors will work if you use Windows Terminal
   - Windows 8(and lower): ❓
   - Linux(any distro): ❓
   - MacOs(any version): ❓
