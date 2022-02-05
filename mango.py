@@ -99,8 +99,11 @@ def error(error):
     print("        \033[1m\033[91m⚠️   Mango Error  ⚠️\033[0m        ")
     print("At \033[1m\033[92mline "+str(linecount)+"\033[0m ↓")
     print('\033[1m'+str(error)+'\033[0m')
-    from sys import exit
-    exit()
+    if is_editor == False:
+        from sys import exit
+        exit()
+    else:
+        return
 
 
 #All the properties associated with objects
