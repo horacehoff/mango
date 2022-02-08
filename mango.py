@@ -683,7 +683,7 @@ try:
         linecount = 1
         while True:
             line = input(">>")
-            if line.isspace() == True or line == '' or "#" in line or "//" in line:
+            if line.isspace() == True or line == '' or line[0] == "#" or line[0]+line[1] == "//":
                 linecount = linecount + 1
             else:
                 process(line, linecount)
