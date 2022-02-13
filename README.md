@@ -16,7 +16,7 @@ python mango.py
 ⏫ This will launch the Mango interpreter(allows you to execute commands without creating a file)
 ## Run tests
 ```sh
-mango.py -c
+python mango.py -c
 ```
 &nbsp;
 ## Compatibility
