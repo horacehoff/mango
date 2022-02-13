@@ -62,7 +62,7 @@ repeat_lines = []
 repeat_level_of_indent = []
 repeat_count = []
 
-# Variable used to identify if current line contains indent-sensitive statements (if, for, declare, etc), and list used to contain all the lines (make all the lines accessible in any scope)
+# Variable used to identify if current line contains indent-sensitive statements (if, for, declare, and many more), and list used to contain all the lines (make all the lines accessible in any scope)
 is_bracket = False
 all_lines = []
 
