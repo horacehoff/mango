@@ -306,7 +306,7 @@ def process(input,count):
         try:
             assert "(" in input and ")" in input
         except:
-            error("Missing parentheses when calling print function")
+            error("⛔ Missing parentheses when calling print function")
         input = input.lstrip()
         # print(something)
         try:
