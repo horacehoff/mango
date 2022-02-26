@@ -89,8 +89,8 @@ def install_module(module):
         pass
 
 
-#Function used to ask, if the user asks
-def askfor(arg):
+#Function used as a remplacement to the python input function (can't use it because it is a variable)
+def ask(arg):
     return input(arg)
 
 
@@ -346,7 +346,7 @@ def process(input,count):
                 #If the declared variable already exists, then overwrite its value
                 if var_name in declared_variables:
                     if 'ask(' in var_value:
-                        declared_variables_values[declared_variables.index(var_name)] = askfor(var_value.replace("(","").replace(")","").replace("ask","").replace("'","").replace('"',''))
+                        declared_variables_values[declared_variables.index(var_name)] = ask(var_value.replace("(","").replace(")","").replace("ask","").replace("'","").replace('"',''))
                     else:
                         try:
                             eval_ed = eval(var_value)
@@ -356,7 +356,7 @@ def process(input,count):
                 #If the value is 'ask'(at least contains it), then ask!
                 elif 'ask(' in var_value:
                     declared_variables.append(var_name)
-                    declared_variables_values.append(askfor(var_value.replace("(","").replace(")","").replace("ask","").replace("'","").replace('"','')))
+                    declared_variables_values.append(ask(var_value.replace("(","").replace(")","").replace("ask","").replace("'","").replace('"','')))
                 elif var_value in declared_variables:
                     declared_variables.append(var_name)
                     declared_variables_values.append(declared_variables_values[declared_variables.index(var_value)])
@@ -410,7 +410,7 @@ def process(input,count):
             input = input.replace(")","")
             input = input.replace("'","")
             input = input.replace('"','')
-            askfor(input)
+            ask(input)
         except:
             error("⚠️  Failed to ask('<whatever you asked>')",count)
     # IF
@@ -613,7 +613,7 @@ def process(input,count):
 
 
 #This function reads the specified file and separates it into lines, which are then read and processed by the process() function
-def dataread(file):
+def readfile(file):
     #Check if the specified file is a .mango file, else, notify the user that it is not
     try:
         assert os.path.isfile(file) == True
@@ -645,6 +645,7 @@ def dataread(file):
         all_lines = lines
         linecount = 1
         for line in lines:
+            #Filter comments and blank lines
             if line.isspace() == True or line == '' or "#" in line or "//" in line:
                 linecount = linecount + 1
             else:
@@ -654,19 +655,19 @@ def dataread(file):
 
 
 
-#Detect and process the given arguments
+#Process the given arguments
 is_editor = False
 import timeit
 argumentList = sys.argv[1:]
 options = "i:cd"
-long_options = ["CheckInstall", "InputFile =", "Debug"]
+long_options = ["InputFile =", "CheckInstall", "Debug"]
 try:
     arguments, values = getopt.getopt(argumentList, options, long_options)
     if arguments:
         for currentArgument, currentValue in arguments:
             if currentArgument in ("-i", "--InputFile"):
                 check_modules_folder()
-                dataread(str(currentValue))
+                readfile(str(currentValue))
             elif currentArgument in ("-c", "--CheckInstall"):
                 print_version(Mango_version)
             elif currentArgument in ("-d", "--Debug"):
@@ -674,7 +675,7 @@ try:
                 global start
                 start = timeit.default_timer()
     else:
-        #If no argument is given, then start the console
+        #If no arguments are given, then start the cli
         is_editor = True
         import platform
         if platform.system() == "Windows":
@@ -693,6 +694,7 @@ try:
 except getopt.error as err:
     print(str(err))
 end = timeit.default_timer()
+#If debug mode is activated, write to the log file how long the language took to process the given file
 if debug_mode:
     run_time = format(float(end - start), ".50f")
     with open('debug.log','w') as f:
