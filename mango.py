@@ -321,7 +321,7 @@ def process(input,count):
             assert "(" in input and ")" in input
         except:
             error("⛔ Bad syntax when calling debug function")
-        print("\33[31m[DEBUG]\33[0m\33[3m "+input.replace("debug","").replace("(","").replace(")","")+"\33[0m")
+        print("\33[31m[DEBUG]\33[0m\33[3m "+input.replace("debug","").replace("(","", 1).replace(")","", -1)+"\33[0m")
     # DECLARE
     elif "declare" in input:
         # declare var_name = var_value
@@ -685,7 +685,7 @@ try:
         linecount = 1
         while True:
             line = input(">>")
-            if line.isspace() == True or line == '' or line[0] == "#" or not line[1] or not line[0] or line[0]+line[1] == "//":
+            if line.isspace() == True or line == '' or line[0] == "#" or line[1]==line[0] or not line[1] or not line[0] or line[0]+line[1] == "//":
                 linecount = linecount + 1
             else:
                 process(line, linecount)
