@@ -591,8 +591,10 @@ def process(input,count):
             rng = list(range(int(func_lines[0]), int(func_lines[-1])))
             rng.remove(rng[0])
             rng = [x - 1 for x in rng]
+            index = 0
             for line in rng:
-                process(all_lines[line].removeprefix('    '))
+                process(all_lines[line].removeprefix('    '), index)
+                index = index+1
             return
         #MODULES
         elif modules and [s for s in modules if s in input] and "import" not in input:
