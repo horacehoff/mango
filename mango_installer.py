@@ -1,4 +1,10 @@
-import rich, os
+try:
+    import rich, os
+except:
+    import subprocess
+    subprocess.call(["pip", "install", "rich"], stdout = open(os.devnull, "w"), stderr = subprocess.STDOUT)
+    import sys
+    os.system(" ".join(sys.argv))
 def display_menu():
     os.system('cls' if os.name=='nt' else 'clear')
     rich.print("[bold red]:mango: MANGO - INSTALLER :mango:[/bold red]")
