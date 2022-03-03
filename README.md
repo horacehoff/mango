@@ -4,7 +4,7 @@
 
 ### A programming language with the purpose of being easy to understand and fast 
 
-### 🏠 [Homepage](https://github.com/Just-A-Mango/mango#readme)&nbsp; &nbsp; &nbsp; &nbsp; 📄 [Documentation](https://github.com/Just-A-Mango/mango/blob/main/.github/markdown/documentation.md)&nbsp; &nbsp; &nbsp; &nbsp;
+### 📄 [Documentation](https://github.com/Just-A-Mango/mango/blob/main/.github/markdown/documentation.md)&nbsp; &nbsp; &nbsp; &nbsp;
 ## Usage
 ⏬ This will execute any given .mango file
 ```sh
