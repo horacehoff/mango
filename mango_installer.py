@@ -7,8 +7,15 @@ except:
     os.system(" ".join(sys.argv))
 def display_menu():
     os.system('cls' if os.name=='nt' else 'clear')
-    rich.print("[bold red]:mango: MANGO - INSTALLER :mango:[/bold red]")
-    rich.print("[italic magenta]Select one of the following:[/italic magenta] \n   1.[italic][underline]Install [/underline][bold]Mango[/italic][/bold] \n   2.[italic][underline]Uninstall [/underline][bold]Mango[/italic][/bold]")
+    return input("""\
+        +-----------------------+
+        |  🥭Mango Installer🥭  |
+        +-----------------------+
+        |    1.Install Mango    |
+        |                       |
+        |   2.Uninstall Mango   |
+        +-----------------------+
+            Your choice: """)
 def install():
     os.system('cls' if os.name=='nt' else 'clear')
     rich.print("[bold red]:mango: MANGO - INSTALLER :mango:[/bold red]")
@@ -26,8 +33,7 @@ def uninstall():
     rich.print("[bold red]:mango: MANGO - INSTALLER :mango:[/bold red]")
     print("Unyikes")
 while True:
-    display_menu()
-    choice = input(" ")
+    choice = display_menu()
     if choice == "1":
         install()
         break
