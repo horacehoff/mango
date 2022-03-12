@@ -1,9 +1,12 @@
 """
+
 Mango © 2022 by Just_a_Mango is licensed under Attribution-NonCommercial-NoDerivatives 4.0 International
 
-                        |-----------------------------------|
-                        |              M A N G O            |        by Just_a_Mango
-                        |-----------------------------------|        @Just-A-Mango on GitHub
+|-----------------------------------|
+|              M A N G O            |        by Just_a_Mango
+|-----------------------------------|        @Just-A-Mango on GitHub
+
+
 """
 
 
@@ -67,7 +70,7 @@ is_bracket = False
 all_lines = []
 
 
-#Check if the modules' folder exists, and create it if it doesn't
+#The check_modules_folder() function checks to see if the "Modules" folder exists. If it doesn't, the function will create the folder.
 def check_modules_folder():
     from pathlib import Path
     Path(os.getcwd() + "\\Modules\\").mkdir(parents=True, exist_ok=True)
@@ -77,14 +80,21 @@ def check_modules_folder():
 def print_version(version):
     print("""
 +----------------------------------+
-|       🥭 MANGO - """+version+""" 🥭      |   by Just_a_Mango     
+|       🥭 MANGO - """+version+""" 🥭      |   by Just_a_Mango
 +----------------------------------+   @just-a-mango on Github
 
 Github: https://github.com/just-a-mango/mango
 Website: https://just-a-mango.github.io/mangoweb
-        """)
+""")
 
 
+"""
+Here's what the below function is doing:
+1. Importing the subprocess module, which will allow us to run external programs.
+2. Calling pip install to install the given module.
+3. Importing the importlib module, which will allow us to import modules that have been installed.
+4. Importing the module that was just installed.
+"""
 #Installs any given module at runtime in the background
 def install_module(module):
     try:
@@ -113,8 +123,15 @@ def error(error):
         return
 
 
-#All the properties associated with objects
+"""
+This function is used to get the property of an object
+
+Param object: the object you want to use
+Param property: the property you want to use
+Return: The return value of the function.
+"""
 def obj_property(object, property):
+    
     if property == "uppercase":
         if object.isdecimal() == True:
             error("Object does not contain letters")
@@ -619,7 +636,13 @@ def process(input,count):
 
 
 
-#This function reads the specified file and separates it into lines, which are then read and processed by the process() function
+"""
+Here's what the function below is doing:
+1.  First, the readfile() function checks to see if the specified file is a .mango file. If it is not, the function prints an error message and exits.
+2.  If the file is a .mango file, the file is opened and the entire contents are converted into individual lines.
+3.  The lines are then filtered to remove comments and blank lines.
+4.  The process() function is called for each line, with the line and the line number as its parameters.
+"""
 def readfile(file):
     #Check if the specified file is a .mango file, else, notify the user that it is not
     try:
@@ -653,7 +676,7 @@ def readfile(file):
         linecount = 1
         for line in lines:
             #Filter comments and blank lines
-            if line.isspace() == True or line == '' or "#" in line or "//" in line:
+            if line.isspace() == True or line == '' or line[0] == "#" or line[1]==line[0] or not line[1] or not line[0] or line[0]+line[1] == "//":
                 linecount = linecount + 1
             else:
                 process(line, linecount)
@@ -661,10 +684,15 @@ def readfile(file):
 
 
 
-
-#Process the given arguments
+""""
+The below code is the main code for Mango. It is the code that is run when you run the command
+"python mango.py" or "python3 mango.py". It is also the code that is run when you run the command
+"mango" or "mango.exe" from the command line.
+"""
 is_editor = False
+# Import the timeit library, which will be used to measure how long the language took to process the given file.
 import timeit
+# Parse the given arguments using the getopt library.
 argumentList = sys.argv[1:]
 options = "i:cd"
 long_options = ["InputFile =", "CheckInstall", "Debug"]
@@ -672,12 +700,17 @@ try:
     arguments, values = getopt.getopt(argumentList, options, long_options)
     if arguments:
         for currentArgument, currentValue in arguments:
+            # The below code is a simple argument parser. It is checking to see if the user has
+            # entered a valid argument and then performing the appropriate action.
             if currentArgument in ("-i", "--InputFile"):
+                # Read in the given file and process it.
                 check_modules_folder()
                 readfile(str(currentValue))
             elif currentArgument in ("-c", "--CheckInstall"):
+                # Check the current Mango installation
                 print_version(Mango_version)
             elif currentArgument in ("-d", "--Debug"):
+                # Enter debug mode
                 debug_mode = True
                 global start
                 start = timeit.default_timer()
@@ -689,11 +722,13 @@ try:
             os.system('cls')
         elif platform.system() == "Linux" or platform.system() == "Darwin":
             os.system('clear')
-        print("----    \033[1m\033[91m\U0001F96D Mango \U0001F96D\033[0m    ----")
+        print("        \033[1m\033[91m\U0001F96D Mango \U0001F96D\033[0m        ")
         linecount = 1
         while True:
             line = input(">>")
-            if line.isspace() == True or line == '' or line[0] == "#" or line[1]==line[0] or not line[1] or not line[0] or line[0]+line[1] == "//":
+            if line.isspace() == True or line == '':
+                print("\033[1A                                                     \033[1A")
+            elif line[0] == "#" or line[1]==line[0] or not line[1] or not line[0] or line[0]+line[1] == "//":
                 linecount = linecount + 1
             else:
                 process(line, linecount)
@@ -701,7 +736,15 @@ try:
 except getopt.error as err:
     print(str(err))
 end = timeit.default_timer()
-#If debug mode is activated, write to the log file how long the language took to process the given file
+
+
+
+
+""""
+The below code is a simple way to debug your code. If you have a large script, it can be hard to
+figure out what line is causing a bug. The below code will create a file called debug.log that
+prints out the time it took for the script to run.
+"""
 if debug_mode:
     run_time = format(float(end - start), ".50f")
     with open('debug.log','w') as f:
