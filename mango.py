@@ -75,7 +75,14 @@ def check_modules_folder():
 
 #Print the language's version and name
 def print_version(version):
-    print("|-----------------------------------|\r\n|       \U0001F96D MANGO \U0001F96D -  "+version+"      |        by \033[1mJust_a_Mango\033[0m\r\n|-----------------------------------|        \033[1m@just-a-mango\033[0m on \033[1mGitHub\033[0m\r\n")
+    print("""
++----------------------------------+
+|       🥭 MANGO - """+version+""" 🥭      |   by Just_a_Mango     
++----------------------------------+   @just-a-mango on Github
+
+Github: https://github.com/just-a-mango/mango
+Website: https://just-a-mango.github.io/mangoweb
+        """)
 
 
 #Installs any given module at runtime in the background
