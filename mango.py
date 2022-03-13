@@ -10,6 +10,9 @@ Mango © 2022 by Just_a_Mango is licensed under Attribution-NonCommercial-NoDeri
 """
 
 
+# The below code are used to set up the language,
+# and it is used to import the necessary modules that the language will use.
+
 #Import the necessary modules
 import sys, getopt, os
 
@@ -88,6 +91,8 @@ Website: https://just-a-mango.github.io/mangoweb
 """)
 
 
+
+#Installs any given module at runtime in the background
 """
 Here's what the below function is doing:
 1. Importing the subprocess module, which will allow us to run external programs.
@@ -95,7 +100,6 @@ Here's what the below function is doing:
 3. Importing the importlib module, which will allow us to import modules that have been installed.
 4. Importing the module that was just installed.
 """
-#Installs any given module at runtime in the background
 def install_module(module):
     try:
         import subprocess
@@ -106,7 +110,12 @@ def install_module(module):
         pass
 
 
-#Function used as a remplacement to the python input function (can't use it because it is a variable)
+"""
+Ask the user for input
+
+:param arg: The argument to be passed to the function
+:return: The input from the user.
+"""
 def ask(arg):
     return input(arg)
 
@@ -639,7 +648,7 @@ def process(input,count):
 """
 Here's what the function below is doing:
 1.  First, the readfile() function checks to see if the specified file is a .mango file. If it is not, the function prints an error message and exits.
-2.  If the file is a .mango file, the file is opened and the entire contents are converted into individual lines.
+2.  If the file is a .mango file, the file is opened and the entire content is converted into individual lines.
 3.  The lines are then filtered to remove comments and blank lines.
 4.  The process() function is called for each line, with the line and the line number as its parameters.
 """
@@ -715,7 +724,7 @@ try:
                 global start
                 start = timeit.default_timer()
     else:
-        #If no arguments are given, then start the cli
+        #If no arguments are given, start the cli
         is_editor = True
         import platform
         if platform.system() == "Windows":
