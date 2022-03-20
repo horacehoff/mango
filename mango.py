@@ -14,7 +14,7 @@ Mango © 2022 by Just_a_Mango is licensed under Attribution-NonCommercial-NoDeri
 # and it is used to import the necessary modules that the language will use.
 
 #Import the necessary modules
-import sys, getopt, os
+import sys, os
 
 
 #Tells the language whether or not it should generate a .log file when it's done processing
@@ -696,33 +696,19 @@ def readfile(file):
 """"
 The below code is the main code for Mango. It is the code that is run when you run the command
 "python mango.py" or "python3 mango.py". It is also the code that is run when you run the command
-"mango" or "mango.exe" from the command line.
+"mango" from the command line.
 """
 is_editor = False
 # Import the timeit library, which will be used to measure how long the language took to process the given file.
 import timeit
-# Parse the given arguments using the getopt library.
-argumentList = sys.argv[1:]
-options = "i:cd"
-long_options = ["InputFile =", "CheckInstall", "Debug"]
+arguments = sys.argv
 try:
-    arguments, values = getopt.getopt(argumentList, options, long_options)
-    if arguments:
-        for currentArgument, currentValue in arguments:
-            # The below code is a simple argument parser. It is checking to see if the user has
-            # entered a valid argument and then performing the appropriate action.
-            if currentArgument in ("-i", "--InputFile"):
-                # Read in the given file and process it.
-                check_modules_folder()
-                readfile(str(currentValue))
-            elif currentArgument in ("-c", "--CheckInstall"):
-                # Check the current Mango installation
-                print_version(Mango_version)
-            elif currentArgument in ("-d", "--Debug"):
-                # Enter debug mode
-                debug_mode = True
-                global start
-                start = timeit.default_timer()
+    if len(sys.argv) > 1:
+        print(arguments)
+        if sys.argv[1] == "-c":
+            print_version()
+        else:
+            readfile(sys.argv[1])
     else:
         #If no arguments are given, start the cli
         is_editor = True
@@ -734,7 +720,11 @@ try:
         print("        \033[1m\033[91m\U0001F96D Mango \U0001F96D\033[0m        ")
         linecount = 1
         while True:
-            line = input(">>")
+            try:
+                line = input(">>")
+            except KeyboardInterrupt:
+                print("\n")
+                break
             if line.isspace() == True or line == '':
                 print("\033[1A                                                     \033[1A")
             elif line[0] == "#" or line[1]==line[0] or not line[1] or not line[0] or line[0]+line[1] == "//":
@@ -742,7 +732,7 @@ try:
             else:
                 process(line, linecount)
                 linecount = linecount + 1
-except getopt.error as err:
+except Exception as err:
     print(str(err))
 end = timeit.default_timer()
 
