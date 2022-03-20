@@ -705,7 +705,7 @@ arguments = sys.argv
 try:
     if len(sys.argv) > 1:
         print(arguments)
-        if sys.argv[1] == "-c":
+        if sys.argv[1] == "-i":
             print_version()
         else:
             readfile(sys.argv[1])
