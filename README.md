@@ -8,7 +8,7 @@
 ## 🔧 Usage
 ⏬ This will execute any given .mango file
 ```sh
-python mango.py -i <yourfile>.mango
+python mango.py <yourfile>.mango
 ```
 ```sh
 python mango.py
@@ -16,7 +16,7 @@ python mango.py
 ⏫ This will launch the Mango interpreter(allows you to execute commands without creating a file)
 ## 🧪 Run tests
 ```sh
-python mango.py -c
+python mango.py -i
 ```
 &nbsp;
 ## Compatibility
