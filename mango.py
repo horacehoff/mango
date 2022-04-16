@@ -1,6 +1,6 @@
 """
 
-Mango © 2022 by Just_a_Mango is licensed under Attribution-NonCommercial-NoDerivatives 4.0 International
+Mango © 2022 by Just_a_Mango is licensed under MIT license
 
 |-----------------------------------|
 |              M A N G O            |        by Just_a_Mango
@@ -701,6 +701,7 @@ The below code is the main code for Mango. It is the code that is run when you r
 is_editor = False
 # Import the timeit library, which will be used to measure how long the language took to process the given file.
 import timeit
+start = timeit.default_timer()
 arguments = sys.argv
 try:
     if len(sys.argv) > 1:
