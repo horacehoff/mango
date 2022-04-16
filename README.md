@@ -62,6 +62,6 @@ Currently implemented are: functions, variables, conditions, the module system, 
 Feel free to ⭐️ this repository if you like my language!
 
 ## 🏛️ License
-[MIT License](https://github.com/just-a-mango/mango/blob/)
+[MIT License](https://github.com/just-a-mango/mango/blob/main/LICENSE)
 
 Copyright (c) 2022 Just_a_Mango
