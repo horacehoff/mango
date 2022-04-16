@@ -347,7 +347,7 @@ def process(input,count):
             input = input.replace("print","").replace("(","").replace(")","").replace("'","").replace('"','')
             print(input)
         except:
-            error("⚠️  Failed to print('whatever you typed')",count)
+            error("⚠️ Failed to print('whatever you typed')",count)
     # DEBUG
     elif "debug" in input:
         try:
@@ -404,7 +404,7 @@ def process(input,count):
                         declared_variables_values.append(var_value)
             #If it fails, notify the user
             except:
-                error("Failed to declare variable "+(input.strip.split('=')[0].replace("declare","")),count)
+                error("⚠️ Failed to declare variable "+(input.strip.split('=')[0].replace("declare","")),count)
         else:
             try:
                 #Split the given line into two distinct strings : the first one is the list's name, and the second one is the list's value
@@ -432,7 +432,7 @@ def process(input,count):
                     declared_lists_values[declared_lists.index[list_name]] = list_toadd
             #The 
             except:
-                error("Failed to declare list <unknown name>")
+                error("⚠️ Failed to declare list <unknown name>")
     # ASK
     elif "ask" in input:
         # ask(something)
@@ -445,7 +445,7 @@ def process(input,count):
             input = input.replace('"','')
             ask(input)
         except:
-            error("⚠️  Failed to ask('<whatever you asked>')",count)
+            error("⚠️ Failed to ask('<whatever you asked>')",count)
     # IF
     elif "if" in input:
         is_bracket = False
