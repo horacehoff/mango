@@ -54,7 +54,7 @@ Each major Mango release gets a new "version name": a **random word, animal, tha
 Right now, the current version is *Newborn*, due to the fact that Mango is still very young, in active development, and nowhere near fully developed.
 
 ## Current development
-As of now the development is slow but steady due to multiple reasons.\
+As of now the development is slow/stopped, and I do not know when work on Mango will start back at a normal pace.
 Currently implemented are: functions, variables, conditions, the module system, and some object properties as well as multiple other functions like print, debug, ask, stop, and many more..
 
 ## Show your support
