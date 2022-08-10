@@ -1,3 +1,4 @@
+# This repository is archived and all development on Mango is stopped. A better, faster, and more reliable language is being built.
 <h1 align="center">Welcome to Mango 👋</h1>
 
 ![forthebadge](https://img.shields.io/badge/version-newborn-informational?style=for-the-badge)
