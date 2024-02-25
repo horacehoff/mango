@@ -1,9 +1,9 @@
-# This repository is archived and all development on Mango is stopped. A better, faster, and more reliable language is being built.
 <h1 align="center">Welcome to Mango 👋</h1>
 
 ![forthebadge](https://img.shields.io/badge/version-newborn-informational?style=for-the-badge)
 
 ### A programming language with the purpose of being easy to understand and fast 
+#### (All development on Mango is stopped)
 
 ### 📄 [Documentation](https://github.com/Just-A-Mango/mango/blob/main/.github/markdown/documentation.md)&nbsp; &nbsp; &nbsp; &nbsp;
 ## 🔧 Usage
