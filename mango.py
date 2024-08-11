@@ -83,8 +83,8 @@ def check_modules_folder():
 def print_version(version):
     print("""
 +----------------------------------+
-|       🥭 MANGO - """+version+""" 🥭      |   by Just_a_Mango
-+----------------------------------+   @just-a-mango on Github
+|       🥭 MANGO - """+version+""" 🥭      |   by Horace Hoff
++----------------------------------+   @horacehoff on Github
 
 Github: https://github.com/just-a-mango/mango
 Website: https://just-a-mango.github.io/mangoweb
