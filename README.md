@@ -5,7 +5,7 @@
 ### A programming language with the purpose of being easy to understand and fast 
 #### (All development on Mango is stopped)
 
-### 📄 [Documentation](https://github.com/Just-A-Mango/mango/blob/main/.github/markdown/documentation.md)&nbsp; &nbsp; &nbsp; &nbsp;
+### 📄 [Documentation](https://github.com/horacehoff/mango/blob/main/.github/markdown/documentation.md)&nbsp; &nbsp; &nbsp; &nbsp;
 ## 🔧 Usage
 ⏬ This will execute any given .mango file
 ```sh
@@ -33,13 +33,13 @@ mango -i
 &nbsp;
 ## Author
 
-👤 **Just_a_Mango**
+👤 **Horace Hoff**
 
-* Website: https://just-a-mango.github.io/
-* Github: [@Just-A-Mango](https://github.com/Just-A-Mango)  
+* Website: https://horacehoff.github.io/
+* Github: [@horacehoff](https://github.com/horacehoff)
 ## 🤝 Contributing
 
-Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/Just-A-Mango/fox/issues). 
+Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/horacehoff/fox/issues). 
 
 ## Pull Requests
 
