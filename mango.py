@@ -3,8 +3,8 @@
 Mango © 2022 by Just_a_Mango is licensed under MIT license
 
 |-----------------------------------|
-|              M A N G O            |        by Just_a_Mango
-|-----------------------------------|        @Just-A-Mango on GitHub
+|              M A N G O            |        by Horace Hoff
+|-----------------------------------|        @horacehoff on GitHub
 
 
 """
